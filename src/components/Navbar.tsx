@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const sections = ['about', 'skills', 'projects']
+const sections = ['hero', 'about', 'skills', 'projects']
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
-  const [activeSection, setActiveSection] = useState<string>('about')
+  const [activeSection, setActiveSection] = useState<string>('hero')
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,7 +33,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-white shadow z-50">
+    <nav className="fixed w-full z-50 bg-black/60 backdrop-blur-md text-white">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex space-x-8">
           {sections.map((section) => (
@@ -44,15 +44,24 @@ export default function Navbar() {
                 activeSection === section ? 'text-blue-600' : 'text-gray-800'
               }`}
             >
-              {t(`navbar.${section}`)}
+              {section === 'hero' ? t('navbar.home') : t(`navbar.${section}`)}
             </a>
           ))}
         </div>
 
         <button
           onClick={toggleLanguage}
-          className="text-sm text-gray-500 hover:text-blue-500 transition"
+          className="text-sm text-gray-500 hover:text-blue-500 transition flex items-center gap-2"
         >
+          <img
+            src={i18n.language === 'pt'
+              ? 'https://flagcdn.com/24x18/br.png'
+              : 'https://flagcdn.com/24x18/us.png'}
+            alt={i18n.language === 'pt' ? 'Bandeira do Brasil' : 'Bandeira dos Estados Unidos'}
+            width={24}
+            height={18}
+            style={{ display: 'inline-block', verticalAlign: 'middle', borderRadius: '2px' }}
+          />
           {i18n.language === 'pt' ? 'EN' : 'PT'}
         </button>
       </div>

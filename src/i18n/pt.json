@@ -1,5 +1,6 @@
 {
     "navbar": {
+      "home": "Início",
       "about": "Sobre Mim",
       "skills": "Habilidades",
       "projects": "Projetos"
@@ -8,5 +9,10 @@
       "name": "Marcelo Wizenberg",
       "description": "Sou um profissional apaixonado por dados, finanças e tecnologia.",
      "cta": "Veja meus projetos"
+    },
+    "footer": {
+      "madeBy": "Feito por Marcelo Wizenberg",
+      "copyright": "Marcelo Wizenberg. Todos os direitos reservados.",
+      "tech": "Desenvolvido com React, Vite, Tailwind CSS e ❤️"
     }
   }
