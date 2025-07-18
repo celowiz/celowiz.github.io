@@ -3,7 +3,8 @@
       "home": "Início",
       "about": "Sobre Mim",
       "skills": "Habilidades",
-      "projects": "Projetos"
+      "projects": "Projetos",
+      "second-brain": "Second Brain"
     },
     "hero": {
       "name": "Marcelo Wizenberg",
@@ -13,9 +14,32 @@
     "about": {
     },
     "skills": {
+        "title": "Habilidades",
+        "languages": "Linguagens de Programação",
+        "frameworks": "Frameworks e Ferramentas Web",
+        "pythonLibs": "Bibliotecas Python",
+        "ml": "Machine Learning / Data Science",
+        "databases": "Banco de Dados",
+        "others": "Outros"
     },
     "projects": {
-        "title": "Projetos"
+        "title": "Projetos",
+        "1": {
+            "title": "Projeto 1",
+            "description": "Breve descrição do Projeto 1. Explique o objetivo e tecnologias principais."
+        },
+        "2": {
+            "title": "Projeto 2",
+            "description": "Breve descrição do Projeto 2. Explique o objetivo e tecnologias principais."
+        },
+        "3": {
+            "title": "Projeto 3",
+            "description": "Breve descrição do Projeto 3. Explique o objetivo e tecnologias principais."
+        },
+        "4": {
+            "title": "Projeto 4",
+            "description": "Breve descrição do Projeto 4. Explique o objetivo e tecnologias principais."
+        }
     },
     "footer": {
       "madeBy": "Feito por Marcelo Wizenberg",

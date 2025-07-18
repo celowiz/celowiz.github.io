@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const sections = ['hero', 'about', 'skills', 'projects']
+const sections = ['hero', 'about', 'skills', 'projects', 'second-brain']
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
@@ -44,7 +44,9 @@ export default function Navbar() {
                 activeSection === section ? 'text-blue-600' : 'text-gray-800'
               }`}
             >
-              {section === 'hero' ? t('navbar.home') : t(`navbar.${section}`)}
+              {section === 'hero' ? t('navbar.home') :
+                section === 'second-brain' ? t('navbar.second-brain') :
+                t(`navbar.${section}`)}
             </a>
           ))}
         </div>

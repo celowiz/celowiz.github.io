@@ -3,7 +3,8 @@
       "home": "Home",
       "about": "About Me",
       "skills": "Skills",
-      "projects": "Projects"
+      "projects": "Projects",
+      "second-brain": "Second Brain"
     },
     "hero": {
       "name": "Marcelo Wizenberg",
@@ -13,9 +14,32 @@
     "about": {
     },
     "skills": {
+        "title": "Skills",
+        "languages": "Programming Languages",
+        "frameworks": "Frameworks and Web Tools",
+        "pythonLibs": "Python Libraries",
+        "ml": "Machine Learning / Data Science",
+        "databases": "Databases",
+        "others": "Others"
     },
     "projects": {
-        "title": "Projects"
+        "title": "Projects",
+        "1": {
+            "title": "Project 1",
+            "description": "Brief description of Project 1. Explain the main goal and technologies."
+        },
+        "2": {
+            "title": "Project 2",
+            "description": "Brief description of Project 2. Explain the main goal and technologies."
+        },
+        "3": {
+            "title": "Project 3",
+            "description": "Brief description of Project 3. Explain the main goal and technologies."
+        },
+        "4": {
+            "title": "Project 4",
+            "description": "Brief description of Project 4. Explain the main goal and technologies."
+        }
     },
     "footer": {
       "madeBy": "Made by Marcelo Wizenberg",

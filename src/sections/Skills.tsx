@@ -1,9 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Code, Globe, BrainCircuit, Database, AppWindow } from 'lucide-react';
 
 const skills = [
   {
-    category: 'Linguagens de Programação',
-    icon: '📦',
+    category: 'languages',
+    icon: 'code-xml',
     items: [
       {
         name: 'Python',
@@ -14,7 +16,7 @@ const skills = [
         icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/r/r-original.svg',
       },
       {
-        name: 'JavaScript / TypeScript',
+        name: 'JavaScript',
         icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
       },
       {
@@ -24,8 +26,8 @@ const skills = [
     ],
   },
   {
-    category: 'Frameworks e Ferramentas Web',
-    icon: '⚙️',
+    category: 'frameworks',
+    icon: 'globe',
     items: [
       {
         name: 'Next.js',
@@ -62,8 +64,8 @@ const skills = [
     ],
   },
   {
-    category: 'Bibliotecas Python',
-    icon: '📚',
+    category: 'pythonLibs',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
     items: [
       {
         name: 'Pandas',
@@ -88,8 +90,8 @@ const skills = [
     ],
   },
   {
-    category: 'Machine Learning / Data Science',
-    icon: '🧠',
+    category: 'ml',
+    icon: 'brain-circuit',
     items: [
       {
         name: 'TensorFlow',
@@ -102,8 +104,8 @@ const skills = [
     ],
   },
   {
-    category: 'Banco de Dados',
-    icon: '🗄️',
+    category: 'databases',
+    icon: 'database',
     items: [
       {
         name: 'PostgreSQL',
@@ -120,8 +122,8 @@ const skills = [
     ],
   },
   {
-    category: 'Outros',
-    icon: '📈',
+    category: 'others',
+    icon: 'app-window',
     items: [
       {
         name: 'Git / GitHub',
@@ -129,7 +131,7 @@ const skills = [
       },
       {
         name: 'Streamlit',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/streamlit/streamlit-original.svg', // Placeholder
+        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/streamlit/streamlit-original.svg',
       },
       {
         name: 'Jupyter Notebooks',
@@ -144,23 +146,45 @@ const skills = [
 ];
 
 export default function Skills() {
+  const { t } = useTranslation();
   return (
     <section id="skills" className="min-h-screen py-16 bg-white dark:bg-gray-900">
       <div className="max-w-5xl mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-10 text-center text-white">Habilidades</h2>
+        <h2 className="text-3xl font-bold mb-10 text-center text-white">{t('skills.title') || 'Habilidades'}</h2>
         <div className="grid md:grid-cols-2 gap-8">
           {skills.map((cat) => (
-            <div key={cat.category} className="bg-gray-800 rounded-xl shadow p-4 border-1 border-white">
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2 text-white">{cat.icon} {cat.category}</h3>
+            <div 
+              key={cat.category} 
+              className="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 transform hover:scale-105"
+            >
+              <h3 className="text-xl font-semibold mb-6 flex items-center gap-3 text-white group">
+                {cat.icon.startsWith('http') ? (
+                  <img src={cat.icon} alt="" className="w-6 h-6 transition-transform duration-300 group-hover:scale-110" />
+                ) : (
+                  <div className="w-6 h-6 transition-transform duration-300 group-hover:scale-110">
+                    {cat.icon === 'code-xml' && <Code className="w-6 h-6" />}
+                    {cat.icon === 'globe' && <Globe className="w-6 h-6" />}
+                    {cat.icon === 'brain-circuit' && <BrainCircuit className="w-6 h-6" />}
+                    {cat.icon === 'database' && <Database className="w-6 h-6" />}
+                    {cat.icon === 'app-window' && <AppWindow className="w-6 h-6" />}
+                  </div>
+                )}
+                {t(`skills.${cat.category}`)}
+              </h3>
               <div className="flex flex-wrap gap-6">
                 {cat.items.map((item) => (
-                  <div key={item.name} className="flex flex-col items-center group">
-                    <img
-                      src={item.icon}
-                      alt={item.name}
-                      className="w-12 h-12 filter grayscale group-hover:filter-none transition duration-300"
-                    />
-                    <span className="mt-2 text-sm text-white text-center">{item.name}</span>
+                  <div 
+                    key={item.name} 
+                    className="flex flex-col items-center group"
+                  >
+                    <div className="relative">
+                      <img
+                        src={item.icon}
+                        alt={item.name}
+                        className="w-12 h-12 transition-transform duration-300 group-hover:scale-110 group-hover:drop-shadow-lg"
+                      />
+                    </div>
+                    <span className="mt-2 text-sm text-white text-center group-hover:text-blue-300 transition-colors duration-300">{item.name}</span>
                   </div>
                 ))}
               </div>

@@ -1,8 +1,10 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from "./components/Hero";
+import About from "./sections/About";
 import Skills from "./sections/Skills";
 import Projects from "./sections/Projects";
+import SecondBrain from "./sections/SecondBrain";
 import Footer from "./components/Footer";
 import './i18n';
 
@@ -11,9 +13,10 @@ function App() {
     <div className="scroll-smooth">
       <Navbar />
       <Hero />
-      <section id="about" className="min-h-screen pt-24 bg-gray-100 dark:bg-gray-800">Seção Sobre</section>
+      <About />
       <Skills />
       <Projects />
+      <SecondBrain />
       <Footer />
     </div>
   );
