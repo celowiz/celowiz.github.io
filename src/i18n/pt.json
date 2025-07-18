@@ -10,6 +10,13 @@
       "description": "Sou um profissional apaixonado por dados, finanças e tecnologia.",
      "cta": "Veja meus projetos"
     },
+    "about": {
+    },
+    "skills": {
+    },
+    "projects": {
+        "title": "Projetos"
+    },
     "footer": {
       "madeBy": "Feito por Marcelo Wizenberg",
       "copyright": "Marcelo Wizenberg. Todos os direitos reservados.",

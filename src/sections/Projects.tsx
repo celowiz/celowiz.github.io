@@ -5,32 +5,41 @@ const projects = [
   {
     title: 'Projeto 1',
     description: 'Breve descrição do Projeto 1. Explique o objetivo e tecnologias principais.',
-    image: 'https://via.placeholder.com/400x200?text=Projeto+1',
+    image: 'https://firstbenefits.org/wp-content/uploads/2017/10/placeholder-1024x1024.png',
     projectUrl: '#',
     codeUrl: '#',
+    techs: ['python'],
   },
   {
     title: 'Projeto 2',
     description: 'Breve descrição do Projeto 2. Explique o objetivo e tecnologias principais.',
-    image: 'https://via.placeholder.com/400x200?text=Projeto+2',
+    image: 'https://firstbenefits.org/wp-content/uploads/2017/10/placeholder-1024x1024.png',
     projectUrl: '#',
     codeUrl: '#',
+    techs: ['python'],
   },
   {
     title: 'Projeto 3',
     description: 'Breve descrição do Projeto 3. Explique o objetivo e tecnologias principais.',
-    image: 'https://via.placeholder.com/400x200?text=Projeto+3',
+    image: 'https://firstbenefits.org/wp-content/uploads/2017/10/placeholder-1024x1024.png',
     projectUrl: '#',
     codeUrl: '#',
+    techs: ['python'],
   },
   {
     title: 'Projeto 4',
     description: 'Breve descrição do Projeto 4. Explique o objetivo e tecnologias principais.',
-    image: 'https://via.placeholder.com/400x200?text=Projeto+4',
+    image: 'https://firstbenefits.org/wp-content/uploads/2017/10/placeholder-1024x1024.png',
     projectUrl: '#',
     codeUrl: '#',
+    techs: ['python'],
   },
 ];
+
+const techIcons: Record<string, string> = {
+  python: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
+  // Adicione mais tecnologias aqui conforme necessário
+};
 
 export default function Projects() {
   const { t, i18n } = useTranslation();
@@ -44,7 +53,21 @@ export default function Projects() {
               <img src={project.image} alt={project.title} className="w-full h-48 object-cover bg-gray-700" />
               <div className="flex-1 p-6 flex flex-col">
                 <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
-                <p className="text-white mb-6">{project.description}</p>
+                <p className="text-white mb-4">{project.description}</p>
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-gray-300 font-medium">
+                    {i18n.language === 'pt' ? 'Tecnologias:' : 'Toolbox:'}
+                  </span>
+                  {project.techs.map((tech) => (
+                    <img
+                      key={tech}
+                      src={techIcons[tech]}
+                      alt={tech}
+                      title={tech.charAt(0).toUpperCase() + tech.slice(1)}
+                      className="w-7 h-7"
+                    />
+                  ))}
+                </div>
                 <div className="mt-auto flex gap-4">
                   <a
                     href={project.projectUrl}
