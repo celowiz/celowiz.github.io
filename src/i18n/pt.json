@@ -1,0 +1,12 @@
+{
+    "navbar": {
+      "about": "Sobre Mim",
+      "skills": "Habilidades",
+      "projects": "Projetos"
+    },
+    "hero": {
+      "name": "Marcelo Wizenberg",
+      "description": "Sou um profissional apaixonado por dados, finanças e tecnologia.",
+     "cta": "Veja meus projetos"
+    }
+  }
