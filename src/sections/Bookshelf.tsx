@@ -3,9 +3,13 @@ import { useTranslation } from 'react-i18next';
 import Papa from 'papaparse';
 import type { Book } from '../types/Book';
 import { FaSearch, FaSortAlphaDown, FaSortAlphaUp } from 'react-icons/fa';
-import { config } from '../config/secrets';
 import { BookCard } from '../components/BookCard';
 import styles from './Bookshelf.module.css';
+
+// Configuração inline para evitar problemas de resolução de módulo no CI/CD
+const config = {
+    amazonAffiliateTag: 'celowiz-20'
+};
 
 const getUniqueCategories = (books: Book[]): string[] => {
     const categories = new Set(['All']);
