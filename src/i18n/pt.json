@@ -4,7 +4,15 @@
       "about": "Sobre Mim",
       "skills": "Habilidades",
       "projects": "Projetos",
-      "second-brain": "Second Brain"
+      "bookshelf": "Lista de Livros"
+    },
+    "bookshelf": {
+      "title": "Minha Estante",
+      "description": "Uma coleção selecionada de livros que moldaram meu conhecimento e perspectiva. Clique em qualquer livro para saber mais.",
+      "searchPlaceholder": "Pesquisar por título ou autor...",
+      "buyOnAmazon": "Ver na Amazon",
+      "loading": "Carregando Livros...",
+      "amazonLink": "Comprar na Amazon"
     },
     "hero": {
       "name": "Marcelo Wizenberg",
@@ -12,6 +20,24 @@
      "cta": "Veja meus projetos"
     },
     "about": {
+        "title": "Sobre Mim",
+        "description": "Sou um desenvolvedor especializado em análise quantitativa e desenvolvimento de estratégias para o mercado de capitais brasileiro. Com experiência em Python, JavaScript e frameworks modernos, foco na criação de soluções robustas para trading algorítmico e análise de dados financeiros.",
+        "passion": "Minha paixão está em transformar dados complexos em insights acionáveis, desenvolvendo algoritmos que podem identificar oportunidades no mercado brasileiro de ações, commodities e derivativos.",
+        "years": "Anos de Experiência",
+        "projects": "Projetos Desenvolvidos",
+        "timelineTitle": "Minha Trajetória",
+        "companyA": "Empresa A",
+        "companyARole": "Quant Developer",
+        "companyAPeriod": "2021 - Presente",
+        "companyADescription": "Desenvolvimento de modelos quantitativos para trading algorítmico e análise de dados financeiros.",
+        "companyB": "Empresa B",
+        "companyBRole": "Data Scientist",
+        "companyBPeriod": "2018 - 2021",
+        "companyBDescription": "Implementação de pipelines de dados e automação de análises para o mercado financeiro.",
+        "companyC": "Empresa C",
+        "companyCRole": "Estagiário em Finanças Quantitativas",
+        "companyCPeriod": "2016 - 2018",
+        "companyCDescription": "Apoio em pesquisas quantitativas e desenvolvimento de ferramentas para análise de risco."
     },
     "skills": {
         "title": "Habilidades",
@@ -25,12 +51,12 @@
     "projects": {
         "title": "Projetos",
         "1": {
-            "title": "Projeto 1",
-            "description": "Breve descrição do Projeto 1. Explique o objetivo e tecnologias principais."
+            "title": "📓 Quant Notebooks",
+            "description": "Repositório dedicado ao aprendizado de Marimo e análise quantitativa de dados financeiros. Inclui estudos sobre estratégias de trading, análise macroeconômica e indicadores técnicos usando Python e bibliotecas financeiras."
         },
         "2": {
-            "title": "Projeto 2",
-            "description": "Breve descrição do Projeto 2. Explique o objetivo e tecnologias principais."
+            "title": "🧠 Second Brain",
+            "description": "Sistema pessoal de organização de conhecimento e recursos de aprendizado. Coleção organizada de artigos, cursos, certificações e ferramentas essenciais para desenvolvimento profissional em finanças quantitativas e ciência de dados."
         },
         "3": {
             "title": "Projeto 3",

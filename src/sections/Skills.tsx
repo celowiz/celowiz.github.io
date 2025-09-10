@@ -1,6 +1,6 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Code, Globe, BrainCircuit, Database, AppWindow } from 'lucide-react';
+import { AnimatedSection } from '../components/AnimatedSection';
 
 const skills = [
   {
@@ -134,7 +134,7 @@ const skills = [
         icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/streamlit/streamlit-original.svg',
       },
       {
-        name: 'Jupyter Notebooks',
+        name: 'Jupyter',
         icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg',
       },
       {
@@ -148,13 +148,15 @@ const skills = [
 export default function Skills() {
   const { t } = useTranslation();
   return (
-    <section id="skills" className="min-h-screen py-16 bg-white dark:bg-gray-900">
+    <section id="skills" className="min-h-screen py-16 bg-gray-900">
       <div className="max-w-5xl mx-auto px-4">
         <h2 className="text-3xl font-bold mb-10 text-center text-white">{t('skills.title') || 'Habilidades'}</h2>
         <div className="grid md:grid-cols-2 gap-8">
-          {skills.map((cat) => (
-            <div 
-              key={cat.category} 
+          {skills.map((cat, index) => (
+            <AnimatedSection
+              key={cat.category}
+              animation="fadeInUp"
+              delay={index * 200}
               className="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 transform hover:scale-105"
             >
               <h3 className="text-xl font-semibold mb-6 flex items-center gap-3 text-white group">
@@ -188,7 +190,7 @@ export default function Skills() {
                   </div>
                 ))}
               </div>
-            </div>
+            </AnimatedSection>
           ))}
         </div>
       </div>

@@ -1,77 +1,42 @@
 // src/components/Hero.tsx
 import { useTranslation } from "react-i18next";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { useEffect, useMemo, useState } from "react";
-import { loadSlim } from "@tsparticles/slim"; // ou loadFull se quiser todos os recursos
+import { useEffect, useState, ComponentType } from "react";
 import { Typewriter } from 'react-simple-typewriter';
 
 export default function Hero() {
   const { t } = useTranslation();
-  const [init, setInit] = useState(false);
+  const [ParticlesBackground, setParticlesBackground] = useState<ComponentType | null>(null);
 
   useEffect(() => {
-    initParticlesEngine(async (engine) => {
-      await loadSlim(engine);
-    }).then(() => {
-      setInit(true);
-    });
+    // Lazy load particles após o conteúdo principal carregar
+    const loadParticles = async () => {
+      try {
+        const { Particles } = await import("./ParticlesBackground");
+        setParticlesBackground(() => Particles);
+      } catch (error) {
+        console.warn('Particles failed to load:', error);
+      }
+    };
+
+    // Delay reduzido para mostrar partículas mais rapidamente
+    const timer = setTimeout(loadParticles, 500);
+    return () => clearTimeout(timer);
   }, []);
 
-  const options = useMemo(
-    () => ({
-      fullScreen: { enable: false },
-      background: { color: { value: "transparent" } },
-      fpsLimit: 60,
-      interactivity: {
-        events: {
-          onHover: { enable: true, mode: "repulse" },
-          resize: { enable: true },
-        },
-        modes: {
-          repulse: { distance: 120, duration: 0.4 },
-        },
-      },
-      particles: {
-        number: { value: 200, density: { enable: true, area: 800 } },
-        color: { value: "#ffffff" },
-        links: {
-          enable: true,
-          color: "#60a5fa",
-          distance: 150,
-          opacity: 0.4,
-          width: 1.2,
-        },
-        move: {
-          enable: true,
-          speed: 1.2,
-          outModes: { default: "out" as const },
-        },
-        size: { value: 3 },
-        opacity: { value: 0.7 },
-      },
-    }),
-    []
-  );
-
   return (
-    <section id="hero" className="relative min-h-screen flex flex-col justify-center items-center text-center px-4 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-black overflow-hidden">
-      {/* Partículas de fundo */}
-      {init && (
-        <Particles
-          id="tsparticles"
-          className="absolute inset-0 z-0"
-          options={options}
-        />
-      )}
+    <section id="hero" className="relative min-h-screen flex flex-col justify-center items-center text-center px-4 bg-gradient-to-b from-gray-900 to-black overflow-hidden">
+      {/* Partículas de fundo - lazy loaded */}
+      {ParticlesBackground && <ParticlesBackground />}
+
       {/* Conteúdo da Hero acima das partículas */}
       <div className="relative z-10">
-        <h1 className="text-4xl sm:text-6xl font-bold mb-4 text-gray-900 dark:text-white">
+        <h1 className="text-4xl sm:text-6xl font-bold mb-4 text-white">
           {t("hero.name")}
         </h1>
-        <span className="block text-xl sm:text-3xl font-mono text-blue-500 mb-4 min-h-[2.5rem]">
+        <span className="block text-xl sm:text-3xl font-mono text-blue-400 mb-4 min-h-[2.5rem]">
           <TypewriterQuant />
         </span>
-        <p className="text-lg sm:text-2xl text-gray-700 dark:text-gray-300 mb-8 max-w-xl">
+        <p className="text-lg sm:text-2xl text-gray-300 mb-8 max-w-xl">
           {t("hero.description")}
         </p>
         <button
@@ -81,7 +46,8 @@ export default function Hero() {
               element.scrollIntoView({ behavior: 'smooth' });
             }
           }}
-          className="px-6 py-3 bg-blue-600 text-white rounded-full text-lg font-medium hover:bg-blue-700 transition"
+          className="px-6 py-3 bg-blue-600 text-white rounded-full text-lg font-medium hover:bg-blue-700 focus:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition"
+          aria-label="Navegar para a seção de projetos"
         >
           {t("hero.cta")}
         </button>
@@ -147,7 +113,7 @@ export function TypewriterQuant() {
   }, [index]);
 
   return (
-    <span className="block text-xl sm:text-3xl font-mono text-blue-500 mb-4 min-h-[2.5rem]">
+    <span className="block text-xl sm:text-3xl font-mono text-blue-400 mb-4 min-h-[2.5rem]">
       {showQuant && "Quant "}
       {roles[index].substring(0, subIndex)}
       <span className="typewriter-cursor">█</span>

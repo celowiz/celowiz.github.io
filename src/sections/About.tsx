@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
-function useCounter(to: number, duration = 1500) {
+function useCounter(to: number, duration = 1500, isVisible = false) {
   const [count, setCount] = useState(0);
   useEffect(() => {
+    if (!isVisible) return;
+
     let start = 0;
     const increment = to / (duration / 16);
     const interval = setInterval(() => {
@@ -15,72 +18,102 @@ function useCounter(to: number, duration = 1500) {
       }
     }, 16);
     return () => clearInterval(interval);
-  }, [to, duration]);
+  }, [to, duration, isVisible]);
   return count;
 }
 
-const timeline = [
-  {
-    company: "Empresa A",
-    role: "Quant Developer",
-    period: "2021 - Presente",
-    description: "Desenvolvimento de modelos quantitativos para trading algorítmico e análise de dados financeiros."
-  },
-  {
-    company: "Empresa B",
-    role: "Data Scientist",
-    period: "2018 - 2021",
-    description: "Implementação de pipelines de dados e automação de análises para o mercado financeiro."
-  },
-  {
-    company: "Empresa C",
-    role: "Estagiário em Finanças Quantitativas",
-    period: "2016 - 2018",
-    description: "Apoio em pesquisas quantitativas e desenvolvimento de ferramentas para análise de risco."
-  }
-];
+function useIntersectionObserver(ref: React.RefObject<HTMLElement | null>) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref]);
+
+  return isVisible;
+}
 
 export default function About() {
-  const years = useCounter(8);
-  const projects = useCounter(15);
+  const { t } = useTranslation();
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const isVisible = useIntersectionObserver(sectionRef);
+  const years = useCounter(8, 1500, isVisible);
+  const projects = useCounter(15, 1500, isVisible);
+
+  const timeline = [
+    {
+      company: t('about.companyA'),
+      role: t('about.companyARole'),
+      period: t('about.companyAPeriod'),
+      description: t('about.companyADescription')
+    },
+    {
+      company: t('about.companyB'),
+      role: t('about.companyBRole'),
+      period: t('about.companyBPeriod'),
+      description: t('about.companyBDescription')
+    },
+    {
+      company: t('about.companyC'),
+      role: t('about.companyCRole'),
+      period: t('about.companyCPeriod'),
+      description: t('about.companyCDescription')
+    }
+  ];
 
   return (
-    <section id="about" className="min-h-screen py-16 bg-gray-800 text-white">
+    <section ref={sectionRef} id="about" className="min-h-screen py-16 bg-gray-800 text-white">
       <div className="max-w-4xl mx-auto px-4">
-        <h2 className="text-4xl font-bold mb-8 text-center">Sobre Mim</h2>
-        <div className="bg-gray-900 rounded-xl p-8 mb-8">
-          <p className="mb-4">
-            Sou um desenvolvedor especializado em análise quantitativa e desenvolvimento de estratégias para o mercado de capitais brasileiro. Com experiência em Python, JavaScript e frameworks modernos, foco na criação de soluções robustas para trading algorítmico e análise de dados financeiros.
+        <h2 className="text-4xl font-bold mb-8 text-center text-white">{t('about.title')}</h2>
+        <div className="bg-gray-900 rounded-xl p-8 mb-8 shadow-lg border border-gray-700">
+          <p className="mb-4 text-lg leading-relaxed text-gray-200">
+            {t('about.description')}
           </p>
-          <p>
-            Minha paixão está em transformar dados complexos em insights acionáveis, desenvolvendo algoritmos que podem identificar oportunidades no mercado brasileiro de ações, commodities e derivativos.
+          <p className="text-lg leading-relaxed text-gray-200">
+            {t('about.passion')}
           </p>
         </div>
         <div className="flex justify-center gap-12 mb-12">
-          <div className="text-center">
+          <div className="text-center bg-gray-900 p-6 rounded-xl shadow-lg border border-gray-700 transform hover:scale-105 transition-transform duration-300">
             <span className="text-4xl font-bold text-green-400">{years}+</span>
-            <div className="text-gray-200">Anos de Experiência</div>
+            <div className="text-gray-300 font-medium mt-2">{t('about.years')}</div>
           </div>
-          <div className="text-center">
+          <div className="text-center bg-gray-900 p-6 rounded-xl shadow-lg border border-gray-700 transform hover:scale-105 transition-transform duration-300">
             <span className="text-4xl font-bold text-green-400">{projects}+</span>
-            <div className="text-gray-200">Projetos Desenvolvidos</div>
+            <div className="text-gray-300 font-medium mt-2">{t('about.projects')}</div>
           </div>
         </div>
-        <div>
-          <h3 className="text-2xl font-semibold mb-6 text-center">Minha Trajetória</h3>
-          <ol className="relative border-l border-gray-700">
+        {/* <div>
+          <h3 className="text-2xl font-semibold mb-6 text-center text-white">{t('about.timelineTitle')}</h3>
+          <ol className="relative border-l-2 border-gray-700">
             {timeline.map((item, idx) => (
               <li key={idx} className="mb-10 ml-6">
-                <span className="absolute -left-3 flex items-center justify-center w-6 h-6 bg-blue-600 rounded-full ring-8 ring-gray-800">
+                <span className="absolute -left-3 flex items-center justify-center w-6 h-6 bg-blue-500 rounded-full ring-8 ring-gray-800">
                   <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
                 </span>
-                <h4 className="text-xl font-bold">{item.role} <span className="text-blue-400">@ {item.company}</span></h4>
+                <h4 className="text-xl font-bold text-white">{item.role} <span className="text-blue-400">@ {item.company}</span></h4>
                 <span className="block text-sm text-gray-400 mb-2">{item.period}</span>
-                <p className="text-gray-200">{item.description}</p>
+                <p className="text-gray-300">{item.description}</p>
               </li>
             ))}
           </ol>
-        </div>
+        </div> */}
       </div>
     </section>
   );

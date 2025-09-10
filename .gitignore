@@ -12,13 +12,67 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+build
+.vite
+.cache
+.parcel-cache
+
+# TypeScript
+*.tsbuildinfo
+.tscache
+
+# Testing
+coverage
+*.lcov
+.nyc_output
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
+*.swp
+*.swo
+*~
+
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Secrets
+src/config/secrets.ts
+
+# Temporary files
+*.tmp
+*.temp
+.cache
+
+# Package manager lock files (uncomment if needed for specific OS)
+# package-lock.json
+# yarn.lock
+
+# Windows
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# JetBrains
+.idea/
+
+# VS Code
+.vscode/settings.json
+.vscode/launch.json

@@ -4,7 +4,6 @@ declare global {
     gtag?: (...args: any[]) => void;
   }
 }
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
@@ -13,7 +12,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white py-8 border-t border-gray-700">
       <div className="max-w-4xl mx-auto px-4 flex flex-col items-center justify-center text-center">
-        <p className="text-lg font-semibold mb-1">{t('footer.madeBy')}</p>
+        <p className="text-lg font-semibold mb-1 text-white">{t('footer.madeBy')}</p>
         <p className="text-sm text-gray-400 mb-4">&copy; {year} {t('footer.copyright')}</p>
         <div className="flex gap-8 mb-2 justify-center items-center">
           <a

@@ -15,5 +15,5 @@
       "isolatedModules": true,
       "jsx": "react-jsx"
     },
-    "include": ["src", "tailwind.config.tsx"]
+    "include": ["src", "tailwind.config.tsx", "src/types/css-modules.d.ts"]
   }

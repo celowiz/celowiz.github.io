@@ -4,7 +4,15 @@
       "about": "About Me",
       "skills": "Skills",
       "projects": "Projects",
-      "second-brain": "Second Brain"
+      "bookshelf": "My Reading List"
+    },
+    "bookshelf": {
+      "title": "My Bookshelf",
+      "description": "A curated collection of books that have shaped my knowledge and perspective. Click on any book to learn more.",
+      "searchPlaceholder": "Search by title or author...",
+      "buyOnAmazon": "View on Amazon",
+      "loading": "Loading books...",
+      "amazonLink": "Buy on Amazon"
     },
     "hero": {
       "name": "Marcelo Wizenberg",
@@ -12,6 +20,24 @@
       "cta": "See my projects"
     },
     "about": {
+        "title": "About Me",
+        "description": "I am a developer specialized in quantitative analysis and strategy development for the Brazilian capital market. With experience in Python, JavaScript and modern frameworks, I focus on creating robust solutions for algorithmic trading and financial data analysis.",
+        "passion": "My passion lies in transforming complex data into actionable insights, developing algorithms that can identify opportunities in the Brazilian market for stocks, commodities and derivatives.",
+        "years": "Years of Experience",
+        "projects": "Projects Developed",
+        "timelineTitle": "My Journey",
+        "companyA": "Company A",
+        "companyARole": "Quant Developer",
+        "companyAPeriod": "2021 - Present",
+        "companyADescription": "Development of quantitative models for algorithmic trading and financial data analysis.",
+        "companyB": "Company B",
+        "companyBRole": "Data Scientist",
+        "companyBPeriod": "2018 - 2021",
+        "companyBDescription": "Implementation of data pipelines and automation of financial market analyses.",
+        "companyC": "Company C",
+        "companyCRole": "Quantitative Finance Intern",
+        "companyCPeriod": "2016 - 2018",
+        "companyCDescription": "Support in quantitative research and development of risk analysis tools."
     },
     "skills": {
         "title": "Skills",
@@ -25,12 +51,12 @@
     "projects": {
         "title": "Projects",
         "1": {
-            "title": "Project 1",
-            "description": "Brief description of Project 1. Explain the main goal and technologies."
+            "title": "📓 Quant Notebooks",
+            "description": "Repository dedicated to learning Marimo and quantitative financial data analysis. Includes studies on trading strategies, macroeconomic analysis, and technical indicators using Python and financial libraries."
         },
         "2": {
-            "title": "Project 2",
-            "description": "Brief description of Project 2. Explain the main goal and technologies."
+            "title": "🧠 Second Brain",
+            "description": "Personal knowledge organization system and learning resources. Organized collection of articles, courses, certifications, and essential tools for professional development in quantitative finance and data science."
         },
         "3": {
             "title": "Project 3",

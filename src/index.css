@@ -13,3 +13,60 @@ body {
   background-color: #000;
   margin: 0;
 }
+
+/* Melhorias de performance e responsividade */
+* {
+  box-sizing: border-box;
+}
+
+/* Otimização de imagens */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Melhor scroll em mobile */
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: auto; /* Desabilita smooth scroll em mobile para melhor performance */
+  }
+
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+  }
+}
+
+/* Animações otimizadas para mobile */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Foco melhorado para acessibilidade */
+.focus-visible:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Prevenção de zoom em inputs mobile */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Utilitários para truncamento de texto */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
