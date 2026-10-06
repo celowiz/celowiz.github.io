@@ -4,7 +4,11 @@
       "about": "Sobre Mim",
       "skills": "Habilidades",
       "projects": "Projetos",
-      "bookshelf": "Lista de Livros"
+      "bookshelf": "Lista de Livros",
+      "switchToEnglish": "Mudar idioma para Inglês",
+      "switchToPortuguese": "Mudar idioma para Português",
+      "flagBrazil": "Bandeira do Brasil",
+      "flagUK": "Bandeira do Reino Unido"
     },
     "bookshelf": {
       "title": "Minha Estante",
@@ -17,7 +21,8 @@
     "hero": {
       "name": "Marcelo Wizenberg",
       "description": "Sou um profissional apaixonado por dados, finanças e tecnologia.",
-     "cta": "Veja meus projetos"
+     "cta": "Veja meus projetos",
+     "ctaAria": "Veja meus projetos. Navegar para a seção de projetos"
     },
     "about": {
         "title": "Sobre Mim",
@@ -50,6 +55,10 @@
     },
     "projects": {
         "title": "Projetos",
+        "intro": "Uma seleção dos meus projetos mais relevantes, demonstrando minha expertise em desenvolvimento e análise de dados.",
+        "technologies": "Tecnologias",
+        "viewProject": "Ver Projeto",
+        "code": "Código",
         "1": {
             "title": "📓 Quant Notebooks",
             "description": "Repositório dedicado ao aprendizado de Marimo e análise quantitativa de dados financeiros. Inclui estudos sobre estratégias de trading, análise macroeconômica e indicadores técnicos usando Python e bibliotecas financeiras."
@@ -57,14 +66,6 @@
         "2": {
             "title": "🧠 Second Brain",
             "description": "Sistema pessoal de organização de conhecimento e recursos de aprendizado. Coleção organizada de artigos, cursos, certificações e ferramentas essenciais para desenvolvimento profissional em finanças quantitativas e ciência de dados."
-        },
-        "3": {
-            "title": "Projeto 3",
-            "description": "Breve descrição do Projeto 3. Explique o objetivo e tecnologias principais."
-        },
-        "4": {
-            "title": "Projeto 4",
-            "description": "Breve descrição do Projeto 4. Explique o objetivo e tecnologias principais."
         }
     },
     "footer": {

@@ -1,7 +1,8 @@
 // Declaração global para o Google Analytics gtag
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void;
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
   }
 }
 import { useTranslation } from 'react-i18next';
@@ -58,7 +59,7 @@ export default function Footer() {
             <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.53 3H21.5L14.36 10.66L22.75 21H16.44L11.38 14.62L5.77 21H1.8L9.34 12.82L1.25 3H7.73L12.33 8.84L17.53 3ZM16.41 19H18.23L7.66 5H5.7L16.41 19Z"/></svg>
           </a>
         </div>
-        <p className="text-xs text-gray-500 text-center">{t('footer.tech')}</p>
+        <p className="text-xs text-gray-400 text-center">{t('footer.tech')}</p>
       </div>
     </footer>
   );

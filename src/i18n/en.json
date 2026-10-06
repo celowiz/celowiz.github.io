@@ -4,7 +4,11 @@
       "about": "About Me",
       "skills": "Skills",
       "projects": "Projects",
-      "bookshelf": "My Reading List"
+      "bookshelf": "My Reading List",
+      "switchToEnglish": "Switch language to English",
+      "switchToPortuguese": "Switch language to Portuguese",
+      "flagBrazil": "Flag of Brazil",
+      "flagUK": "Flag of the United Kingdom"
     },
     "bookshelf": {
       "title": "My Bookshelf",
@@ -17,7 +21,8 @@
     "hero": {
       "name": "Marcelo Wizenberg",
       "description": "I’m a professional passionate about data, finance, and technology.",
-      "cta": "See my projects"
+      "cta": "See my projects",
+      "ctaAria": "See my projects. Navigate to the projects section"
     },
     "about": {
         "title": "About Me",
@@ -50,6 +55,10 @@
     },
     "projects": {
         "title": "Projects",
+        "intro": "A selection of my most relevant projects, showcasing my expertise in development and data analysis.",
+        "technologies": "Technologies",
+        "viewProject": "View Project",
+        "code": "Code",
         "1": {
             "title": "📓 Quant Notebooks",
             "description": "Repository dedicated to learning Marimo and quantitative financial data analysis. Includes studies on trading strategies, macroeconomic analysis, and technical indicators using Python and financial libraries."
@@ -57,14 +66,6 @@
         "2": {
             "title": "🧠 Second Brain",
             "description": "Personal knowledge organization system and learning resources. Organized collection of articles, courses, certifications, and essential tools for professional development in quantitative finance and data science."
-        },
-        "3": {
-            "title": "Project 3",
-            "description": "Brief description of Project 3. Explain the main goal and technologies."
-        },
-        "4": {
-            "title": "Project 4",
-            "description": "Brief description of Project 4. Explain the main goal and technologies."
         }
     },
     "footer": {

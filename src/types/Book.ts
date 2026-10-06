@@ -3,13 +3,11 @@ export interface Book {
     title: string;
     amazonUrl: string;
     category: string;
+    categories?: string[];
     author?: string;
     description?: string;
     imageUrl?: string;
-    pages?: string;
-    publisher?: string;
-    publishDate?: string;
-    subjects?: string[];
+    cover?: string;
     isbn?: string;
-    affiliateLink?: string;
+    asin?: string;
 }

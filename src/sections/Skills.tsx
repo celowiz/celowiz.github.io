@@ -2,145 +2,71 @@ import { useTranslation } from 'react-i18next';
 import { Code, Globe, BrainCircuit, Database, AppWindow } from 'lucide-react';
 import { AnimatedSection } from '../components/AnimatedSection';
 
+// Icons from https://devicon.dev/ via
+// https://cdn.jsdelivr.net/gh/devicons/devicon/icons/<name>/<name>-original.svg
+const devicon = (name: string) => `/icons/${name}/${name}-original.svg`;
+
 const skills = [
   {
     category: 'languages',
     icon: 'code-xml',
     items: [
-      {
-        name: 'Python',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
-      },
-      {
-        name: 'R',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/r/r-original.svg',
-      },
-      {
-        name: 'JavaScript',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
-      },
-      {
-        name: 'SQL',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
-      },
+      { name: 'Python', icon: devicon('python') },
+      { name: 'R', icon: devicon('r') },
+      { name: 'JavaScript', icon: devicon('javascript') },
+      { name: 'SQL', icon: devicon('mysql') },
     ],
   },
   {
     category: 'frameworks',
     icon: 'globe',
     items: [
-      {
-        name: 'Next.js',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg',
-      },
-      {
-        name: 'Vite',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg',
-      },
-      {
-        name: 'React',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
-      },
-      {
-        name: 'Node.js',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
-      },
-      {
-        name: 'FastAPI',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg',
-      },
-      {
-        name: 'Flask',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg',
-      },
-      {
-        name: 'HTML5',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
-      },
-      {
-        name: 'CSS3',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg',
-      },
+      { name: 'Next.js', icon: devicon('nextjs') },
+      { name: 'Vite', icon: devicon('vite') },
+      { name: 'React', icon: devicon('react') },
+      { name: 'Node.js', icon: devicon('nodejs') },
+      { name: 'FastAPI', icon: devicon('fastapi') },
+      { name: 'Flask', icon: devicon('flask') },
+      { name: 'HTML5', icon: devicon('html5') },
+      { name: 'CSS3', icon: devicon('css3') },
     ],
   },
   {
     category: 'pythonLibs',
-    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
+    icon: devicon('python'),
     items: [
-      {
-        name: 'Pandas',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg',
-      },
-      {
-        name: 'NumPy',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg',
-      },
-      {
-        name: 'Scikit-learn',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg',
-      },
-      {
-        name: 'Matplotlib',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg',
-      },
-      {
-        name: 'Plotly',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/plotly/plotly-original.svg',
-      },
+      { name: 'Pandas', icon: devicon('pandas') },
+      { name: 'NumPy', icon: devicon('numpy') },
+      { name: 'Scikit-learn', icon: devicon('scikitlearn') },
+      { name: 'Matplotlib', icon: devicon('matplotlib') },
+      { name: 'Plotly', icon: devicon('plotly') },
     ],
   },
   {
     category: 'ml',
     icon: 'brain-circuit',
     items: [
-      {
-        name: 'TensorFlow',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg',
-      },
-      {
-        name: 'Spyder',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spyder/spyder-original.svg',
-      },
+      { name: 'TensorFlow', icon: devicon('tensorflow') },
+      { name: 'Spyder', icon: devicon('spyder') },
     ],
   },
   {
     category: 'databases',
     icon: 'database',
     items: [
-      {
-        name: 'PostgreSQL',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
-      },
-      {
-        name: 'MySQL',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
-      },
-      {
-        name: 'MongoDB',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg',
-      },
+      { name: 'PostgreSQL', icon: devicon('postgresql') },
+      { name: 'MySQL', icon: devicon('mysql') },
+      { name: 'MongoDB', icon: devicon('mongodb') },
     ],
   },
   {
     category: 'others',
     icon: 'app-window',
     items: [
-      {
-        name: 'Git / GitHub',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
-      },
-      {
-        name: 'Streamlit',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/streamlit/streamlit-original.svg',
-      },
-      {
-        name: 'Jupyter',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg',
-      },
-      {
-        name: 'VSCode',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg',
-      },
+      { name: 'Git / GitHub', icon: devicon('github') },
+      { name: 'Streamlit', icon: devicon('streamlit') },
+      { name: 'Jupyter', icon: devicon('jupyter') },
+      { name: 'VSCode', icon: devicon('vscode') },
     ],
   },
 ];
@@ -160,8 +86,8 @@ export default function Skills() {
               className="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 transform hover:scale-105"
             >
               <h3 className="text-xl font-semibold mb-6 flex items-center gap-3 text-white group">
-                {cat.icon.startsWith('http') ? (
-                  <img src={cat.icon} alt="" className="w-6 h-6 transition-transform duration-300 group-hover:scale-110" />
+                {cat.icon.startsWith('/') || cat.icon.startsWith('http') ? (
+                  <img src={cat.icon} alt="" width={24} height={24} className="w-6 h-6 transition-transform duration-300 group-hover:scale-110" />
                 ) : (
                   <div className="w-6 h-6 transition-transform duration-300 group-hover:scale-110">
                     {cat.icon === 'code-xml' && <Code className="w-6 h-6" />}
@@ -183,6 +109,8 @@ export default function Skills() {
                       <img
                         src={item.icon}
                         alt={item.name}
+                        width={48}
+                        height={48}
                         className="w-12 h-12 transition-transform duration-300 group-hover:scale-110 group-hover:drop-shadow-lg"
                       />
                     </div>
