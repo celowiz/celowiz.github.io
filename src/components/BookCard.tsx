@@ -20,7 +20,7 @@ export function BookCard({ book, onBuyClick }: BookCardProps) {
   return (
     <div className={`${styles.bookWrapper} group cursor-pointer`} onClick={() => setIsFlipped(!isFlipped)}>
       <div className={`${styles.book} ${isFlipped ? styles.flipped : ''}`}>
-        <div className={`${styles.bookCover} absolute inset-0 overflow-hidden rounded-lg`}>
+        <div className={`${styles.bookCover} rounded-t-md`}>
           <img
             src={coverSrc}
             alt={book.title}
@@ -36,7 +36,7 @@ export function BookCard({ book, onBuyClick }: BookCardProps) {
           />
         </div>
 
-        <div className={`${styles.bookBack} absolute inset-0 overflow-hidden rounded-lg`}>
+        <div className={`${styles.bookBack} rounded-t-md`}>
           <div className="flex h-full flex-col items-center justify-between p-2 text-center sm:p-3">
             <div>
               <h3 className="line-clamp-2 text-xs leading-tight font-bold text-paper sm:text-sm">

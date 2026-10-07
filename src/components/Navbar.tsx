@@ -42,8 +42,8 @@ function TubelightNav({
   }, [pendingId, activeId]);
 
   return (
-    <div className="pointer-events-none fixed bottom-4 left-1/2 z-50 mb-0 w-max max-w-[calc(100%-2rem)] -translate-x-1/2 sm:bottom-auto sm:top-6 sm:pt-0">
-      <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-white/10 bg-black/40 px-1 py-1 shadow-lg shadow-black/40 backdrop-blur-lg">
+    <div className="pointer-events-none fixed bottom-4 left-1/2 z-50 w-max max-w-[calc(100%-2rem)] -translate-x-1/2 sm:bottom-auto sm:top-10 sm:-translate-y-1/2">
+      <div className="pointer-events-auto flex items-center gap-1 overflow-visible rounded-full border border-white/10 bg-black/40 px-1 py-1 shadow-lg shadow-black/40 backdrop-blur-lg">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = visualId === item.id;
@@ -111,7 +111,7 @@ export default function Navbar() {
     <nav role="navigation" aria-label={t('navbar.aria')}>
       <div
         className={cn(
-          'pointer-events-none fixed inset-x-0 top-0 z-40 h-16 border-b transition-[background-color,border-color,backdrop-filter] duration-300',
+          'pointer-events-none fixed inset-x-0 top-0 z-40 h-20 overflow-visible border-b transition-[background-color,border-color,backdrop-filter] duration-300',
           scrolled
             ? 'border-white/10 bg-black/55 backdrop-blur-md'
             : 'border-transparent bg-transparent',
