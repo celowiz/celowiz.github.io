@@ -42,7 +42,15 @@ export default defineConfig({
           ) {
             return 'react-vendor'
           }
-          if (id.includes('lucide-react') || id.includes('react-icons')) return 'ui-vendor'
+          if (
+            id.includes('lucide-react') ||
+            id.includes('react-icons') ||
+            id.includes('framer-motion') ||
+            id.includes('motion-dom') ||
+            id.includes('motion-utils')
+          ) {
+            return 'ui-vendor'
+          }
         },
       },
     },

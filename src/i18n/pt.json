@@ -5,6 +5,7 @@
       "skills": "Habilidades",
       "projects": "Projetos",
       "bookshelf": "Lista de Livros",
+      "aria": "Navegação principal",
       "switchToEnglish": "Mudar idioma para Inglês",
       "switchToPortuguese": "Mudar idioma para Português",
       "flagBrazil": "Bandeira do Brasil",
@@ -31,48 +32,59 @@
         "projects": "Projetos Desenvolvidos",
         "experienceTitle": "Experiência",
         "educationTitle": "Formação",
+        "timelineTitle": "Trajetória",
+        "workLabel": "Trabalho",
+        "educationLabel": "Formação",
         "experience": [
             {
                 "company": "Oz Capital",
                 "role": "Sócio",
-                "period": "jan/2026 – presente"
+                "period": "jan/2026 – presente",
+                "start": "2026-01"
             },
             {
                 "company": "Novus Capital",
                 "role": "Trader Quantitativo & Analista de Dados · Ex-Sócio",
-                "period": "fev/2018 – dez/2025"
+                "period": "fev/2018 – dez/2025",
+                "start": "2018-02"
             },
             {
                 "company": "Banco Modal",
                 "role": "Estagiário – Change the Bank",
-                "period": "ago/2017 – fev/2018"
+                "period": "ago/2017 – fev/2018",
+                "start": "2017-08"
             },
             {
                 "company": "Autodesk",
                 "role": "Estagiário – Quality Assurance",
-                "period": "jan/2017 – mar/2017"
+                "period": "jan/2017 – mar/2017",
+                "start": "2017-01"
             },
             {
                 "company": "Embraer Aircraft Holding",
                 "role": "Estagiário de Verão – Repair Management",
-                "period": "jun/2016 – ago/2016"
+                "period": "jun/2016 – ago/2016",
+                "start": "2016-06"
             }
         ],
         "education": [
             {
                 "company": "FGV-RJ",
                 "role": "Mestrado em Economia e Finanças (MFEE, ênfase em Ciência de Dados)",
-                "period": "jan/2021 – ago/2023"
+                "period": "jan/2021 – ago/2023",
+                "start": "2021-01"
             },
             {
                 "company": "PUC-Rio",
                 "role": "Bacharelado em Engenharia Elétrica",
-                "period": "jan/2012 – dez/2017"
+                "period": "jan/2012 – dez/2017",
+                "start": "2012-01"
             },
             {
                 "company": "UCSB",
                 "role": "Aluno Intercambista (Ciência Sem Fronteiras)",
-                "period": "jan/2015 – jun/2016"
+                "period": "jan/2015 – jun/2016",
+                "start": "2015-01"
             }
         ]
     },

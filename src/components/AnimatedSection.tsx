@@ -1,66 +1,47 @@
-// src/components/AnimatedSection.tsx
-import { useEffect, useState, ReactNode, RefObject } from 'react';
+import { useEffect, useState, type ReactNode, type RefObject } from 'react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
 interface AnimatedSectionProps {
   children: ReactNode;
   className?: string;
-  animation?: 'fadeInUp' | 'fadeInLeft' | 'fadeInRight' | 'scaleIn' | 'slideInUp';
   delay?: number;
-  threshold?: number;
 }
 
 export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   children,
   className = '',
-  animation = 'fadeInUp',
   delay = 0,
-  threshold = 0.1,
 }) => {
+  const reduced = usePrefersReducedMotion();
   const { elementRef, entry } = useIntersectionObserver({
-    threshold,
+    threshold: 0.12,
     freezeOnceVisible: true,
-  }) as { elementRef: RefObject<HTMLDivElement | null>, entry?: IntersectionObserverEntry };
+  }) as { elementRef: RefObject<HTMLDivElement | null>; entry?: IntersectionObserverEntry };
 
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(reduced);
 
   useEffect(() => {
+    if (reduced) {
+      setIsVisible(true);
+      return;
+    }
     if (entry?.isIntersecting) {
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, delay);
-
-      return () => clearTimeout(timer);
+      const timer = window.setTimeout(() => setIsVisible(true), delay);
+      return () => window.clearTimeout(timer);
     }
-  }, [entry, delay]);
+  }, [entry, delay, reduced]);
 
-  const getAnimationClasses = () => {
-    const baseClasses = 'transition-all duration-1000 ease-out';
-
-    if (!isVisible) {
-      switch (animation) {
-        case 'fadeInUp':
-          return `${baseClasses} opacity-0 translate-y-8`;
-        case 'fadeInLeft':
-          return `${baseClasses} opacity-0 -translate-x-8`;
-        case 'fadeInRight':
-          return `${baseClasses} opacity-0 translate-x-8`;
-        case 'scaleIn':
-          return `${baseClasses} opacity-0 scale-95`;
-        case 'slideInUp':
-          return `${baseClasses} opacity-0 translate-y-12`;
-        default:
-          return `${baseClasses} opacity-0 translate-y-8`;
-      }
-    }
-
-    return `${baseClasses} opacity-100 translate-y-0 translate-x-0 scale-100`;
-  };
+  const motionClass = reduced
+    ? ''
+    : isVisible
+      ? 'opacity-100 translate-y-0'
+      : 'opacity-0 translate-y-3';
 
   return (
     <div
       ref={elementRef}
-      className={`${getAnimationClasses()} ${className}`}
+      className={`${reduced ? '' : 'transition-all duration-500 ease-out'} ${motionClass} ${className}`}
     >
       {children}
     </div>

@@ -46,10 +46,10 @@ export function Particles() {
         color: { value: "#ffffff" },
         links: {
           enable: true,
-          color: "#60a5fa",
+          color: "#2dd4bf",
           distance: 150,
-          opacity: 0.4,
-          width: 1.2,
+          opacity: 0.22,
+          width: 1,
         },
         move: {
           enable: true,

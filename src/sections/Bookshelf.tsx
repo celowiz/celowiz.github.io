@@ -1,169 +1,173 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Search, ArrowDownAZ, ArrowUpAZ } from 'lucide-react';
 import type { Book } from '../types/Book';
-import { FaSearch, FaSortAlphaDown, FaSortAlphaUp } from 'react-icons/fa';
 import { BookCard } from '../components/BookCard';
 import styles from './Bookshelf.module.css';
 
 const getUniqueCategories = (books: Book[]): string[] => {
-    const categories = new Set(['All']);
-    books.forEach(book => {
-        if (book && book.category) {
-            book.category.split(',')
-                .map(cat => cat.trim())
-                .filter(cat => cat)
-                .forEach(cat => categories.add(cat));
-        }
-    });
-    return Array.from(categories);
+  const categories = new Set<string>(['All']);
+  books.forEach((book) => {
+    if (book?.category) {
+      book.category
+        .split(',')
+        .map((cat) => cat.trim())
+        .filter(Boolean)
+        .forEach((cat) => categories.add(cat));
+    }
+  });
+  return Array.from(categories);
 };
 
 export default function Bookshelf() {
-    const { t } = useTranslation();
-    const [books, setBooks] = useState<Book[]>([]);
-    const [filter, setFilter] = useState('All');
-    const [categories, setCategories] = useState<string[]>(['All']);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
-    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const { t } = useTranslation();
+  const [books, setBooks] = useState<Book[]>([]);
+  const [filter, setFilter] = useState('All');
+  const [categories, setCategories] = useState<string[]>(['All']);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [booksPerRow, setBooksPerRow] = useState(2);
 
-    useEffect(() => {
-        const loadBooks = async () => {
-            try {
-                const response = await fetch('/books.json');
-                const data = (await response.json()) as Book[];
-                setBooks(Array.isArray(data) ? data : []);
-                setCategories(getUniqueCategories(Array.isArray(data) ? data : []));
-            } catch (error) {
-                console.error('Error loading books:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadBooks();
-    }, []);
-
-    const filteredBooks = books.filter(book => {
-        if (!book || typeof book !== 'object') return false;
-
-        const searchLower = searchTerm.toLowerCase();
-        const matchesSearch =
-            (book.title?.toLowerCase().includes(searchLower) ?? false) ||
-            (book.author?.toLowerCase().includes(searchLower) ?? false) ||
-            (book.description?.toLowerCase().includes(searchLower) ?? false);
-            
-        const bookCategories = book.category ? book.category.split(',').map(cat => cat.trim()) : [];
-        const matchesCategory = filter === 'All' || bookCategories.includes(filter);
-        return matchesSearch && matchesCategory;
-    });
-
-    const sortBooks = (booksToSort: Book[]) => {
-        return [...booksToSort].sort((a, b) => {
-            const comparison = a.title.localeCompare(b.title);
-            return sortOrder === 'asc' ? comparison : -comparison;
-        });
+  useEffect(() => {
+    const loadBooks = async () => {
+      try {
+        const response = await fetch('/books.json');
+        const data = (await response.json()) as Book[];
+        const list = Array.isArray(data) ? data : [];
+        setBooks(list);
+        setCategories(getUniqueCategories(list));
+      } catch (error) {
+        console.error('Error loading books:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    const getBooksPerRow = () => {
-        if (window.innerWidth >= 1280) return 6;
-        if (window.innerWidth >= 1024) return 5;
-        if (window.innerWidth >= 768) return 4;
-        if (window.innerWidth >= 640) return 3;
-        return 2;
+    loadBooks();
+  }, []);
+
+  useEffect(() => {
+    const updateCols = () => {
+      if (window.innerWidth >= 1280) setBooksPerRow(6);
+      else if (window.innerWidth >= 1024) setBooksPerRow(5);
+      else if (window.innerWidth >= 768) setBooksPerRow(4);
+      else if (window.innerWidth >= 640) setBooksPerRow(3);
+      else setBooksPerRow(2);
     };
+    updateCols();
+    window.addEventListener('resize', updateCols);
+    return () => window.removeEventListener('resize', updateCols);
+  }, []);
 
-    const organizeIntoRows = (booksToOrganize: Book[]) => {
-        const booksPerRow = getBooksPerRow();
-        const rows = [];
-        for (let i = 0; i < booksToOrganize.length; i += booksPerRow) {
-            rows.push(booksToOrganize.slice(i, i + booksPerRow));
-        }
-        return rows;
-    };
+  const filteredBooks = books.filter((book) => {
+    if (!book || typeof book !== 'object') return false;
 
-    return (
-        <div className="bg-gray-900">
+    const searchLower = searchTerm.toLowerCase();
+    const matchesSearch =
+      (book.title?.toLowerCase().includes(searchLower) ?? false) ||
+      (book.author?.toLowerCase().includes(searchLower) ?? false) ||
+      (book.description?.toLowerCase().includes(searchLower) ?? false);
 
-            <section id="bookshelf" className="py-8 sm:py-16">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-center text-white mb-6 sm:mb-8">
-                        {t('bookshelf.title')}
-                    </h2>
-                    <p className="text-gray-300 text-center mb-8 sm:mb-12 max-w-2xl mx-auto text-sm sm:text-base">
-                        {t('bookshelf.description')}
-                    </p>
+    const bookCategories = book.category ? book.category.split(',').map((cat) => cat.trim()) : [];
+    const matchesCategory = filter === 'All' || bookCategories.includes(filter);
+    return matchesSearch && matchesCategory;
+  });
 
-                    <div className="flex flex-col md:flex-row gap-4 mb-8">
-                        <div className="relative flex-1">
-                            <input
-                                type="text"
-                                placeholder={t('bookshelf.searchPlaceholder')}
-                                className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg pl-10 border border-gray-600 focus:border-blue-400 focus:outline-none"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                            <FaSearch className="absolute left-3 top-3 text-gray-400" />
-                        </div>
-                        
-                        <div className="flex items-center gap-2 sm:gap-4">
-                            <button
-                                onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
-                                className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-gray-800 text-gray-200 hover:bg-gray-700 rounded-lg text-sm sm:text-base"
-                            >
-                                {sortOrder === 'asc' ? <FaSortAlphaDown /> : <FaSortAlphaUp />}
-                                {sortOrder === 'asc' ? 'A → Z' : 'Z → A'}
-                            </button>
-                            
-                            <div className="flex gap-2 flex-wrap">
-                                {categories.map(cat => (
-                                    <button
-                                        key={cat}
-                                        onClick={() => setFilter(cat)}
-                                        className={`px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base transition-colors ${
-                                            filter === cat
-                                                ? 'bg-blue-700 text-white'
-                                                : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-600'
-                                        }`}
-                                    >
-                                        {cat}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+  const sortedBooks = [...filteredBooks].sort((a, b) => {
+    const comparison = a.title.localeCompare(b.title);
+    return sortOrder === 'asc' ? comparison : -comparison;
+  });
 
-                    {isLoading ? (
-                        <div className="flex justify-center items-center h-64">
-                            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                        </div>
-                    ) : (
-                        <div className="space-y-8">
-                            {organizeIntoRows(sortBooks(filteredBooks)).map((row, rowIndex) => (
-                                <div key={rowIndex} className="relative">
-                                    <div className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 p-4 sm:p-6 pb-6 rounded-lg ${styles.shelf}`}>
-                                        {row.map(book => (
-                                            <BookCard
-                                                key={book.id}
-                                                book={book}
-                                                onBuyClick={() => {
-                                                    if (window.gtag) {
-                                                        window.gtag('event', 'click_book', {
-                                                            event_category: 'Bookshelf',
-                                                            event_label: book.title
-                                                        });
-                                                    }
-                                                }}
-                                            />
-                                        ))}
-                                    </div>
-                                    <div className={styles.shelfBottom}></div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </section>
+  const rows: Book[][] = [];
+  for (let i = 0; i < sortedBooks.length; i += booksPerRow) {
+    rows.push(sortedBooks.slice(i, i + booksPerRow));
+  }
+
+  const controlClass =
+    'h-10 rounded-lg border border-white/10 bg-white/5 px-3 text-sm text-paper placeholder:text-paper/40 focus:border-teal focus:outline-none';
+
+  return (
+    <section id="bookshelf" className="scroll-mt-24 bg-ink py-24 sm:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 className="text-center font-serif text-4xl tracking-tight text-paper sm:text-5xl">
+          {t('bookshelf.title')}
+        </h2>
+        <p className="mx-auto mt-6 mb-10 max-w-2xl text-center text-paper/70">
+          {t('bookshelf.description')}
+        </p>
+
+        <div className="mb-8 flex flex-col gap-3 lg:flex-row lg:items-center">
+          <div className="relative w-full shrink-0 lg:w-72">
+            <input
+              type="text"
+              placeholder={t('bookshelf.searchPlaceholder')}
+              className={`${controlClass} w-full pl-10`}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-paper/40" />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))}
+            className={`${controlClass} inline-flex shrink-0 items-center gap-2 hover:border-white/20`}
+          >
+            {sortOrder === 'asc' ? <ArrowDownAZ className="h-4 w-4" /> : <ArrowUpAZ className="h-4 w-4" />}
+            {sortOrder === 'asc' ? 'A → Z' : 'Z → A'}
+          </button>
+
+          <div className="flex h-10 min-w-0 flex-1 items-center gap-2 overflow-x-auto">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setFilter(cat)}
+                className={`h-10 shrink-0 rounded-lg px-3 text-sm whitespace-nowrap transition-colors ${
+                  filter === cat
+                    ? 'bg-teal/20 text-teal'
+                    : 'border border-white/10 bg-white/5 text-paper/70 hover:border-white/20'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
-    );
+
+        {isLoading ? (
+          <div className="flex h-64 items-center justify-center">
+            <div className="h-10 w-10 animate-spin rounded-full border-t-2 border-b-2 border-teal" />
+          </div>
+        ) : (
+          <div className="space-y-8">
+            {rows.map((row, rowIndex) => (
+              <div key={rowIndex} className="relative">
+                <div
+                  className={`grid grid-cols-2 gap-4 rounded-lg p-4 pb-6 sm:grid-cols-3 sm:gap-6 sm:p-6 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 ${styles.shelf}`}
+                >
+                  {row.map((book) => (
+                    <BookCard
+                      key={book.id}
+                      book={book}
+                      onBuyClick={() => {
+                        if (window.gtag) {
+                          window.gtag('event', 'click_book', {
+                            event_category: 'Bookshelf',
+                            event_label: book.title,
+                          });
+                        }
+                      }}
+                    />
+                  ))}
+                </div>
+                <div className={styles.shelfBottom} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
 }

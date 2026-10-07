@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+@theme {
+  --color-ink: #050506;
+  --color-paper: #f4f1ea;
+  --color-teal: #2dd4bf;
+  --color-teal-dim: #5eead4;
+  --color-graphite: #3f3f46;
+  --font-sans: "Inter Variable", Inter, sans-serif;
+  --font-serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
 /* Latin subset from @fontsource-variable/inter (copied to public/fonts). */
 @font-face {
   font-family: 'Inter Variable';
@@ -12,33 +23,31 @@
 
 html {
   scroll-behavior: smooth;
-  font-family: 'Inter Variable', Inter, sans-serif;
+  font-family: var(--font-sans);
   min-height: 100vh;
-  background-color: #000;
+  background-color: #050506;
 }
 
 body {
-  font-family: 'Inter Variable', Inter, sans-serif;
+  font-family: var(--font-sans);
   min-height: 100vh;
-  background-color: #000;
+  background-color: #050506;
+  color: #f4f1ea;
   margin: 0;
 }
 
-/* Melhorias de performance e responsividade */
 * {
   box-sizing: border-box;
 }
 
-/* Otimização de imagens */
 img {
   max-width: 100%;
   height: auto;
 }
 
-/* Melhor scroll em mobile */
 @media (max-width: 768px) {
   html {
-    scroll-behavior: auto; /* Desabilita smooth scroll em mobile para melhor performance */
+    scroll-behavior: auto;
   }
 
   body {
@@ -47,22 +56,60 @@ img {
   }
 }
 
-/* Animações otimizadas para mobile */
+.hero-copy {
+  animation: copyFade 0.7s ease-out both;
+}
+
+@keyframes copyFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.terminal-caret {
+  display: inline-block;
+  margin-left: 2px;
+  font-size: 0.85em;
+  animation: caretPulse 1.1s steps(1) infinite;
+}
+
+.terminal-caret.is-done {
+  animation: none;
+  opacity: 0.35;
+}
+
+@keyframes caretPulse {
+  50% {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  .hero-copy {
+    animation: none;
+  }
+
+  .terminal-caret {
+    animation: none;
+  }
 }
 
-/* Foco melhorado para acessibilidade */
 .focus-visible:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid #2dd4bf;
   outline-offset: 2px;
 }
 
-/* Prevenção de zoom em inputs mobile */
 @media screen and (max-width: 768px) {
   input[type="text"],
   input[type="email"],
@@ -73,7 +120,6 @@ img {
   }
 }
 
-/* Utilitários para truncamento de texto */
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;

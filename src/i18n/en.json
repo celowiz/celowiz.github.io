@@ -5,6 +5,7 @@
       "skills": "Skills",
       "projects": "Projects",
       "bookshelf": "My Reading List",
+      "aria": "Main navigation",
       "switchToEnglish": "Switch language to English",
       "switchToPortuguese": "Switch language to Portuguese",
       "flagBrazil": "Flag of Brazil",
@@ -31,48 +32,59 @@
         "projects": "Projects Developed",
         "experienceTitle": "Experience",
         "educationTitle": "Education",
+        "timelineTitle": "Path",
+        "workLabel": "Work",
+        "educationLabel": "Education",
         "experience": [
             {
                 "company": "Oz Capital",
                 "role": "Partner",
-                "period": "Jan 2026 – present"
+                "period": "Jan 2026 – present",
+                "start": "2026-01"
             },
             {
                 "company": "Novus Capital",
                 "role": "Quantitative Trader & Data Analyst · Former Partner",
-                "period": "Feb 2018 – Dec 2025"
+                "period": "Feb 2018 – Dec 2025",
+                "start": "2018-02"
             },
             {
                 "company": "Banco Modal",
                 "role": "Intern – Change the Bank",
-                "period": "Aug 2017 – Feb 2018"
+                "period": "Aug 2017 – Feb 2018",
+                "start": "2017-08"
             },
             {
                 "company": "Autodesk",
                 "role": "Intern – Quality Assurance",
-                "period": "Jan 2017 – Mar 2017"
+                "period": "Jan 2017 – Mar 2017",
+                "start": "2017-01"
             },
             {
                 "company": "Embraer Aircraft Holding",
                 "role": "Summer Intern – Repair Management",
-                "period": "Jun 2016 – Aug 2016"
+                "period": "Jun 2016 – Aug 2016",
+                "start": "2016-06"
             }
         ],
         "education": [
             {
                 "company": "FGV-RJ",
                 "role": "Master's in Economics and Finance (MFEE, Data Science focus)",
-                "period": "Jan 2021 – Aug 2023"
+                "period": "Jan 2021 – Aug 2023",
+                "start": "2021-01"
             },
             {
                 "company": "PUC-Rio",
                 "role": "B.S. in Electrical Engineering",
-                "period": "Jan 2012 – Dec 2017"
+                "period": "Jan 2012 – Dec 2017",
+                "start": "2012-01"
             },
             {
                 "company": "UCSB",
                 "role": "Exchange Student (Science Without Borders)",
-                "period": "Jan 2015 – Jun 2016"
+                "period": "Jan 2015 – Jun 2016",
+                "start": "2015-01"
             }
         ]
     },
