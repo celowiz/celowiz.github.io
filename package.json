@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "node --test scripts/lib/*.test.mjs",
+    "test": "node --test scripts/lib/*.test.mjs src/lib/*.test.mjs",
     "sync-books": "node scripts/sync-books.mjs",
     "generate-assets": "node scripts/generate-site-assets.mjs",
     "fetch-devicons": "node scripts/fetch-devicons.mjs"

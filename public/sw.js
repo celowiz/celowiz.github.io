@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const STATIC_CACHE = `mw-portfolio-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `mw-portfolio-dynamic-${CACHE_VERSION}`;
 

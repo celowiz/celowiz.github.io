@@ -1,12 +1,12 @@
 // src/hooks/useAnalytics.ts
 import { useEffect, useCallback } from 'react';
-
-declare global {
-  interface Window {
-    dataLayer?: unknown[];
-    gtag?: (...args: unknown[]) => void;
-  }
-}
+import {
+  GA_MEASUREMENT_ID,
+  ensureGtagStub,
+  trackBookClick as trackGaBookClick,
+  trackEvent as trackGaEvent,
+} from '../lib/analytics.mjs';
+import type { BookClickInput } from '../lib/analytics.mjs';
 
 export interface AnalyticsEvent {
   action: string;
@@ -17,21 +17,18 @@ export interface AnalyticsEvent {
 
 export const useAnalytics = () => {
   const trackEvent = useCallback((event: AnalyticsEvent) => {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', event.action, {
-        event_category: event.category,
-        event_label: event.label,
-        value: event.value,
-      });
-    }
+    trackGaEvent(event.action, {
+      event_category: event.category,
+      event_label: event.label,
+      value: event.value,
+    });
   }, []);
 
   const trackPageView = useCallback((pagePath: string) => {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('config', 'G-QCBFGR39WG', {
-        page_path: pagePath,
-      });
-    }
+    ensureGtagStub();
+    window.gtag?.('config', GA_MEASUREMENT_ID, {
+      page_path: pagePath,
+    });
   }, []);
 
   const trackSectionView = useCallback((sectionName: string) => {
@@ -50,13 +47,9 @@ export const useAnalytics = () => {
     });
   }, [trackEvent]);
 
-  const trackBookClick = useCallback((bookTitle: string) => {
-    trackEvent({
-      action: 'book_purchase_click',
-      category: 'ecommerce',
-      label: bookTitle,
-    });
-  }, [trackEvent]);
+  const trackBookClick = useCallback((book: BookClickInput) => {
+    trackGaBookClick(book);
+  }, []);
 
   const trackLanguageChange = useCallback((newLanguage: string) => {
     trackEvent({

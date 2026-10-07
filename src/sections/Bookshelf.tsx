@@ -150,18 +150,7 @@ export default function Bookshelf() {
                   className={`grid grid-cols-2 items-end gap-4 rounded-t-lg px-4 pt-4 pb-0 sm:grid-cols-3 sm:gap-6 sm:px-6 sm:pt-6 sm:pb-0 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 ${styles.shelf}`}
                 >
                   {row.map((book) => (
-                    <BookCard
-                      key={book.id}
-                      book={book}
-                      onBuyClick={() => {
-                        if (window.gtag) {
-                          window.gtag('event', 'click_book', {
-                            event_category: 'Bookshelf',
-                            event_label: book.title,
-                          });
-                        }
-                      }}
-                    />
+                    <BookCard key={book.id} book={book} />
                   ))}
                 </div>
                 <div className={styles.shelfBottom} />

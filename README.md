@@ -24,7 +24,7 @@ Este é meu espaço pessoal para compartilhar projetos, aprendizados e experiên
 - **Performance Otimizada**: Lazy loading, code splitting e fontes self-hosted
 - **Acessibilidade**: Contraste e `aria-label` alinhados ao texto visível
 - **SEO Otimizado**: Meta tags, Open Graph, `robots.txt` e `sitemap.xml`
-- **Analytics Integrado**: Google Analytics 4 carregado após o `load` da página
+- **Analytics Integrado**: Google Analytics 4 (stub imediato; `gtag.js` após `load`/idle, ou no clique outbound)
 - **PWA / offline**: Service Worker com HTML network-first e cache versionado
 
 ---
@@ -45,7 +45,7 @@ This is my personal space to share projects, learning experiences, and insights 
 - **Optimized Performance**: Lazy loading, code splitting, and self-hosted fonts
 - **Accessibility**: Contrast and `aria-label`s that include visible text
 - **SEO Optimized**: Meta tags, Open Graph, `robots.txt`, and `sitemap.xml`
-- **Integrated Analytics**: Google Analytics 4 deferred until after `window.load`
+- **Integrated Analytics**: Google Analytics 4 stub on boot; `gtag.js` after `load`/idle, or immediately on outbound clicks
 - **PWA / offline**: Service Worker with network-first HTML and versioned caches
 
 ---
@@ -89,7 +89,7 @@ npm run preview
 A lista de livros **não** fica hardcoded no site. No deploy (e num cron diário) o workflow:
 
 1. Baixa `books.csv` do repositório público [celowiz/second-brain](https://github.com/celowiz/second-brain/blob/main/books.csv)
-2. Mapeia colunas (`isbn` → `id` sem hífens; `amazon` + tag de afiliado `celowiz-20`; `categories` separadas por `;`)
+2. Mapeia colunas (`isbn` → `id` sem hífens; `amazon` + tag de afiliado `celowiz05-20`; `categories` separadas por `;`)
 3. Busca capas na Open Library (lote) e, se faltar, na Amazon
 4. Converte para WebP 180×270 em `public/covers/<isbn>.webp`
 5. Gera `public/books.json` para o app carregar em uma única requisição
