@@ -111,6 +111,9 @@ export function trackEvent(name, params = {}, win = defaultWindow()) {
     payload.debug_mode = true;
   }
   win.gtag('event', name, payload);
+  if (payload.transport_type === 'beacon') {
+    injectGtagScript(win);
+  }
 }
 
 export function trackBookClick(book, win = defaultWindow()) {

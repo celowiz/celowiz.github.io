@@ -109,7 +109,8 @@ describe('gtag stub queue', () => {
     trackBookClick(sampleBook, win);
 
     assert.equal(typeof win.gtag, 'function');
-    assert.equal(win.scripts.length, 0);
+    assert.equal(win.scripts.length, 1);
+    assert.match(win.scripts[0].src, /gtag\/js\?id=G-QCBFGR39WG/);
 
     const clicks = eventsNamed(win, BOOK_CLICK_EVENT);
     assert.equal(clicks.length, 1);
@@ -150,6 +151,7 @@ describe('gtag stub queue', () => {
     assert.equal(hits.length, 1);
     assert.equal(hits[0].event_label, 'en');
     assert.equal(hits[0].send_to, GA_MEASUREMENT_ID);
+    assert.equal(win.scripts.length, 0);
   });
 });
 
