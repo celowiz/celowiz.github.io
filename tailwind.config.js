@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['Inter Variable', 'Inter', 'sans-serif'],
+        sans: ['Inter Variable', 'Inter', 'sans-serif'],
+        serif: ['Iowan Old Style', 'Palatino', 'Palatino Linotype', 'Georgia', 'serif'],
       },
     },
   },

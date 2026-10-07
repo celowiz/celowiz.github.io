@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { Code, Globe, BrainCircuit, Database, AppWindow } from 'lucide-react';
+import { AppWindow, BrainCircuit, Code, Database, Globe } from 'lucide-react';
 import { AnimatedSection } from '../components/AnimatedSection';
 
-// Icons from https://devicon.dev/ via
-// https://cdn.jsdelivr.net/gh/devicons/devicon/icons/<name>/<name>-original.svg
 const devicon = (name: string) => `/icons/${name}/${name}-original.svg`;
 
 const skills = [
@@ -71,57 +69,55 @@ const skills = [
   },
 ];
 
+function CategoryIcon({ icon }: { icon: string }) {
+  if (icon.startsWith('/')) {
+    return <img src={icon} alt="" width={18} height={18} className="h-[18px] w-[18px]" />;
+  }
+  if (icon === 'code-xml') return <Code className="h-[18px] w-[18px]" />;
+  if (icon === 'globe') return <Globe className="h-[18px] w-[18px]" />;
+  if (icon === 'brain-circuit') return <BrainCircuit className="h-[18px] w-[18px]" />;
+  if (icon === 'database') return <Database className="h-[18px] w-[18px]" />;
+  if (icon === 'app-window') return <AppWindow className="h-[18px] w-[18px]" />;
+  return null;
+}
+
 export default function Skills() {
   const { t } = useTranslation();
   return (
-    <section id="skills" className="min-h-screen py-16 bg-gray-900">
-      <div className="max-w-5xl mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-6 text-center text-white">{t('skills.title') || 'Habilidades'}</h2>
-        <p className="text-center text-gray-300 mb-10 max-w-3xl mx-auto">
-          <span className="text-blue-400 font-medium">{t('skills.ai')}: </span>
+    <section id="skills" className="scroll-mt-24 bg-ink py-24 sm:py-28">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        <h2 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">{t('skills.title')}</h2>
+        <p className="mt-6 text-paper/70">
+          <span className="text-teal">{t('skills.ai')}: </span>
           {t('skills.aiTools')}
         </p>
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="mt-12">
           {skills.map((cat, index) => (
             <AnimatedSection
               key={cat.category}
-              animation="fadeInUp"
-              delay={index * 200}
-              className="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 transform hover:scale-105"
+              delay={index * 40}
+              className="group border-b border-white/10 py-6 transition-transform duration-200 hover:-translate-y-0.5"
             >
-              <h3 className="text-xl font-semibold mb-6 flex items-center gap-3 text-white group">
-                {cat.icon.startsWith('/') || cat.icon.startsWith('http') ? (
-                  <img src={cat.icon} alt="" width={24} height={24} className="w-6 h-6 transition-transform duration-300 group-hover:scale-110" />
-                ) : (
-                  <div className="w-6 h-6 transition-transform duration-300 group-hover:scale-110">
-                    {cat.icon === 'code-xml' && <Code className="w-6 h-6" />}
-                    {cat.icon === 'globe' && <Globe className="w-6 h-6" />}
-                    {cat.icon === 'brain-circuit' && <BrainCircuit className="w-6 h-6" />}
-                    {cat.icon === 'database' && <Database className="w-6 h-6" />}
-                    {cat.icon === 'app-window' && <AppWindow className="w-6 h-6" />}
-                  </div>
-                )}
+              <h3 className="mb-4 flex items-center gap-2 text-sm font-medium tracking-wide text-paper">
+                <span className="text-teal">
+                  <CategoryIcon icon={cat.icon} />
+                </span>
                 {t(`skills.${cat.category}`)}
               </h3>
-              <div className="flex flex-wrap gap-6">
+              <ul className="flex flex-wrap gap-x-6 gap-y-3">
                 {cat.items.map((item) => (
-                  <div 
-                    key={item.name} 
-                    className="flex flex-col items-center group"
-                  >
-                    <div className="relative">
-                      <img
-                        src={item.icon}
-                        alt={item.name}
-                        width={48}
-                        height={48}
-                        className="w-12 h-12 transition-transform duration-300 group-hover:scale-110 group-hover:drop-shadow-lg"
-                      />
-                    </div>
-                    <span className="mt-2 text-sm text-white text-center group-hover:text-blue-300 transition-colors duration-300">{item.name}</span>
-                  </div>
+                  <li key={item.name} className="flex items-center gap-2 text-sm text-paper/80">
+                    <img
+                      src={item.icon}
+                      alt=""
+                      width={20}
+                      height={20}
+                      className="h-5 w-5"
+                    />
+                    {item.name}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </AnimatedSection>
           ))}
         </div>

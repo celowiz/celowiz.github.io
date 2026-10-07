@@ -1,142 +1,125 @@
-import { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useAnalytics } from '../hooks/useAnalytics'
+// Tubelight indicator adapted from Ayushmaan Singh / Serenity UI (MIT)
+// https://21st.dev/@ayushmxxn/components/tubelight-navbar
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion, useReducedMotion } from 'framer-motion';
+import { BookOpen, Code, FolderKanban, Home, User, type LucideIcon } from 'lucide-react';
+import LanguageToggle from './LanguageToggle';
+import { useActiveSection } from '../hooks/useActiveSection';
+import { useAnalytics } from '../hooks/useAnalytics';
+import { useScrolled } from '../hooks/useScrolled';
+import { cn } from '../lib/cn';
+import { SECTION_IDS } from '../lib/sections';
 
-const sections = ['hero', 'about', 'skills', 'projects', 'bookshelf']
+type NavItem = {
+  id: string;
+  name: string;
+  url: string;
+  icon: LucideIcon;
+};
 
-export default function Navbar() {
-  const { t, i18n } = useTranslation()
-  const { trackSectionView, trackLanguageChange } = useAnalytics()
-  const [activeSection, setActiveSection] = useState<string>('hero')
-  const [menuOpen, setMenuOpen] = useState(false)
+const NAV_ICONS: Record<string, LucideIcon> = {
+  hero: Home,
+  about: User,
+  skills: Code,
+  projects: FolderKanban,
+  bookshelf: BookOpen,
+};
+
+function TubelightNav({
+  items,
+  activeId,
+}: {
+  items: NavItem[];
+  activeId: string;
+}) {
+  const reduceMotion = useReducedMotion();
+  const [pendingId, setPendingId] = useState<string | null>(null);
+  const visualId = pendingId ?? activeId;
 
   useEffect(() => {
-    const ratios = new Map<string, number>()
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          ratios.set(entry.target.id, entry.intersectionRatio)
-        }
-
-        let next = sections[0]
-        let best = 0
-        for (const id of sections) {
-          const ratio = ratios.get(id) ?? 0
-          if (ratio > best) {
-            best = ratio
-            next = id
-          }
-        }
-
-        setActiveSection((current) => {
-          if (current !== next) {
-            trackSectionView(next)
-            return next
-          }
-          return current
-        })
-      },
-      {
-        root: null,
-        rootMargin: '-20% 0px -55% 0px',
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-      }
-    )
-
-    for (const id of sections) {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    }
-
-    return () => observer.disconnect()
-  }, [trackSectionView])
-
-  const toggleLanguage = () => {
-    const newLang = i18n.language.startsWith('pt') ? 'en' : 'pt'
-    i18n.changeLanguage(newLang)
-    trackLanguageChange(newLang)
-  }
-
-  const isPortuguese = i18n.language.startsWith('pt')
-  const languageButtonText = isPortuguese ? 'EN' : 'PT'
-  const languageAria = `${languageButtonText}. ${
-    isPortuguese ? t('navbar.switchToEnglish') : t('navbar.switchToPortuguese')
-  }`
+    if (pendingId && pendingId === activeId) setPendingId(null);
+  }, [pendingId, activeId]);
 
   return (
-    <nav
-      className="fixed w-full z-50 bg-black/80 backdrop-blur-md text-white"
-      role="navigation"
-      aria-label="Main navigation"
-    >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <div className="md:hidden">
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded p-1"
-            aria-label={menuOpen ? "Fechar menu de navegação" : "Abrir menu de navegação"}
-            aria-expanded={menuOpen}
-            aria-controls="main-menu"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-              />
-            </svg>
-          </button>
-        </div>
+    <div className="pointer-events-none fixed bottom-4 left-1/2 z-50 mb-0 w-max max-w-[calc(100%-2rem)] -translate-x-1/2 sm:bottom-auto sm:top-6 sm:pt-0">
+      <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-white/10 bg-black/40 px-1 py-1 shadow-lg shadow-black/40 backdrop-blur-lg">
+        {items.map((item) => {
+          const Icon = item.icon;
+          const isActive = visualId === item.id;
 
-        <div
-          id="main-menu"
-          className={`flex-1 flex-col md:flex-row md:flex md:space-x-8 ${menuOpen ? 'flex' : 'hidden'} md:items-center md:justify-start bg-black/90 md:bg-transparent absolute md:static top-full left-0 w-full md:w-auto px-6 py-4 md:p-0 transition-all duration-300`}
-          role="menu"
-          aria-label="Navigation menu"
-        >
-          {sections.map((section) => (
+          return (
             <a
-              key={section}
-              href={`#${section}`}
-              className={`block md:inline text-sm font-medium hover:text-blue-600 transition mb-4 md:mb-0 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1 ${
-                activeSection === section ? 'text-blue-600' : 'text-gray-300'
-              }`}
-              onClick={() => {
-                if (menuOpen) setMenuOpen(false);
-              }}
-              role="menuitem"
-              tabIndex={0}
-              aria-current={activeSection === section ? 'page' : undefined}
+              key={item.id}
+              href={item.url}
+              onClick={() => setPendingId(item.id)}
+              className={cn(
+                'relative z-0 cursor-pointer rounded-full px-3 py-2 text-sm font-medium transition-colors sm:px-5',
+                isActive ? 'text-teal' : 'text-paper/70 hover:text-teal',
+              )}
+              aria-current={isActive ? 'page' : undefined}
             >
-              {section === 'hero' ? t('navbar.home') : t(`navbar.${section}`)}
+              <span className="hidden md:inline">{item.name}</span>
+              <span className="md:hidden">
+                <Icon size={18} strokeWidth={2.5} aria-hidden="true" />
+                <span className="sr-only">{item.name}</span>
+              </span>
+              {isActive ? (
+                <motion.div
+                  layoutId={reduceMotion ? undefined : 'lamp'}
+                  className="absolute inset-0 -z-10 w-full rounded-full bg-teal/10"
+                  initial={false}
+                  transition={
+                    reduceMotion
+                      ? { duration: 0 }
+                      : { type: 'spring', stiffness: 300, damping: 30 }
+                  }
+                >
+                  <div className="absolute -top-2 left-1/2 h-1 w-8 -translate-x-1/2 rounded-t-full bg-teal">
+                    {reduceMotion ? null : (
+                      <>
+                        <div className="absolute -top-2 -left-2 h-6 w-12 rounded-full bg-teal/20 blur-md" />
+                        <div className="absolute -top-1 h-6 w-8 rounded-full bg-teal/20 blur-md" />
+                        <div className="absolute top-0 left-2 h-4 w-4 rounded-full bg-teal/20 blur-sm" />
+                      </>
+                    )}
+                  </div>
+                </motion.div>
+              ) : null}
             </a>
-          ))}
-        </div>
-
-        <button
-          onClick={toggleLanguage}
-          className="text-sm text-gray-500 hover:text-blue-500 transition flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1"
-          aria-label={languageAria}
-        >
-          <img
-            src={isPortuguese ? '/images/flags/br.svg' : '/images/flags/gb.svg'}
-            alt={isPortuguese ? t('navbar.flagBrazil') : t('navbar.flagUK')}
-            width={48}
-            height={36}
-            className="w-6 h-[18px]"
-          />
-          {languageButtonText}
-        </button>
+          );
+        })}
       </div>
+    </div>
+  );
+}
+
+export default function Navbar() {
+  const { t } = useTranslation();
+  const { trackSectionView } = useAnalytics();
+  const scrolled = useScrolled(16);
+  const activeSection = useActiveSection(SECTION_IDS, trackSectionView);
+
+  const items: NavItem[] = SECTION_IDS.map((id) => ({
+    id,
+    name: id === 'hero' ? t('navbar.home') : t(`navbar.${id}`),
+    url: `#${id}`,
+    icon: NAV_ICONS[id],
+  }));
+
+  return (
+    <nav role="navigation" aria-label={t('navbar.aria')}>
+      <div
+        className={cn(
+          'pointer-events-none fixed inset-x-0 top-0 z-40 h-16 border-b transition-[background-color,border-color,backdrop-filter] duration-300',
+          scrolled
+            ? 'border-white/10 bg-black/55 backdrop-blur-md'
+            : 'border-transparent bg-transparent',
+        )}
+        aria-hidden="true"
+      />
+      <TubelightNav items={items} activeId={activeSection} />
+      <LanguageToggle scrolled={scrolled} />
     </nav>
-  )
+  );
 }

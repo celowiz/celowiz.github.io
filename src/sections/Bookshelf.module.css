@@ -9,37 +9,10 @@
     }
 }
 
-.bookWrapper {
-    perspective: 1500px;
-    height: 250px;
-    animation: cardEnter 0.6s ease-out backwards;
-    transform-style: preserve-3d;
-}
-
-/* Mobile optimizations */
-@media (max-width: 768px) {
-    .bookWrapper {
-        height: 220px;
-        perspective: 1000px;
-    }
-}
-
-@media (max-width: 640px) {
-    .bookWrapper {
-        height: 200px;
-        perspective: 800px;
-    }
-}
-
-.bookWrapper:nth-child(1) { animation-delay: 0.1s; }
-.bookWrapper:nth-child(2) { animation-delay: 0.2s; }
-.bookWrapper:nth-child(3) { animation-delay: 0.3s; }
-.bookWrapper:nth-child(4) { animation-delay: 0.4s; }
-
 .shelf {
     position: relative;
     background: linear-gradient(180deg, #8B4513 0%, #4A2F22 100%);
-    box-shadow: 
+    box-shadow:
         0 25px 80px rgba(0, 0, 0, 0.9),
         inset 0 4px 0 rgba(139, 69, 19, 0.3);
 }
@@ -51,7 +24,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
+    background:
         repeating-linear-gradient(
             90deg,
             transparent 0px,
@@ -72,18 +45,4 @@
     background: linear-gradient(180deg, #CD853F 0%, #4A2F22 100%);
     transform: skewX(-5deg);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8);
-}
-
-.book {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.bookBack {
-    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
 }

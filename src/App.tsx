@@ -1,45 +1,21 @@
-import React, { Suspense } from 'react';
 import Navbar from './components/Navbar';
-import Hero from "./components/Hero";
-import Footer from "./components/Footer";
+import Hero from './components/Hero';
+import Footer from './components/Footer';
+import About from './sections/About';
+import Skills from './sections/Skills';
+import Projects from './sections/Projects';
+import Bookshelf from './sections/Bookshelf';
 import './i18n';
-
-// Lazy loading dos componentes pesados
-const About = React.lazy(() => import('./sections/About'));
-const Skills = React.lazy(() => import('./sections/Skills'));
-const Projects = React.lazy(() => import('./sections/Projects'));
-const Bookshelf = React.lazy(() => import('./sections/Bookshelf'));
-
-// Componente de loading otimizado
-const SectionLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-900">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-  </div>
-);
 
 function App() {
   return (
-    <div className="scroll-smooth">
+    <div className="bg-ink scroll-smooth pb-24 sm:pb-0">
       <Navbar />
       <Hero />
-
-      {/* Lazy loaded sections com Suspense */}
-      <Suspense fallback={<SectionLoader />}>
-        <About />
-      </Suspense>
-
-      <Suspense fallback={<SectionLoader />}>
-        <Skills />
-      </Suspense>
-
-      <Suspense fallback={<SectionLoader />}>
-        <Projects />
-      </Suspense>
-
-      <Suspense fallback={<SectionLoader />}>
-        <Bookshelf />
-      </Suspense>
-
+      <About />
+      <Skills />
+      <Projects />
+      <Bookshelf />
       <Footer />
     </div>
   );
