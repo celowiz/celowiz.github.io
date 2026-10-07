@@ -76,7 +76,11 @@ export default function Skills() {
   return (
     <section id="skills" className="min-h-screen py-16 bg-gray-900">
       <div className="max-w-5xl mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-10 text-center text-white">{t('skills.title') || 'Habilidades'}</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-white">{t('skills.title') || 'Habilidades'}</h2>
+        <p className="text-center text-gray-300 mb-10 max-w-3xl mx-auto">
+          <span className="text-blue-400 font-medium">{t('skills.ai')}: </span>
+          {t('skills.aiTools')}
+        </p>
         <div className="grid md:grid-cols-2 gap-8">
           {skills.map((cat, index) => (
             <AnimatedSection

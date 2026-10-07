@@ -26,26 +26,60 @@
     },
     "about": {
         "title": "Sobre Mim",
-        "description": "Sou um desenvolvedor especializado em análise quantitativa e desenvolvimento de estratégias para o mercado de capitais brasileiro. Com experiência em Python, JavaScript e frameworks modernos, foco na criação de soluções robustas para trading algorítmico e análise de dados financeiros.",
-        "passion": "Minha paixão está em transformar dados complexos em insights acionáveis, desenvolvendo algoritmos que podem identificar oportunidades no mercado brasileiro de ações, commodities e derivativos.",
+        "description": "Profissional com 9 anos de experiência no mercado financeiro, com sólida atuação em mesas de operações e no desenvolvimento de soluções quantitativas. Combina conhecimento técnico e visão de mercado para automatizar rotinas, desenvolver dashboards e relatórios e implementar estratégias com uso intensivo de dados. Domínio em Python, Excel, VBA, terminal Bloomberg e integração via API (BLPAPI), com experiência em backtests, execução de trades, alocação de portfólios e suporte a portfolio managers. Usa IA de forma intensiva na ideação e na implementação de soluções, inclusive na automação de processos internos.",
         "years": "Anos de Experiência",
         "projects": "Projetos Desenvolvidos",
-        "timelineTitle": "Minha Trajetória",
-        "companyA": "Empresa A",
-        "companyARole": "Quant Developer",
-        "companyAPeriod": "2021 - Presente",
-        "companyADescription": "Desenvolvimento de modelos quantitativos para trading algorítmico e análise de dados financeiros.",
-        "companyB": "Empresa B",
-        "companyBRole": "Data Scientist",
-        "companyBPeriod": "2018 - 2021",
-        "companyBDescription": "Implementação de pipelines de dados e automação de análises para o mercado financeiro.",
-        "companyC": "Empresa C",
-        "companyCRole": "Estagiário em Finanças Quantitativas",
-        "companyCPeriod": "2016 - 2018",
-        "companyCDescription": "Apoio em pesquisas quantitativas e desenvolvimento de ferramentas para análise de risco."
+        "experienceTitle": "Experiência",
+        "educationTitle": "Formação",
+        "experience": [
+            {
+                "company": "Oz Capital",
+                "role": "Sócio",
+                "period": "jan/2026 – presente"
+            },
+            {
+                "company": "Novus Capital",
+                "role": "Trader Quantitativo & Analista de Dados · Ex-Sócio",
+                "period": "fev/2018 – dez/2025"
+            },
+            {
+                "company": "Banco Modal",
+                "role": "Estagiário – Change the Bank",
+                "period": "ago/2017 – fev/2018"
+            },
+            {
+                "company": "Autodesk",
+                "role": "Estagiário – Quality Assurance",
+                "period": "jan/2017 – mar/2017"
+            },
+            {
+                "company": "Embraer Aircraft Holding",
+                "role": "Estagiário de Verão – Repair Management",
+                "period": "jun/2016 – ago/2016"
+            }
+        ],
+        "education": [
+            {
+                "company": "FGV-RJ",
+                "role": "Mestrado em Economia e Finanças (MFEE, ênfase em Ciência de Dados)",
+                "period": "jan/2021 – ago/2023"
+            },
+            {
+                "company": "PUC-Rio",
+                "role": "Bacharelado em Engenharia Elétrica",
+                "period": "jan/2012 – dez/2017"
+            },
+            {
+                "company": "UCSB",
+                "role": "Aluno Intercambista (Ciência Sem Fronteiras)",
+                "period": "jan/2015 – jun/2016"
+            }
+        ]
     },
     "skills": {
         "title": "Habilidades",
+        "ai": "IA",
+        "aiTools": "Cursor (Desktop e Cloud), Grok Bot, ChatGPT, Codex",
         "languages": "Linguagens de Programação",
         "frameworks": "Frameworks e Ferramentas Web",
         "pythonLibs": "Bibliotecas Python",
