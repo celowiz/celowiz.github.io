@@ -42,7 +42,7 @@ const techLabels: Record<string, string> = {
 export default function Projects() {
   const { t } = useTranslation();
   return (
-    <section id="projects" className="scroll-mt-24 bg-ink py-24 sm:py-28">
+    <section id="projects" className="scroll-mt-28 bg-ink py-24 sm:py-28">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <h2 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">{t('projects.title')}</h2>
         <p className="mt-6 max-w-2xl text-lg text-paper/70">{t('projects.intro')}</p>

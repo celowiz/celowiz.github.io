@@ -58,7 +58,7 @@ export default function About() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="about" className="scroll-mt-24 bg-ink py-24 text-paper sm:py-28">
+    <section ref={sectionRef} id="about" className="scroll-mt-28 bg-ink py-24 text-paper sm:py-28">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <h2 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">{t('about.title')}</h2>
         <p className="mt-8 text-lg leading-relaxed text-paper/75">{t('about.description')}</p>

@@ -88,7 +88,7 @@ export default function Bookshelf() {
     'h-10 rounded-lg border border-white/10 bg-white/5 px-3 text-sm text-paper placeholder:text-paper/40 focus:border-teal focus:outline-none';
 
   return (
-    <section id="bookshelf" className="scroll-mt-24 bg-ink py-24 sm:py-28">
+    <section id="bookshelf" className="scroll-mt-28 bg-ink py-24 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-center font-serif text-4xl tracking-tight text-paper sm:text-5xl">
           {t('bookshelf.title')}
@@ -147,7 +147,7 @@ export default function Bookshelf() {
             {rows.map((row, rowIndex) => (
               <div key={rowIndex} className="relative">
                 <div
-                  className={`grid grid-cols-2 items-end gap-4 rounded-lg px-4 pt-4 pb-5 sm:grid-cols-3 sm:gap-6 sm:px-6 sm:pt-6 sm:pb-5 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 ${styles.shelf}`}
+                  className={`grid grid-cols-2 items-end gap-4 rounded-t-lg px-4 pt-4 pb-0 sm:grid-cols-3 sm:gap-6 sm:px-6 sm:pt-6 sm:pb-0 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 ${styles.shelf}`}
                 >
                   {row.map((book) => (
                     <BookCard

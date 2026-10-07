@@ -84,7 +84,7 @@ function CategoryIcon({ icon }: { icon: string }) {
 export default function Skills() {
   const { t } = useTranslation();
   return (
-    <section id="skills" className="scroll-mt-24 bg-ink py-24 sm:py-28">
+    <section id="skills" className="scroll-mt-28 bg-ink py-24 sm:py-28">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <h2 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">{t('skills.title')}</h2>
         <div className="mt-12">
