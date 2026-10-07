@@ -19,7 +19,7 @@ export function BookCard({ book, onBuyClick }: BookCardProps) {
 
   return (
     <div className={`${styles.bookWrapper} group cursor-pointer`} onClick={() => setIsFlipped(!isFlipped)}>
-      <div className={`${styles.book} transform-gpu ${isFlipped ? styles.flipped : ''}`}>
+      <div className={`${styles.book} ${isFlipped ? styles.flipped : ''}`}>
         <div className={`${styles.bookCover} absolute inset-0 overflow-hidden rounded-lg`}>
           <img
             src={coverSrc}

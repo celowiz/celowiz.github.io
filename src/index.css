@@ -23,9 +23,17 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  scroll-padding-bottom: 5.5rem;
   font-family: var(--font-sans);
   min-height: 100vh;
   background-color: #050506;
+}
+
+@media (min-width: 640px) {
+  html {
+    scroll-padding-bottom: 0;
+  }
 }
 
 body {

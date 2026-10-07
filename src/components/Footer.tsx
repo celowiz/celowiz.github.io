@@ -10,7 +10,7 @@ export default function Footer() {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-white/10 bg-ink pb-24 text-paper sm:pb-8">
+    <footer className="border-t border-white/10 bg-ink py-10 text-paper">
       <div className="mx-auto flex max-w-3xl flex-col items-center justify-center px-4 py-10 text-center">
         <p className="mb-1 text-lg font-medium text-paper">{t('footer.madeBy')}</p>
         <p className="mb-4 text-sm text-paper/50">&copy; {year} {t('footer.copyright')}</p>

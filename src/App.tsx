@@ -9,7 +9,7 @@ import './i18n';
 
 function App() {
   return (
-    <div className="bg-ink scroll-smooth">
+    <div className="bg-ink scroll-smooth pb-24 sm:pb-0">
       <Navbar />
       <Hero />
       <About />

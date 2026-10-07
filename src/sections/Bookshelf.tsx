@@ -98,27 +98,29 @@ export default function Bookshelf() {
         </p>
 
         <div className="mb-8 flex flex-col gap-3 lg:flex-row lg:items-center">
-          <div className="relative w-full shrink-0 lg:w-72">
-            <input
-              type="text"
-              placeholder={t('bookshelf.searchPlaceholder')}
-              className={`${controlClass} w-full pl-10`}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-paper/40" />
+          <div className="flex items-center gap-3">
+            <div className="relative min-w-0 flex-1 lg:w-72 lg:flex-none">
+              <input
+                type="text"
+                placeholder={t('bookshelf.searchPlaceholder')}
+                className={`${controlClass} w-full pl-10`}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-paper/40" />
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))}
+              className={`${controlClass} inline-flex shrink-0 items-center gap-2 hover:border-white/20`}
+            >
+              {sortOrder === 'asc' ? <ArrowDownAZ className="h-4 w-4" /> : <ArrowUpAZ className="h-4 w-4" />}
+              {sortOrder === 'asc' ? 'A → Z' : 'Z → A'}
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))}
-            className={`${controlClass} inline-flex shrink-0 items-center gap-2 hover:border-white/20`}
-          >
-            {sortOrder === 'asc' ? <ArrowDownAZ className="h-4 w-4" /> : <ArrowUpAZ className="h-4 w-4" />}
-            {sortOrder === 'asc' ? 'A → Z' : 'Z → A'}
-          </button>
-
-          <div className="flex h-10 min-w-0 flex-1 items-center gap-2 overflow-x-auto">
+          <div className="flex h-10 min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto">
             {categories.map((cat) => (
               <button
                 key={cat}
