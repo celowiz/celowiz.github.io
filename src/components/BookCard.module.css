@@ -1,4 +1,6 @@
 .bookWrapper {
+    position: relative;
+    z-index: 2;
     perspective: 1500px;
     height: 200px;
     animation: cardEnter 0.6s ease-out backwards;

@@ -30,6 +30,7 @@ const ICONS = [
   'postgresql',
   'mongodb',
   'github',
+  'githubactions',
   'streamlit',
   'jupyter',
   'vscode',

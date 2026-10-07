@@ -90,8 +90,6 @@
     },
     "skills": {
         "title": "Skills",
-        "ai": "AI",
-        "aiTools": "Cursor (Desktop and Cloud), Grok Bot, ChatGPT, Codex",
         "languages": "Programming Languages",
         "frameworks": "Frameworks and Web Tools",
         "pythonLibs": "Python Libraries",
@@ -112,6 +110,10 @@
         "2": {
             "title": "🧠 Second Brain",
             "description": "Personal knowledge organization system and learning resources. Organized collection of articles, courses, certifications, and essential tools for professional development in quantitative finance and data science."
+        },
+        "3": {
+            "title": "📈 Monitor B3",
+            "description": "Educational B3 monitor listing liquid stocks above the 52-week high, with table and charts."
         }
     },
     "footer": {

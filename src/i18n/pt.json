@@ -90,8 +90,6 @@
     },
     "skills": {
         "title": "Habilidades",
-        "ai": "IA",
-        "aiTools": "Cursor (Desktop e Cloud), Grok Bot, ChatGPT, Codex",
         "languages": "Linguagens de Programação",
         "frameworks": "Frameworks e Ferramentas Web",
         "pythonLibs": "Bibliotecas Python",
@@ -112,6 +110,10 @@
         "2": {
             "title": "🧠 Second Brain",
             "description": "Sistema pessoal de organização de conhecimento e recursos de aprendizado. Coleção organizada de artigos, cursos, certificações e ferramentas essenciais para desenvolvimento profissional em finanças quantitativas e ciência de dados."
+        },
+        "3": {
+            "title": "📈 Monitor B3",
+            "description": "Monitor educacional da B3 que lista papéis líquidos acima da máxima de 52 semanas, com tabela e gráficos."
         }
     },
     "footer": {

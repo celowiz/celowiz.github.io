@@ -147,7 +147,7 @@ export default function Bookshelf() {
             {rows.map((row, rowIndex) => (
               <div key={rowIndex} className="relative">
                 <div
-                  className={`grid grid-cols-2 gap-4 rounded-lg p-4 pb-6 sm:grid-cols-3 sm:gap-6 sm:p-6 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 ${styles.shelf}`}
+                  className={`grid grid-cols-2 items-end gap-4 rounded-lg px-4 pt-4 pb-5 sm:grid-cols-3 sm:gap-6 sm:px-6 sm:pt-6 sm:pb-5 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 ${styles.shelf}`}
                 >
                   {row.map((book) => (
                     <BookCard

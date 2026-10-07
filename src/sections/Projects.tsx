@@ -12,6 +12,11 @@ const projects = [
     projectUrl: 'https://github.com/celowiz/second-brain/blob/main/README.md',
     codeUrl: 'https://github.com/celowiz/second-brain',
   },
+  {
+    techs: ['python', 'yfinance', 'githubactions', 'githubpages'],
+    projectUrl: 'https://celowiz.github.io/monitor-b3/',
+    codeUrl: 'https://github.com/celowiz/monitor-b3',
+  },
 ];
 
 const techIcons: Record<string, string> = {
@@ -19,6 +24,19 @@ const techIcons: Record<string, string> = {
   pandas: '/icons/pandas/pandas-original.svg',
   matplotlib: '/icons/matplotlib/matplotlib-original.svg',
   markdown: '/icons/markdown/markdown-original.svg',
+  yfinance: '/icons/yfinance/yfinance-original.svg',
+  githubactions: '/icons/githubactions/githubactions-original.svg',
+  githubpages: '/icons/github/github-original.svg',
+};
+
+const techLabels: Record<string, string> = {
+  python: 'Python',
+  pandas: 'Pandas',
+  matplotlib: 'Matplotlib',
+  markdown: 'Markdown',
+  yfinance: 'yfinance',
+  githubactions: 'GitHub Actions',
+  githubpages: 'GitHub Pages',
 };
 
 export default function Projects() {
@@ -69,9 +87,9 @@ export default function Projects() {
                       alt=""
                       width={16}
                       height={16}
-                      className="h-4 w-4"
+                      className={`h-4 w-4${tech === 'githubpages' ? ' invert' : ''}`}
                     />
-                    <span className="capitalize">{tech}</span>
+                    <span>{techLabels[tech] ?? tech}</span>
                   </li>
                 ))}
               </ul>

@@ -26,7 +26,7 @@ export default function LanguageToggle({ scrolled = false }: LanguageToggleProps
       type="button"
       onClick={toggleLanguage}
       className={cn(
-        'fixed top-4 right-4 sm:top-6 sm:right-6 z-50 flex h-10 items-center gap-2 rounded-full px-3 text-sm text-paper/80 transition-colors hover:text-teal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal',
+        'fixed top-10 right-4 z-50 flex h-10 -translate-y-1/2 items-center gap-2 rounded-full px-3 text-sm text-paper/80 transition-colors hover:text-teal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal sm:right-6',
         scrolled && 'border border-white/10 bg-black/55 backdrop-blur-md',
       )}
       aria-label={languageAria}
