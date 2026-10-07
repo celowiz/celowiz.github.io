@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaAmazon } from 'react-icons/fa';
+import { trackBookClick } from '../lib/analytics.mjs';
 import type { Book } from '../types/Book';
 import styles from './BookCard.module.css';
 
@@ -8,10 +9,9 @@ const PLACEHOLDER_COVER = '/covers/placeholder.webp';
 
 interface BookCardProps {
   book: Book;
-  onBuyClick: () => void;
 }
 
-export function BookCard({ book, onBuyClick }: BookCardProps) {
+export function BookCard({ book }: BookCardProps) {
   const { t } = useTranslation();
   const [isFlipped, setIsFlipped] = useState(false);
   const coverSrc = book.cover || book.imageUrl || PLACEHOLDER_COVER;
@@ -58,7 +58,7 @@ export function BookCard({ book, onBuyClick }: BookCardProps) {
               className="flex w-full items-center justify-center gap-1 rounded-lg bg-gradient-to-r from-amber-500 to-amber-400 px-2 py-1.5 text-xs font-medium text-black transition-all duration-300 group-hover:from-amber-400 hover:to-amber-300"
               onClick={(e) => {
                 e.stopPropagation();
-                onBuyClick();
+                trackBookClick(book);
               }}
             >
               {t('bookshelf.amazonLink')}

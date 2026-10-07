@@ -1,4 +1,4 @@
-export const AFFILIATE_TAG = 'celowiz-20';
+export const AFFILIATE_TAG = 'celowiz05-20';
 export const BOOKS_CSV_URL =
   'https://raw.githubusercontent.com/celowiz/second-brain/main/books.csv';
 

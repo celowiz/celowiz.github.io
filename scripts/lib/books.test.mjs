@@ -1,3 +1,4 @@
+import { readFile } from 'node:fs/promises';
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -17,6 +18,23 @@ describe('normalizeIsbn', () => {
   });
 });
 
+describe('AFFILIATE_TAG', () => {
+  it('is the Amazon BR Associates ID celowiz05-20', () => {
+    assert.equal(AFFILIATE_TAG, 'celowiz05-20');
+  });
+
+  it('is present on every amazon.com.br link in public/books.json', async () => {
+    const raw = await readFile(new URL('../../public/books.json', import.meta.url), 'utf8');
+    const books = JSON.parse(raw);
+    assert.ok(Array.isArray(books) && books.length > 0);
+    for (const book of books) {
+      const url = new URL(book.amazonUrl);
+      assert.equal(url.hostname, 'www.amazon.com.br');
+      assert.equal(url.searchParams.get('tag'), AFFILIATE_TAG);
+    }
+  });
+});
+
 describe('withAffiliateTag', () => {
   it('appends the affiliate tag when the URL has no query string', () => {
     const href = withAffiliateTag(
@@ -24,7 +42,7 @@ describe('withAffiliateTag', () => {
     );
     const url = new URL(href);
     assert.equal(url.searchParams.get('tag'), AFFILIATE_TAG);
-    assert.match(href, /tag=celowiz-20/);
+    assert.match(href, /tag=celowiz05-20/);
   });
 
   it('preserves existing query strings and sets tag', () => {
@@ -34,7 +52,7 @@ describe('withAffiliateTag', () => {
     const url = new URL(href);
     assert.equal(url.searchParams.get('psc'), '1');
     assert.equal(url.searchParams.get('ref'), 'abc');
-    assert.equal(url.searchParams.get('tag'), 'celowiz-20');
+    assert.equal(url.searchParams.get('tag'), 'celowiz05-20');
   });
 
   it('replaces an existing tag instead of duplicating it', () => {
@@ -42,7 +60,7 @@ describe('withAffiliateTag', () => {
       'https://www.amazon.com/dp/0132350882?tag=other-20'
     );
     const url = new URL(href);
-    assert.equal(url.searchParams.getAll('tag').join(','), 'celowiz-20');
+    assert.equal(url.searchParams.getAll('tag').join(','), 'celowiz05-20');
   });
 });
 
@@ -80,7 +98,7 @@ describe('parseBooksCsv + mapBookRow', () => {
     assert.equal(book.title, 'Hands-On Machine Learning, Keras');
     assert.equal(book.category, 'Data Science, Programming, Python');
     assert.deepEqual(book.categories, ['Data Science', 'Programming', 'Python']);
-    assert.equal(new URL(book.amazonUrl).searchParams.get('tag'), 'celowiz-20');
+    assert.equal(new URL(book.amazonUrl).searchParams.get('tag'), 'celowiz05-20');
     assert.equal(book.cover, '/covers/9781098122478.webp');
   });
 

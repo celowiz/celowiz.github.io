@@ -89,7 +89,7 @@ npm run preview
 A lista de livros **não** fica hardcoded no site. No deploy (e num cron diário) o workflow:
 
 1. Baixa `books.csv` do repositório público [celowiz/second-brain](https://github.com/celowiz/second-brain/blob/main/books.csv)
-2. Mapeia colunas (`isbn` → `id` sem hífens; `amazon` + tag de afiliado `celowiz-20`; `categories` separadas por `;`)
+2. Mapeia colunas (`isbn` → `id` sem hífens; `amazon` + tag de afiliado `celowiz05-20`; `categories` separadas por `;`)
 3. Busca capas na Open Library (lote) e, se faltar, na Amazon
 4. Converte para WebP 180×270 em `public/covers/<isbn>.webp`
 5. Gera `public/books.json` para o app carregar em uma única requisição
