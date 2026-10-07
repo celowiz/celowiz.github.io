@@ -34,8 +34,14 @@ export default defineConfig({
           if (!id.includes('node_modules')) return
           // Keep particles on the delayed dynamic-import path (not entry/modulepreload).
           if (id.includes('@tsparticles') || id.includes('tsparticles')) return
-          if (id.includes('react-dom') || id.includes('/react/')) return 'react-vendor'
-          if (id.includes('i18next')) return 'i18n-vendor'
+          // One shared React instance. Do not split react-i18next / i18next into a
+          // sibling chunk: that created a react-vendor ↔ i18n-vendor cycle and
+          // crashed at runtime (createContext on undefined → blank page).
+          if (
+            /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/.test(id)
+          ) {
+            return 'react-vendor'
+          }
           if (id.includes('lucide-react') || id.includes('react-icons')) return 'ui-vendor'
         },
       },
