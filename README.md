@@ -1,4 +1,4 @@
-# 🚀 Portfolio de Projetos – Marcelo Wizenberg
+# Portfolio – Marcelo Wizenberg
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -6,7 +6,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Google Analytics](https://img.shields.io/badge/Google_Analytics-E37400?style=for-the-badge&logo=google%20analytics&logoColor=white)](https://analytics.google.com/)
 
-> Um portfólio moderno, responsivo e bilíngue desenvolvido com as melhores práticas do mercado.
+> Um portfólio moderno, responsivo e bilíngue (pt/en), publicado no GitHub Pages.
 
 ## 🇧🇷 Sobre o Projeto
 
@@ -20,11 +20,12 @@ Este é meu espaço pessoal para compartilhar projetos, aprendizados e experiên
 
 ### ✨ Destaques
 - **Interface Moderna**: Design responsivo com animações suaves
-- **Bilíngue**: Suporte completo para português e inglês
-- **Performance Otimizada**: Lazy loading, code splitting e otimizações avançadas
-- **Acessibilidade**: Conformidade com WCAG e melhores práticas de UX
-- **SEO Otimizado**: Meta tags, Open Graph e dados estruturados
-- **Analytics Integrado**: Google Analytics com eventos customizados
+- **Bilíngue**: Português (padrão) e inglês, com persistência em `localStorage`
+- **Performance Otimizada**: Lazy loading, code splitting e fontes self-hosted
+- **Acessibilidade**: Contraste e `aria-label` alinhados ao texto visível
+- **SEO Otimizado**: Meta tags, Open Graph, `robots.txt` e `sitemap.xml`
+- **Analytics Integrado**: Google Analytics 4 carregado após o `load` da página
+- **PWA / offline**: Service Worker com HTML network-first e cache versionado
 
 ---
 
@@ -40,11 +41,12 @@ This is my personal space to share projects, learning experiences, and insights 
 
 ### ✨ Highlights
 - **Modern Interface**: Responsive design with smooth animations
-- **Bilingual**: Full support for Portuguese and English
-- **Optimized Performance**: Lazy loading, code splitting and advanced optimizations
-- **Accessibility**: WCAG compliance and UX best practices
-- **SEO Optimized**: Meta tags, Open Graph and structured data
-- **Integrated Analytics**: Google Analytics with custom events
+- **Bilingual**: Portuguese (default) and English, persisted in `localStorage`
+- **Optimized Performance**: Lazy loading, code splitting, and self-hosted fonts
+- **Accessibility**: Contrast and `aria-label`s that include visible text
+- **SEO Optimized**: Meta tags, Open Graph, `robots.txt`, and `sitemap.xml`
+- **Integrated Analytics**: Google Analytics 4 deferred until after `window.load`
+- **PWA / offline**: Service Worker with network-first HTML and versioned caches
 
 ---
 
@@ -52,23 +54,20 @@ This is my personal space to share projects, learning experiences, and insights 
 
 ### Pré-requisitos / Prerequisites
 - Node.js 18+
-- npm ou yarn
+- npm
 
 ### Instalação / Installation
 
 ```bash
-# Clone o repositório / Clone the repository
-git clone https://github.com/celowiz/cv-site.git
-cd cv-site
-
-# Instale as dependências / Install dependencies
-npm install
+git clone https://github.com/celowiz/celowiz.github.io.git
+cd celowiz.github.io
+npm ci
 ```
 
 ### Desenvolvimento / Development
 
 ```bash
-# Rode o projeto localmente / Run locally
+npm run sync-books   # gera public/books.json e capas WebP
 npm run dev
 ```
 
@@ -77,12 +76,53 @@ Acesse em http://localhost:5173
 ### Build para Produção / Production Build
 
 ```bash
-# Build otimizado / Optimized build
 npm run build
-
-# Preview do build / Preview build
 npm run preview
 ```
+
+`npm run build` também gera ícones PNG, a imagem Open Graph e copia a fonte Inter.
+
+---
+
+## 📚 Estante de livros (second-brain)
+
+A lista de livros **não** fica hardcoded no site. No deploy (e num cron diário) o workflow:
+
+1. Baixa `books.csv` do repositório público [celowiz/second-brain](https://github.com/celowiz/second-brain/blob/main/books.csv)
+2. Mapeia colunas (`isbn` → `id` sem hífens; `amazon` + tag de afiliado `celowiz-20`; `categories` separadas por `;`)
+3. Busca capas na Open Library (lote) e, se faltar, na Amazon
+4. Converte para WebP 180×270 em `public/covers/<isbn>.webp`
+5. Gera `public/books.json` para o app carregar em uma única requisição
+
+Scripts:
+
+```bash
+npm run sync-books
+npm test            # testes do mapeamento CSV / afiliado
+```
+
+Não há PAT nem `repository_dispatch` para o second-brain: o CSV é público.
+
+---
+
+## 🎨 Ícones Devicon
+
+Os ícones de Skills/Projects são SVGs **self-hosted** em `public/icons/`.
+
+Fonte: [devicon.dev](https://devicon.dev/) via
+
+`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/<name>/<name>-original.svg`
+
+Para adicionar um ícone novo:
+
+```bash
+# exemplo: typescript
+mkdir -p public/icons/typescript
+curl -fsSL "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" \
+  -o public/icons/typescript/typescript-original.svg
+```
+
+Ou rode `npm run fetch-devicons` (baixa o conjunto atual usado no site).
 
 ---
 
@@ -90,172 +130,77 @@ npm run preview
 
 ```
 src/
-├── components/          # Componentes reutilizáveis
-│   ├── AnimatedSection.tsx
-│   ├── BookCard.tsx
-│   ├── Footer.tsx
-│   ├── Hero.tsx
-│   ├── LanguageToggle.tsx
-│   ├── Navbar.tsx
-│   └── ParticlesBackground.tsx
-├── sections/           # Seções principais do site
-│   ├── About.tsx
-│   ├── Bookshelf.tsx
-│   ├── Projects.tsx
-│   └── Skills.tsx
-├── hooks/             # Custom hooks
-│   ├── useAnalytics.ts
-│   └── useIntersectionObserver.ts
-├── contexts/          # Context providers (se houver)
-├── config/            # Configurações
-│   └── secrets.ts
-├── i18n/              # Internacionalização
-│   ├── en.json
-│   ├── pt.json
-│   └── index.ts
-├── types/             # TypeScript type definitions
-│   ├── Book.ts
-│   └── css-modules.d.ts
-├── App.tsx            # Componente principal
-├── main.tsx           # Ponto de entrada
-└── index.css          # Estilos globais
+├── components/
+├── sections/
+├── hooks/
+├── i18n/
+├── types/
+├── App.tsx
+├── main.tsx
+└── index.css
+scripts/
+├── sync-books.mjs              # CSV → books.json + capas
+├── generate-site-assets.mjs    # OG 1200×630, ícones PNG, fonte
+├── fetch-devicons.mjs
+└── lib/books.mjs
+public/
+├── books.json
+├── covers/
+├── icons/                      # Devicon SVGs
+├── fonts/                      # Inter variable (latin)
+├── robots.txt
+├── sitemap.xml
+└── sw.js
 ```
 
 ---
 
-## 🛠️ Tecnologias & Ferramentas / Technologies & Tools
+## 🛠️ Tecnologias
 
-### Core Technologies
-- **React 18** - Framework UI com hooks modernos
-- **TypeScript** - Tipagem estática para maior robustez
-- **Vite** - Build tool ultrarrápido com HMR
-
-### Styling & UI
-- **Tailwind CSS** - Utility-first CSS framework
-- **PostCSS** - Processamento avançado de CSS
-- **Lucide React** - Ícones modernos e consistentes
-- **Font Awesome** - Ícones adicionais
-
-### Performance & Optimization
-- **React.lazy()** - Code splitting automático
-- **Intersection Observer** - Animações baseadas em viewport
-- **Lazy Loading** - Carregamento sob demanda
-
-### Analytics & SEO
-- **Google Analytics 4** - Analytics avançado com eventos customizados
-- **React Helmet** - Gerenciamento de meta tags
-- **Open Graph** - Compartilhamento otimizado
-
-### Development Tools
-- **ESLint** - Linting e formatação de código
-- **Prettier** - Formatação automática
-- **TypeScript Compiler** - Verificação de tipos
-- **GitHub Actions** - CI/CD automatizado
-
-### Libraries & Integrations
-- **i18next** - Internacionalização completa
-- **PapaParse** - Processamento de CSV (livros)
-- **tsParticles** - Animações de fundo
-- **react-simple-typewriter** - Efeito máquina de escrever
+- **React 19** + **TypeScript** + **Vite 7** + **Tailwind CSS v4**
+- **i18next** – pt/en
+- **@tsparticles/slim** – partículas no Hero (lazy, sem preload no entry)
+- **@fontsource-variable/inter** – fonte self-hosted (subset latin)
+- **sharp** (dev) – capas WebP e assets de SEO
+- **GitHub Pages + Actions** – único custo: zero (sem Vercel/Railway/Workers)
 
 ---
 
-## 📊 Funcionalidades / Features
-
-### 🎨 Interface & UX
-- Design responsivo (mobile-first)
-- Animações suaves com CSS transitions
-- Dark theme otimizado
-- Loading states e skeletons
-- Smooth scrolling nativo
-
-### 🌍 Internacionalização
-- Suporte para português e inglês
-- Traduções completas de todo conteúdo
-- Detecção automática de idioma do navegador
-- Persistência da preferência do usuário
-
-### 📈 Analytics & Performance
-- Rastreamento de seções visualizadas
-- Eventos de interação (projetos, livros, links)
-- Métricas de performance (LCP, FID, CLS)
-- Monitoramento de engajamento do usuário
-
-### 📚 Seções do Site
-- **Hero**: Introdução com typewriter effect
-- **Sobre**: Minha trajetória profissional
-- **Habilidades**: Tecnologias e ferramentas
-- **Projetos**: Trabalhos em destaque
-- **Estante**: Livros recomendados
-- **Footer**: Links e informações de contato
-
----
-
-## 🔧 Scripts Disponíveis / Available Scripts
+## 🔧 Scripts
 
 ```bash
-npm run dev          # Inicia servidor de desenvolvimento
-npm run build        # Build para produção
-npm run preview      # Preview do build
-npm run lint         # Executa ESLint
-npm run type-check   # Verifica tipos TypeScript
+npm run dev
+npm run build
+npm run preview
+npm run lint
+npm test
+npm run sync-books
+npm run generate-assets
 ```
 
 ---
 
-## 🌐 Deploy & CDN
+## 🌐 Deploy
 
-### GitHub Pages
-O projeto é automaticamente deployado para GitHub Pages através de GitHub Actions.
+O site é publicado em [https://celowiz.github.io/](https://celowiz.github.io/) via GitHub Pages.
 
-### Otimizações de Produção
-- Minificação de código
-- Compressão Gzip/Brotli
-- Otimização de imagens
-- Cache inteligente de assets
-- Service Worker para PWA
-
----
-
-## 🤝 Contribuição / Contributing
-
-1. Fork o projeto
-2. Crie sua feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+- Push em `main` → build + deploy
+- Cron diário (`0 6 * * *`) + `workflow_dispatch` → atualiza a estante e republica
+- PRs rodam CI (`lint` + `test` + `sync-books` + `build`)
 
 ---
 
 ## 📄 Licença / License
 
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+Este projeto está sob a licença MIT.
 
 ---
 
 ## ✨ Autor / Author
 
-**Marcelo Wizenberg**  
-*Desenvolvedor Full-Stack & Analista Quantitativo*
+**Marcelo Wizenberg**
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/marcelowizenberg/)
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/celowiz)
+[![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/marcelo_wz)
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:marcelo.wizen@gmail.com)
-
----
-
-## 🙏 Agradecimentos / Acknowledgments
-
-- **React Community** - Pela incrível documentação e ecossistema
-- **Tailwind CSS** - Por tornar o CSS produtivo novamente
-- **Vite** - Por revolucionar o desenvolvimento frontend
-- **Open Source Community** - Por todas as bibliotecas e ferramentas
-
----
-
-⭐ **Sinta-se à vontade para explorar, contribuir ou se inspirar!**  
-⭐ **Feel free to explore, contribute, or get inspired!**
-
----
-
-*Última atualização: Janeiro 2025 / Last updated: January 2025*

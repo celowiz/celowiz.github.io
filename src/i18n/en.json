@@ -4,7 +4,11 @@
       "about": "About Me",
       "skills": "Skills",
       "projects": "Projects",
-      "bookshelf": "My Reading List"
+      "bookshelf": "My Reading List",
+      "switchToEnglish": "Switch language to English",
+      "switchToPortuguese": "Switch language to Portuguese",
+      "flagBrazil": "Flag of Brazil",
+      "flagUK": "Flag of the United Kingdom"
     },
     "bookshelf": {
       "title": "My Bookshelf",
@@ -17,30 +21,65 @@
     "hero": {
       "name": "Marcelo Wizenberg",
       "description": "I’m a professional passionate about data, finance, and technology.",
-      "cta": "See my projects"
+      "cta": "See my projects",
+      "ctaAria": "See my projects. Navigate to the projects section"
     },
     "about": {
         "title": "About Me",
-        "description": "I am a developer specialized in quantitative analysis and strategy development for the Brazilian capital market. With experience in Python, JavaScript and modern frameworks, I focus on creating robust solutions for algorithmic trading and financial data analysis.",
-        "passion": "My passion lies in transforming complex data into actionable insights, developing algorithms that can identify opportunities in the Brazilian market for stocks, commodities and derivatives.",
+        "description": "Professional with 9 years of experience in financial markets, with solid work on trading desks and in building quantitative solutions. Combines technical knowledge and market insight to automate routines, build dashboards and reports, and implement data-intensive strategies. Strong command of Python, Excel, VBA, the Bloomberg Terminal and API integration (BLPAPI), with experience in backtests, trade execution, portfolio allocation and support for portfolio managers. Uses AI intensively for ideation and implementation of solutions, including automation of internal processes.",
         "years": "Years of Experience",
         "projects": "Projects Developed",
-        "timelineTitle": "My Journey",
-        "companyA": "Company A",
-        "companyARole": "Quant Developer",
-        "companyAPeriod": "2021 - Present",
-        "companyADescription": "Development of quantitative models for algorithmic trading and financial data analysis.",
-        "companyB": "Company B",
-        "companyBRole": "Data Scientist",
-        "companyBPeriod": "2018 - 2021",
-        "companyBDescription": "Implementation of data pipelines and automation of financial market analyses.",
-        "companyC": "Company C",
-        "companyCRole": "Quantitative Finance Intern",
-        "companyCPeriod": "2016 - 2018",
-        "companyCDescription": "Support in quantitative research and development of risk analysis tools."
+        "experienceTitle": "Experience",
+        "educationTitle": "Education",
+        "experience": [
+            {
+                "company": "Oz Capital",
+                "role": "Partner",
+                "period": "Jan 2026 – present"
+            },
+            {
+                "company": "Novus Capital",
+                "role": "Quantitative Trader & Data Analyst · Former Partner",
+                "period": "Feb 2018 – Dec 2025"
+            },
+            {
+                "company": "Banco Modal",
+                "role": "Intern – Change the Bank",
+                "period": "Aug 2017 – Feb 2018"
+            },
+            {
+                "company": "Autodesk",
+                "role": "Intern – Quality Assurance",
+                "period": "Jan 2017 – Mar 2017"
+            },
+            {
+                "company": "Embraer Aircraft Holding",
+                "role": "Summer Intern – Repair Management",
+                "period": "Jun 2016 – Aug 2016"
+            }
+        ],
+        "education": [
+            {
+                "company": "FGV-RJ",
+                "role": "Master's in Economics and Finance (MFEE, Data Science focus)",
+                "period": "Jan 2021 – Aug 2023"
+            },
+            {
+                "company": "PUC-Rio",
+                "role": "B.S. in Electrical Engineering",
+                "period": "Jan 2012 – Dec 2017"
+            },
+            {
+                "company": "UCSB",
+                "role": "Exchange Student (Science Without Borders)",
+                "period": "Jan 2015 – Jun 2016"
+            }
+        ]
     },
     "skills": {
         "title": "Skills",
+        "ai": "AI",
+        "aiTools": "Cursor (Desktop and Cloud), Grok Bot, ChatGPT, Codex",
         "languages": "Programming Languages",
         "frameworks": "Frameworks and Web Tools",
         "pythonLibs": "Python Libraries",
@@ -50,6 +89,10 @@
     },
     "projects": {
         "title": "Projects",
+        "intro": "A selection of my most relevant projects, showcasing my expertise in development and data analysis.",
+        "technologies": "Technologies",
+        "viewProject": "View Project",
+        "code": "Code",
         "1": {
             "title": "📓 Quant Notebooks",
             "description": "Repository dedicated to learning Marimo and quantitative financial data analysis. Includes studies on trading strategies, macroeconomic analysis, and technical indicators using Python and financial libraries."
@@ -57,14 +100,6 @@
         "2": {
             "title": "🧠 Second Brain",
             "description": "Personal knowledge organization system and learning resources. Organized collection of articles, courses, certifications, and essential tools for professional development in quantitative finance and data science."
-        },
-        "3": {
-            "title": "Project 3",
-            "description": "Brief description of Project 3. Explain the main goal and technologies."
-        },
-        "4": {
-            "title": "Project 4",
-            "description": "Brief description of Project 4. Explain the main goal and technologies."
         }
     },
     "footer": {

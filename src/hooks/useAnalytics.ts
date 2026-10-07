@@ -3,7 +3,8 @@ import { useEffect, useCallback } from 'react';
 
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void;
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -23,9 +24,6 @@ export const useAnalytics = () => {
         value: event.value,
       });
     }
-
-    // Também log no console para desenvolvimento
-    console.log('Analytics Event:', event);
   }, []);
 
   const trackPageView = useCallback((pagePath: string) => {

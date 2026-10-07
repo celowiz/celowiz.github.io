@@ -12,22 +12,22 @@
   "categories": ["portfolio", "business", "productivity"],
   "icons": [
     {
-      "src": "/images/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/favicon.svg",
+      "src": "/images/icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/images/favicon.svg",
+      "src": "/images/icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
@@ -36,21 +36,21 @@
       "short_name": "Projetos",
       "description": "Ver projetos em destaque",
       "url": "/#projects",
-      "icons": [{ "src": "/images/favicon.svg", "sizes": "96x96" }]
+      "icons": [{ "src": "/images/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Habilidades",
       "short_name": "Skills",
       "description": "Ver tecnologias e habilidades",
       "url": "/#skills",
-      "icons": [{ "src": "/images/favicon.svg", "sizes": "96x96" }]
+      "icons": [{ "src": "/images/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Estante",
       "short_name": "Bookshelf",
       "description": "Ver livros recomendados",
       "url": "/#bookshelf",
-      "icons": [{ "src": "/images/favicon.svg", "sizes": "96x96" }]
+      "icons": [{ "src": "/images/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

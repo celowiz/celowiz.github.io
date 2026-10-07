@@ -1,6 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
+type TimelineItem = {
+  company: string;
+  role: string;
+  period: string;
+};
+
 function useCounter(to: number, duration = 1500, isVisible = false) {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -49,44 +55,40 @@ function useIntersectionObserver(ref: React.RefObject<HTMLElement | null>) {
   return isVisible;
 }
 
+function TimelineList({ items }: { items: TimelineItem[] }) {
+  return (
+    <ol className="relative border-l-2 border-gray-700">
+      {items.map((item) => (
+        <li key={`${item.company}-${item.period}`} className="mb-10 ml-6 last:mb-0">
+          <span className="absolute -left-3 flex items-center justify-center w-6 h-6 bg-blue-500 rounded-full ring-8 ring-gray-800">
+            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
+          </span>
+          <h4 className="text-xl font-bold text-white">
+            {item.company} <span className="text-blue-400">· {item.role}</span>
+          </h4>
+          <span className="block text-sm text-gray-400 mt-1">{item.period}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export default function About() {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement | null>(null);
   const isVisible = useIntersectionObserver(sectionRef);
-  const years = useCounter(8, 1500, isVisible);
+  const years = useCounter(9, 1500, isVisible);
   const projects = useCounter(15, 1500, isVisible);
-
-  const timeline = [
-    {
-      company: t('about.companyA'),
-      role: t('about.companyARole'),
-      period: t('about.companyAPeriod'),
-      description: t('about.companyADescription')
-    },
-    {
-      company: t('about.companyB'),
-      role: t('about.companyBRole'),
-      period: t('about.companyBPeriod'),
-      description: t('about.companyBDescription')
-    },
-    {
-      company: t('about.companyC'),
-      role: t('about.companyCRole'),
-      period: t('about.companyCPeriod'),
-      description: t('about.companyCDescription')
-    }
-  ];
+  const experience = t('about.experience', { returnObjects: true }) as TimelineItem[];
+  const education = t('about.education', { returnObjects: true }) as TimelineItem[];
 
   return (
     <section ref={sectionRef} id="about" className="min-h-screen py-16 bg-gray-800 text-white">
       <div className="max-w-4xl mx-auto px-4">
         <h2 className="text-4xl font-bold mb-8 text-center text-white">{t('about.title')}</h2>
         <div className="bg-gray-900 rounded-xl p-8 mb-8 shadow-lg border border-gray-700">
-          <p className="mb-4 text-lg leading-relaxed text-gray-200">
-            {t('about.description')}
-          </p>
           <p className="text-lg leading-relaxed text-gray-200">
-            {t('about.passion')}
+            {t('about.description')}
           </p>
         </div>
         <div className="flex justify-center gap-12 mb-12">
@@ -99,21 +101,14 @@ export default function About() {
             <div className="text-gray-300 font-medium mt-2">{t('about.projects')}</div>
           </div>
         </div>
-        {/* <div>
-          <h3 className="text-2xl font-semibold mb-6 text-center text-white">{t('about.timelineTitle')}</h3>
-          <ol className="relative border-l-2 border-gray-700">
-            {timeline.map((item, idx) => (
-              <li key={idx} className="mb-10 ml-6">
-                <span className="absolute -left-3 flex items-center justify-center w-6 h-6 bg-blue-500 rounded-full ring-8 ring-gray-800">
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
-                </span>
-                <h4 className="text-xl font-bold text-white">{item.role} <span className="text-blue-400">@ {item.company}</span></h4>
-                <span className="block text-sm text-gray-400 mb-2">{item.period}</span>
-                <p className="text-gray-300">{item.description}</p>
-              </li>
-            ))}
-          </ol>
-        </div> */}
+        <div className="mb-12">
+          <h3 className="text-2xl font-semibold mb-6 text-center text-white">{t('about.experienceTitle')}</h3>
+          <TimelineList items={experience} />
+        </div>
+        <div>
+          <h3 className="text-2xl font-semibold mb-6 text-center text-white">{t('about.educationTitle')}</h3>
+          <TimelineList items={education} />
+        </div>
       </div>
     </section>
   );

@@ -1,144 +1,105 @@
-// Service Worker para cache offline básico
-const CACHE_NAME = 'mw-portfolio-v1';
-const STATIC_CACHE = 'mw-portfolio-static-v1';
-const DYNAMIC_CACHE = 'mw-portfolio-dynamic-v1';
+const CACHE_VERSION = 'v2';
+const STATIC_CACHE = `mw-portfolio-static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `mw-portfolio-dynamic-${CACHE_VERSION}`;
 
-// Recursos para cache imediato
 const STATIC_ASSETS = [
-  '/',
   '/manifest.json',
   '/images/favicon.svg',
-  '/books.csv'
+  '/images/icon-192.png',
+  '/images/icon-512.png',
 ];
 
-// Recursos externos importantes para cache
-const EXTERNAL_ASSETS = [
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap'
-];
-
-// Instalar Service Worker
 self.addEventListener('install', (event) => {
-  console.log('Service Worker: Instalando...');
-
   event.waitUntil(
-    Promise.all([
-      // Cache de assets estáticos
-      caches.open(STATIC_CACHE).then(cache => {
-        console.log('Service Worker: Cacheando assets estáticos');
-        return cache.addAll(STATIC_ASSETS);
-      }),
-
-      // Cache de assets externos
-      caches.open('external-cache').then(cache => {
-        console.log('Service Worker: Cacheando assets externos');
-        return cache.addAll(EXTERNAL_ASSETS);
-      })
-    ]).then(() => {
-      console.log('Service Worker: Instalação completa');
-      return self.skipWaiting();
-    })
+    caches
+      .open(STATIC_CACHE)
+      .then((cache) => cache.addAll(STATIC_ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
-// Ativar Service Worker
 self.addEventListener('activate', (event) => {
-  console.log('Service Worker: Ativando...');
-
   event.waitUntil(
-    Promise.all([
-      // Limpar caches antigos
-      caches.keys().then(cacheNames => {
-        return Promise.all(
-          cacheNames.map(cacheName => {
-            if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE && cacheName !== 'external-cache') {
-              console.log('Service Worker: Removendo cache antigo:', cacheName);
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      }),
-
-      // Tomar controle imediatamente
-      self.clients.claim()
-    ]).then(() => {
-      console.log('Service Worker: Ativação completa');
-    })
+    caches
+      .keys()
+      .then((cacheNames) =>
+        Promise.all(
+          cacheNames
+            .filter((cacheName) => cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE)
+            .map((cacheName) => caches.delete(cacheName))
+        )
+      )
+      .then(() => self.clients.claim())
   );
 });
 
-// Interceptar requisições
+function isHtmlRequest(request) {
+  if (request.mode === 'navigate') return true;
+  if (request.destination === 'document') return true;
+  const accept = request.headers.get('accept') || '';
+  return accept.includes('text/html');
+}
+
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-  const url = new URL(request.url);
+  if (request.method !== 'GET') return;
 
-  // Estratégia Cache First para assets estáticos
-  if (STATIC_ASSETS.includes(url.pathname) || url.pathname.startsWith('/images/')) {
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
+
+  if (isHtmlRequest(request)) {
     event.respondWith(
-      caches.match(request).then(response => {
-        return response || fetch(request).then(fetchResponse => {
-          return caches.open(STATIC_CACHE).then(cache => {
-            cache.put(request, fetchResponse.clone());
-            return fetchResponse;
-          });
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(DYNAMIC_CACHE).then((cache) => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(() =>
+          caches
+            .match(request)
+            .then((cached) => cached || caches.match('/') || caches.match('/index.html'))
+        )
+    );
+    return;
+  }
+
+  if (
+    STATIC_ASSETS.includes(url.pathname) ||
+    url.pathname.startsWith('/images/') ||
+    url.pathname.startsWith('/icons/') ||
+    url.pathname.startsWith('/fonts/')
+  ) {
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        if (cached) return cached;
+        return fetch(request).then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(STATIC_CACHE).then((cache) => cache.put(request, copy));
+          }
+          return response;
         });
       })
     );
     return;
   }
 
-  // Estratégia Network First para conteúdo dinâmico
-  if (request.destination === 'document' || url.pathname === '/') {
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          // Cache successful responses
-          if (response.status === 200) {
-            const responseClone = response.clone();
-            caches.open(DYNAMIC_CACHE).then(cache => {
-              cache.put(request, responseClone);
-            });
-          }
-          return response;
-        })
-        .catch(() => {
-          // Fallback to cache
-          return caches.match(request).then(response => {
-            return response || caches.match('/');
-          });
-        })
-    );
-    return;
-  }
-
-  // Estratégia Stale While Revalidate para outros recursos
   event.respondWith(
-    caches.match(request).then(cachedResponse => {
-      const fetchPromise = fetch(request).then(networkResponse => {
-        if (networkResponse.status === 200) {
-          const responseClone = networkResponse.clone();
-          caches.open(DYNAMIC_CACHE).then(cache => {
-            cache.put(request, responseClone);
-          });
-        }
-        return networkResponse;
-      }).catch(() => cachedResponse);
+    caches.match(request).then((cachedResponse) => {
+      const network = fetch(request)
+        .then((networkResponse) => {
+          if (networkResponse.ok) {
+            const copy = networkResponse.clone();
+            caches.open(DYNAMIC_CACHE).then((cache) => cache.put(request, copy));
+          }
+          return networkResponse;
+        })
+        .catch(() => cachedResponse);
 
-      return cachedResponse || fetchPromise;
+      return cachedResponse || network;
     })
   );
-});
-
-// Limpar cache periodicamente
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'CLEAN_CACHE') {
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          return caches.delete(cacheName);
-        })
-      );
-    }).then(() => {
-      console.log('Service Worker: Cache limpo');
-    });
-  }
 });
