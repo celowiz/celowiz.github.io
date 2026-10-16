@@ -118,6 +118,10 @@
         "4": {
             "title": "🧭 RRG · Rotação Relativa",
             "description": "Gráfico de Rotação Relativa (RRG) interativo com dados reais desde 2018: setores, ações e FIIs do Brasil, ações e setores dos EUA, países, classes de ativos, fatores, commodities e moedas, cada grupo contra seu benchmark. Rastros animados, linha do tempo com momentos históricos, “o que mudou esta semana”, detalhe por ativo e modo livre. Dados da B3 e do Yahoo Finance atualizados diariamente via GitHub Actions, custo zero e uso educacional."
+        },
+        "5": {
+            "title": "🌦️ Regimes de mercado (HMM)",
+            "description": "Hidden Markov Model que estima, dia a dia, se o Ibovespa e o S&P 500 estão em regime calmo, intermediário ou de estresse, com dados reais desde 2000. Preço colorido por regime, probabilidades filtradas (sem olhar o futuro) ao longo do tempo, matriz de transição, duração e estatísticas por regime, 2 ou 3 estados, frequência diária ou semanal e momentos históricos de cada mercado. Modelo reajustado diariamente via GitHub Actions, custo zero e uso educacional."
         }
     },
     "footer": {

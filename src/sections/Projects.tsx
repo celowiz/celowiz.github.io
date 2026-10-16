@@ -23,6 +23,11 @@ const projects = [
     projectUrl: 'https://celowiz.github.io/rrg/',
     codeUrl: 'https://github.com/celowiz/rrg',
   },
+  {
+    techs: ['javascript', 'python', 'pandas', 'yfinance', 'githubactions', 'githubpages'],
+    projectUrl: 'https://celowiz.github.io/hmm-regimes/',
+    codeUrl: 'https://github.com/celowiz/hmm-regimes',
+  },
 ];
 
 const techIcons: Record<string, string> = {

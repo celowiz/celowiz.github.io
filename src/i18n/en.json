@@ -118,6 +118,10 @@
         "4": {
             "title": "🧭 RRG · Relative Rotation",
             "description": "Interactive Relative Rotation Graph (RRG) with real data since 2018: Brazilian sectors, stocks and REITs, US stocks and sectors, countries, asset classes, factors, commodities and currencies, each group against its benchmark. Animated trails, a timeline with historical moments, “what changed this week”, per-asset detail and free mode. B3 and Yahoo Finance data refreshed daily via GitHub Actions, zero cost, educational only."
+        },
+        "5": {
+            "title": "🌦️ Market Regimes (HMM)",
+            "description": "Hidden Markov Model that estimates, day by day, whether the Ibovespa and the S&P 500 are in a calm, intermediate or stress regime, using real data since 2000. Regime-colored price, filtered probabilities (no look-ahead) over time, transition matrix, duration and per-regime stats, 2 or 3 states, daily or weekly frequency and historical moments for each market. Model refitted daily via GitHub Actions, zero cost, educational only."
         }
     },
     "footer": {
