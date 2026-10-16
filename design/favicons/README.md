@@ -21,13 +21,14 @@ Estilo: quadrado 64×64 arredondado (#0b0d10, borda #2a2f36), cores #f4f1ea, tea
 - F: monograma "rrg"
 
 ## hmm-regimes/
-- A: barras nas cores dos regimes (estresse, intermediário, calmo) — temporária no app
+- A: barras nas cores dos regimes (estresse, intermediário, calmo) (temporária no app, substituída pela D)
 - B: linha de preço colorida por regime
 - C: três estados ligados (cadeia de Markov)
-- D: faixas de probabilidade empilhadas
+- D: faixas de probabilidade empilhadas (escolhida)
 - E: onda com volatilidade crescente
 - F: monograma "H"
 
 ## Escolhas (2026-10-16)
 - quant-notebooks: **opção A** (livro aberto com linha de preço)
 - rrg: **opção C** (setas circulares de rotação)
+- hmm-regimes: **opção D** (faixas de probabilidade empilhadas)
