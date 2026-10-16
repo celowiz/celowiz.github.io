@@ -113,7 +113,7 @@
         },
         "3": {
             "title": "📈 Monitor B3",
-            "description": "Monitor educacional da B3 que lista papéis líquidos acima da máxima de 52 semanas, com tabela e gráficos."
+            "description": "Ferramenta visual no estilo n8n para montar telas de sinais de mercado da B3: blocos de universo (ações, units, BDRs, ETFs e FIIs), filtros e 9 sinais, como máx./mín. de 52 semanas, cruzamento das SMAs 50/200, RSI 14, volume anormal e força relativa vs. Ibovespa/IFIX, com animação de execução ao vivo. Dados atualizados a cada ~30 min via GitHub Actions, custo zero e uso educacional."
         }
     },
     "footer": {
