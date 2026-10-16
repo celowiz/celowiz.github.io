@@ -1,10 +1,13 @@
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 const STATIC_CACHE = `mw-portfolio-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `mw-portfolio-dynamic-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
   '/manifest.json',
+  '/favicon.ico',
   '/images/favicon.svg',
+  '/images/favicon-32.png',
+  '/images/apple-touch-icon.png',
   '/images/icon-192.png',
   '/images/icon-512.png',
 ];
