@@ -113,7 +113,7 @@
         },
         "3": {
             "title": "📈 Monitor B3",
-            "description": "Educational B3 monitor listing liquid stocks above the 52-week high, with table and charts."
+            "description": "n8n-style visual tool to build market-signal screens for B3 assets: blocks for universe (stocks, units, BDRs, ETFs and FIIs), filters and 9 signals, such as 52-week highs/lows, SMA 50/200 crossovers, RSI 14, unusual volume and relative strength vs. Ibovespa/IFIX, with a live execution animation. Data refreshed every ~30 min via GitHub Actions, zero cost, educational only."
         }
     },
     "footer": {

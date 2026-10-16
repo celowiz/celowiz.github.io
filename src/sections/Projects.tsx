@@ -13,13 +13,15 @@ const projects = [
     codeUrl: 'https://github.com/celowiz/second-brain',
   },
   {
-    techs: ['python', 'yfinance', 'githubactions', 'githubpages'],
+    techs: ['react', 'vite', 'python', 'yfinance', 'githubactions', 'githubpages'],
     projectUrl: 'https://celowiz.github.io/monitor-b3/',
     codeUrl: 'https://github.com/celowiz/monitor-b3',
   },
 ];
 
 const techIcons: Record<string, string> = {
+  react: '/icons/react/react-original.svg',
+  vite: '/icons/vite/vite-original.svg',
   python: '/icons/python/python-original.svg',
   pandas: '/icons/pandas/pandas-original.svg',
   matplotlib: '/icons/matplotlib/matplotlib-original.svg',
@@ -30,6 +32,8 @@ const techIcons: Record<string, string> = {
 };
 
 const techLabels: Record<string, string> = {
+  react: 'React Flow',
+  vite: 'Vite',
   python: 'Python',
   pandas: 'Pandas',
   matplotlib: 'Matplotlib',
