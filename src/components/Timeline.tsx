@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Briefcase, GraduationCap } from 'lucide-react';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import type { TimelineEntry } from '../lib/timeline';
 
@@ -86,7 +87,16 @@ export default function Timeline({ items }: { items: TimelineEntry[] }) {
             className="absolute top-7 -left-10 h-2.5 w-2.5 rounded-full border border-teal bg-ink"
             aria-hidden="true"
           />
-          <p className="mb-1 text-[11px] font-medium tracking-[0.18em] text-teal uppercase">
+          <p
+            className={`mb-1 flex items-center gap-1.5 text-[11px] font-medium tracking-[0.18em] uppercase ${
+              item.kind === 'work' ? 'text-teal' : 'text-paper/50'
+            }`}
+          >
+            {item.kind === 'work' ? (
+              <Briefcase size={14} strokeWidth={1.75} aria-hidden="true" className="shrink-0" />
+            ) : (
+              <GraduationCap size={14} strokeWidth={1.75} aria-hidden="true" className="shrink-0" />
+            )}
             {item.kind === 'work' ? t('about.workLabel') : t('about.educationLabel')}
           </p>
           <h4 className="text-lg font-medium text-paper">
