@@ -114,6 +114,10 @@
         "3": {
             "title": "📈 Monitor B3",
             "description": "Ferramenta visual no estilo n8n para montar telas de sinais de mercado da B3: blocos de universo (ações, units, BDRs, ETFs e FIIs), filtros e 9 sinais, como máx./mín. de 52 semanas, cruzamento das SMAs 50/200, RSI 14, volume anormal e força relativa vs. Ibovespa/IFIX, com animação de execução ao vivo. Dados atualizados a cada ~30 min via GitHub Actions, custo zero e uso educacional."
+        },
+        "4": {
+            "title": "🧭 RRG · Rotação Relativa",
+            "description": "Gráfico de Rotação Relativa (RRG) interativo com dados reais desde 2018: setores, ações e FIIs do Brasil, ações e setores dos EUA, países, classes de ativos, fatores, commodities e moedas, cada grupo contra seu benchmark. Rastros animados, linha do tempo com momentos históricos, “o que mudou esta semana”, detalhe por ativo e modo livre. Dados da B3 e do Yahoo Finance atualizados diariamente via GitHub Actions, custo zero e uso educacional."
         }
     },
     "footer": {

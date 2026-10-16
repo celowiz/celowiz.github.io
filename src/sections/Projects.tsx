@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { AnimatedSection } from '../components/AnimatedSection';
+import { useAnalytics } from '../hooks/useAnalytics';
 
 const projects = [
   {
@@ -17,6 +18,11 @@ const projects = [
     projectUrl: 'https://celowiz.github.io/monitor-b3/',
     codeUrl: 'https://github.com/celowiz/monitor-b3',
   },
+  {
+    techs: ['javascript', 'python', 'pandas', 'yfinance', 'githubactions', 'githubpages'],
+    projectUrl: 'https://celowiz.github.io/rrg/',
+    codeUrl: 'https://github.com/celowiz/rrg',
+  },
 ];
 
 const techIcons: Record<string, string> = {
@@ -26,6 +32,7 @@ const techIcons: Record<string, string> = {
   pandas: '/icons/pandas/pandas-original.svg',
   matplotlib: '/icons/matplotlib/matplotlib-original.svg',
   markdown: '/icons/markdown/markdown-original.svg',
+  javascript: '/icons/javascript/javascript-original.svg',
   yfinance: '/icons/yfinance/yfinance-original.svg',
   githubactions: '/icons/githubactions/githubactions-original.svg',
   githubpages: '/icons/github/github-original.svg',
@@ -38,6 +45,7 @@ const techLabels: Record<string, string> = {
   pandas: 'Pandas',
   matplotlib: 'Matplotlib',
   markdown: 'Markdown',
+  javascript: 'JavaScript',
   yfinance: 'yfinance',
   githubactions: 'GitHub Actions',
   githubpages: 'GitHub Pages',
@@ -45,6 +53,8 @@ const techLabels: Record<string, string> = {
 
 export default function Projects() {
   const { t } = useTranslation();
+  const { trackProjectClick } = useAnalytics();
+  const slug = (url: string) => url.split('/').filter(Boolean).pop() ?? url;
   return (
     <section id="projects" className="scroll-mt-28 bg-ink py-24 sm:py-28">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
@@ -64,6 +74,7 @@ export default function Projects() {
                 <div className="flex gap-5 text-sm">
                   <a
                     href={project.projectUrl}
+                    onClick={() => trackProjectClick(slug(project.codeUrl), 'demo')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-teal transition-colors hover:text-teal-dim"
@@ -72,6 +83,7 @@ export default function Projects() {
                   </a>
                   <a
                     href={project.codeUrl}
+                    onClick={() => trackProjectClick(slug(project.codeUrl), 'code')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-paper/60 transition-colors hover:text-paper"
