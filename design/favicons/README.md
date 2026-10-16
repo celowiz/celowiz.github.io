@@ -19,3 +19,7 @@ Estilo: quadrado 64×64 arredondado (#0b0d10, borda #2a2f36), cores #f4f1ea, tea
 - D: ponto com rastro esmaecendo
 - E: órbita em espiral
 - F: monograma "rrg"
+
+## Escolhas (2026-10-16)
+- quant-notebooks: **opção A** (livro aberto com linha de preço)
+- rrg: **opção C** (setas circulares de rotação)
