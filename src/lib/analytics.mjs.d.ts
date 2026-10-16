@@ -31,3 +31,5 @@ export function trackEvent(
   win?: AnalyticsWindow,
 ): void;
 export function trackBookClick(book: BookClickInput, win?: AnalyticsWindow): void;
+export function initWebVitals(win?: AnalyticsWindow): void;
+export function initVisibilityTracking(win?: AnalyticsWindow): void;
