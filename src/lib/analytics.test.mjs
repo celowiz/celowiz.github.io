@@ -193,6 +193,7 @@ describe('scheduleGtagScriptLoad', () => {
     scheduleGtagScriptLoad(win);
     const config = layer(win).find((row) => row[0] === 'config');
     assert.equal(config[2]?.debug_mode, true);
+    assert.equal(config[2]?.content_group, 'portfolio');
   });
 });
 

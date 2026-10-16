@@ -63,7 +63,7 @@ export function initGoogleAnalytics(win = defaultWindow()) {
   });
   if (alreadyConfigured) return;
   win.gtag('js', new Date());
-  const config = {};
+  const config = { content_group: 'portfolio' };
   if (isGaDebug(win)) config.debug_mode = true;
   win.gtag('config', GA_MEASUREMENT_ID, config);
 }
