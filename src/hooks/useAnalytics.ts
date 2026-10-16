@@ -5,6 +5,8 @@ import {
   ensureGtagStub,
   trackBookClick as trackGaBookClick,
   trackEvent as trackGaEvent,
+  initVisibilityTracking,
+  initWebVitals,
 } from '../lib/analytics.mjs';
 import type { BookClickInput } from '../lib/analytics.mjs';
 
@@ -76,70 +78,12 @@ export const useAnalytics = () => {
     });
   }, [trackEvent]);
 
-  // Track page visibility changes
+  // Visibilidade e Web Vitals: registro único por página (vários componentes usam este hook
+  // e o StrictMode monta efeitos duas vezes; antes cada instância criava seus observers).
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        trackEvent({
-          action: 'page_hidden',
-          category: 'engagement',
-        });
-      } else {
-        trackEvent({
-          action: 'page_visible',
-          category: 'engagement',
-        });
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, [trackEvent]);
-
-  // Track performance metrics
-  useEffect(() => {
-    const trackWebVitals = () => {
-      // LCP (Largest Contentful Paint)
-      if ('PerformanceObserver' in window) {
-        const lcpObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          const lastEntry = entries[entries.length - 1];
-          trackPerformance('LCP', lastEntry.startTime);
-        });
-        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-
-        // FID (First Input Delay)
-        const fidObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          entries.forEach((entry: any) => {
-            trackPerformance('FID', entry.processingStart - entry.startTime);
-          });
-        });
-        fidObserver.observe({ entryTypes: ['first-input'] });
-
-        // CLS (Cumulative Layout Shift)
-        let clsValue = 0;
-        const clsObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          entries.forEach((entry: any) => {
-            if (!entry.hadRecentInput) {
-              clsValue += entry.value;
-            }
-          });
-          trackPerformance('CLS', clsValue);
-        });
-        clsObserver.observe({ entryTypes: ['layout-shift'] });
-
-        return () => {
-          lcpObserver.disconnect();
-          fidObserver.disconnect();
-          clsObserver.disconnect();
-        };
-      }
-    };
-
-    trackWebVitals();
-  }, [trackPerformance]);
+    initVisibilityTracking();
+    initWebVitals();
+  }, []);
 
   return {
     trackEvent,

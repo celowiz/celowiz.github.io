@@ -9,6 +9,8 @@ import {
   scheduleGtagScriptLoad,
   trackBookClick,
   trackEvent,
+  initWebVitals,
+  initVisibilityTracking,
 } from './analytics.mjs';
 
 function createFakeWindow({ readyState = 'loading', search = '', idle = true } = {}) {
@@ -204,5 +206,76 @@ describe('injectGtagScript', () => {
     injectGtagScript(win);
     injectGtagScript(win);
     assert.equal(win.scripts.length, 1);
+  });
+});
+
+describe('initWebVitals', () => {
+  function vitalsWindow() {
+    const observers = [];
+    const winL = {};
+    const docL = {};
+    class FakePO {
+      constructor(cb) { this.cb = cb; observers.push(this); }
+      observe(opts) { this.type = opts.type; }
+      disconnect() { this.off = true; }
+    }
+    const document = {
+      hidden: false,
+      visibilityState: 'visible',
+      addEventListener: (t, cb) => { (docL[t] ||= []).push(cb); },
+    };
+    const win = {
+      dataLayer: [],
+      PerformanceObserver: FakePO,
+      document,
+      addEventListener: (t, cb) => { (winL[t] ||= []).push(cb); },
+    };
+    const emit = (type, entries) => observers
+      .filter((o) => o.type === type && !o.off)
+      .forEach((o) => o.cb({ getEntries: () => entries }));
+    const fire = (t) => (winL[t] || []).forEach((cb) => cb());
+    const hide = () => {
+      document.hidden = true;
+      document.visibilityState = 'hidden';
+      (docL.visibilitychange || []).forEach((cb) => cb());
+    };
+    const metrics = () => win.dataLayer
+      .map((r) => Array.from(r))
+      .filter((r) => r[0] === 'event' && r[1] === 'performance_metric')
+      .map((r) => [r[2].event_label, r[2].value]);
+    return { win, observers, emit, fire, hide, metrics };
+  }
+
+  it('registra os observers uma única vez mesmo com várias chamadas (StrictMode / vários hooks)', () => {
+    const v = vitalsWindow();
+    initWebVitals(v.win);
+    initWebVitals(v.win);
+    initWebVitals(v.win);
+    assert.equal(v.observers.length, 3);
+  });
+
+  it('envia LCP, FID e CLS uma vez cada', () => {
+    const v = vitalsWindow();
+    initWebVitals(v.win);
+    initWebVitals(v.win);
+    v.emit('largest-contentful-paint', [{ startTime: 100 }]);
+    v.emit('largest-contentful-paint', [{ startTime: 256.4 }]);
+    v.emit('first-input', [{ startTime: 10, processingStart: 12 }]);
+    v.emit('first-input', [{ startTime: 20, processingStart: 30 }]);
+    v.emit('layout-shift', [{ value: 0.05, hadRecentInput: false }, { value: 0.5, hadRecentInput: true }]);
+    v.fire('pointerdown');
+    v.fire('keydown');
+    v.hide();
+    v.hide();
+    assert.deepEqual(v.metrics(), [['FID', 2], ['LCP', 256], ['CLS', 50]]);
+  });
+
+  it('page_hidden registrado uma única vez', () => {
+    const v = vitalsWindow();
+    initVisibilityTracking(v.win);
+    initVisibilityTracking(v.win);
+    v.hide();
+    const hidden = v.win.dataLayer.map((r) => Array.from(r)).filter((r) => r[1] === 'page_hidden');
+    assert.equal(hidden.length, 1);
   });
 });

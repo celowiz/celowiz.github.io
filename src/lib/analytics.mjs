@@ -119,3 +119,75 @@ export function trackEvent(name, params = {}, win = defaultWindow()) {
 export function trackBookClick(book, win = defaultWindow()) {
   trackEvent(BOOK_CLICK_EVENT, buildBookClickParams(book), win);
 }
+
+function trackMetric(win, metric, value) {
+  trackEvent('performance_metric', {
+    event_category: 'technical',
+    event_label: metric,
+    value: Math.round(value),
+  }, win);
+}
+
+/**
+ * Registra os observers de Web Vitals uma única vez por página (o hook useAnalytics é usado
+ * por vários componentes e o StrictMode monta efeitos duas vezes). Cada métrica sai uma vez:
+ * FID na primeira interação; LCP com o valor final na primeira interação ou ao esconder a aba;
+ * CLS acumulado ao esconder a aba.
+ */
+export function initWebVitals(win = defaultWindow()) {
+  if (!win || win.__gaVitalsStarted || typeof win.PerformanceObserver !== 'function') return;
+  win.__gaVitalsStarted = true;
+  const PO = win.PerformanceObserver;
+  const sent = new Set();
+  const once = (metric, value) => {
+    if (sent.has(metric) || value == null || Number.isNaN(value)) return;
+    sent.add(metric);
+    trackMetric(win, metric, value);
+  };
+  const observe = (type, cb) => {
+    try {
+      const o = new PO((list) => cb(list.getEntries()));
+      o.observe({ type, buffered: true });
+      return o;
+    } catch {
+      return null;
+    }
+  };
+
+  let lcp;
+  let cls = 0;
+  const lcpObs = observe('largest-contentful-paint', (entries) => {
+    const last = entries[entries.length - 1];
+    if (last) lcp = last.startTime;
+  });
+  observe('first-input', (entries) => {
+    const e = entries[0];
+    if (e) once('FID', e.processingStart - e.startTime);
+  });
+  observe('layout-shift', (entries) => {
+    for (const e of entries) if (!e.hadRecentInput) cls += e.value;
+  });
+
+  const finalizeLcp = () => {
+    if (lcp === undefined) return;
+    lcpObs?.disconnect();
+    once('LCP', lcp);
+  };
+  for (const t of ['keydown', 'pointerdown']) {
+    win.addEventListener(t, finalizeLcp, { once: true, capture: true });
+  }
+  win.document?.addEventListener('visibilitychange', () => {
+    if (win.document.visibilityState !== 'hidden') return;
+    finalizeLcp();
+    once('CLS', cls * 1000); // GA4 só aceita value inteiro: CLS × 1000
+  });
+}
+
+/** page_hidden / page_visible registrados uma única vez por página. */
+export function initVisibilityTracking(win = defaultWindow()) {
+  if (!win?.document || win.__gaVisibilityStarted) return;
+  win.__gaVisibilityStarted = true;
+  win.document.addEventListener('visibilitychange', () => {
+    trackEvent(win.document.hidden ? 'page_hidden' : 'page_visible', { event_category: 'engagement' }, win);
+  });
+}
