@@ -28,6 +28,14 @@ Estilo: quadrado 64×64 arredondado (#0b0d10, borda #2a2f36), cores #f4f1ea, tea
 - E: onda com volatilidade crescente
 - F: monograma "H"
 
+## pairs-trading/
+- A: duas linhas entrelaçadas que se cruzam (teal e creme)
+- B: spread oscilando entre bandas ±2σ tracejadas
+- C: duas setas opostas convergindo para a média
+- D: dois pontos ligados por um elástico (mola)
+- E: monograma "PT" (P creme, T teal)
+- F: z-score — ponto fora da banda voltando à média
+
 ## Escolhas (2026-10-16)
 - quant-notebooks: **opção A** (livro aberto com linha de preço)
 - rrg: **opção C** (setas circulares de rotação)
