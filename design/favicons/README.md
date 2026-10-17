@@ -29,7 +29,7 @@ Estilo: quadrado 64×64 arredondado (#0b0d10, borda #2a2f36), cores #f4f1ea, tea
 - F: monograma "H"
 
 ## pairs-trading/
-- A: duas linhas entrelaçadas que se cruzam (teal e creme)
+- A: duas linhas entrelaçadas que se cruzam (teal e creme) (escolhida)
 - B: spread oscilando entre bandas ±2σ tracejadas
 - C: duas setas opostas convergindo para a média
 - D: dois pontos ligados por um elástico (mola)
@@ -40,3 +40,4 @@ Estilo: quadrado 64×64 arredondado (#0b0d10, borda #2a2f36), cores #f4f1ea, tea
 - quant-notebooks: **opção A** (livro aberto com linha de preço)
 - rrg: **opção C** (setas circulares de rotação)
 - hmm-regimes: **opção D** (faixas de probabilidade empilhadas)
+- pairs-trading: **opção A** (duas linhas entrelaçadas que se cruzam)
