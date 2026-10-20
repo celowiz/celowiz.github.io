@@ -2,6 +2,9 @@ import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   BOOK_CLICK_EVENT,
+  RESOURCE_CLICK_EVENT,
+  buildResourceClickParams,
+  trackResourceClick,
   GA_MEASUREMENT_ID,
   buildBookClickParams,
   ensureGtagStub,
@@ -154,6 +157,36 @@ describe('gtag stub queue', () => {
     assert.equal(hits[0].event_label, 'en');
     assert.equal(hits[0].send_to, GA_MEASUREMENT_ID);
     assert.equal(win.scripts.length, 0);
+  });
+});
+
+describe('click_resource', () => {
+  const resource = {
+    name: 'QuantEcon: Python para Economia',
+    domain: 'quantecon.org',
+    category: 'learning-materials',
+    subcategory: 'learning-materials/economics',
+    url: 'https://quantecon.org/',
+  };
+
+  it('builds name, domain and category params', () => {
+    const params = buildResourceClickParams(resource);
+    assert.equal(params.resource_name, resource.name);
+    assert.equal(params.resource_domain, 'quantecon.org');
+    assert.equal(params.resource_category, 'learning-materials');
+    assert.equal(params.resource_subcategory, 'learning-materials/economics');
+    assert.equal(params.event_category, 'SecondBrain');
+    assert.equal(params.transport_type, 'beacon');
+  });
+
+  it('queues one click_resource event with beacon transport', () => {
+    const win = createFakeWindow();
+    trackResourceClick(resource, win);
+    const events = eventsNamed(win, RESOURCE_CLICK_EVENT);
+    assert.equal(RESOURCE_CLICK_EVENT, 'click_resource');
+    assert.equal(events.length, 1);
+    assert.equal(events[0].resource_domain, 'quantecon.org');
+    assert.equal(events[0].send_to, GA_MEASUREMENT_ID);
   });
 });
 

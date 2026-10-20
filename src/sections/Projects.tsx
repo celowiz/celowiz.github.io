@@ -14,7 +14,7 @@ const projects: { icon: LucideIcon; techs: string[]; projectUrl: string; codeUrl
   {
     icon: BrainCircuit,
     techs: ['markdown'],
-    projectUrl: 'https://github.com/celowiz/second-brain/blob/main/README.md',
+    projectUrl: '/second-brain/',
     codeUrl: 'https://github.com/celowiz/second-brain',
   },
   {

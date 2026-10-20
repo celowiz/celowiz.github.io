@@ -1,5 +1,6 @@
 export const GA_MEASUREMENT_ID = 'G-QCBFGR39WG';
 export const BOOK_CLICK_EVENT = 'click_book';
+export const RESOURCE_CLICK_EVENT = 'click_resource';
 
 const ASIN_RE = /\/(?:dp|gp\/product)\/([A-Z0-9]{10})/i;
 const GTAG_SCRIPT_ID = 'ga-gtag';
@@ -37,6 +38,22 @@ export function buildBookClickParams(book) {
   };
   if (isbn) params.book_isbn = isbn;
   if (asin) params.book_asin = asin;
+  return params;
+}
+
+/** Parâmetros do clique em um link da página Second Brain (nome, domínio, categoria). */
+export function buildResourceClickParams(resource) {
+  const name = resource?.name ?? '';
+  const params = {
+    resource_name: name,
+    resource_domain: resource?.domain ?? '',
+    resource_category: resource?.category ?? '',
+    event_label: name,
+    event_category: 'SecondBrain',
+    transport_type: 'beacon',
+  };
+  if (resource?.subcategory) params.resource_subcategory = resource.subcategory;
+  if (resource?.url) params.link_url = resource.url;
   return params;
 }
 
@@ -118,6 +135,10 @@ export function trackEvent(name, params = {}, win = defaultWindow()) {
 
 export function trackBookClick(book, win = defaultWindow()) {
   trackEvent(BOOK_CLICK_EVENT, buildBookClickParams(book), win);
+}
+
+export function trackResourceClick(resource, win = defaultWindow()) {
+  trackEvent(RESOURCE_CLICK_EVENT, buildResourceClickParams(resource), win);
 }
 
 function trackMetric(win, metric, value) {

@@ -1,29 +1,29 @@
 {
     "navbar": {
-      "home": "Home",
-      "about": "About Me",
-      "skills": "Skills",
-      "projects": "Projects",
-      "bookshelf": "My Reading List",
-      "aria": "Main navigation",
-      "switchToEnglish": "Switch language to English",
-      "switchToPortuguese": "Switch language to Portuguese",
-      "flagBrazil": "Flag of Brazil",
-      "flagUK": "Flag of the United Kingdom"
+        "home": "Home",
+        "about": "About Me",
+        "skills": "Skills",
+        "projects": "Projects",
+        "bookshelf": "My Reading List",
+        "aria": "Main navigation",
+        "switchToEnglish": "Switch language to English",
+        "switchToPortuguese": "Switch language to Portuguese",
+        "flagBrazil": "Flag of Brazil",
+        "flagUK": "Flag of the United Kingdom"
     },
     "bookshelf": {
-      "title": "My Bookshelf",
-      "description": "A curated collection of books that have shaped my knowledge and perspective. Click on any book to learn more.",
-      "searchPlaceholder": "Search by title or author...",
-      "buyOnAmazon": "View on Amazon",
-      "loading": "Loading books...",
-      "amazonLink": "Buy on Amazon"
+        "title": "My Bookshelf",
+        "description": "A curated collection of books that have shaped my knowledge and perspective. Click on any book to learn more.",
+        "searchPlaceholder": "Search by title or author...",
+        "buyOnAmazon": "View on Amazon",
+        "loading": "Loading books...",
+        "amazonLink": "Buy on Amazon"
     },
     "hero": {
-      "name": "Marcelo Wizenberg",
-      "description": "I’m a professional passionate about data, finance, and technology.",
-      "cta": "See my projects",
-      "ctaAria": "See my projects. Navigate to the projects section"
+        "name": "Marcelo Wizenberg",
+        "description": "I’m a professional passionate about data, finance, and technology.",
+        "cta": "See my projects",
+        "ctaAria": "See my projects. Navigate to the projects section"
     },
     "about": {
         "title": "About Me",
@@ -109,7 +109,7 @@
         },
         "2": {
             "title": "Second Brain",
-            "description": "Personal knowledge organization system and learning resources. Organized collection of articles, courses, certifications, and essential tools for professional development in quantitative finance and data science."
+            "description": "Public curation of courses, Python libraries, data sources, papers and books on quantitative finance and data science, awesome-list style. Its own page with search, category and status filters, a beginner path and a bookshelf, updated daily from the repository."
         },
         "3": {
             "title": "Monitor B3",
@@ -129,8 +129,118 @@
         }
     },
     "footer": {
-      "madeBy": "Made by Marcelo Wizenberg",
-      "copyright": "Marcelo Wizenberg. All rights reserved.",
-      "tech": "Built with React, Vite, Tailwind CSS and ❤️"
+        "madeBy": "Made by Marcelo Wizenberg",
+        "copyright": "Marcelo Wizenberg. All rights reserved.",
+        "tech": "Built with React, Vite, Tailwind CSS and ❤️"
+    },
+    "secondBrain": {
+        "metaTitle": "Second Brain · Marcelo Wizenberg",
+        "back": "Back to portfolio",
+        "nav": {
+            "aria": "Second Brain navigation",
+            "hero": "Home",
+            "start": "Start here",
+            "resources": "Resources",
+            "bookshelf": "Bookshelf"
+        },
+        "hero": {
+            "prompt": "open second-brain --explore",
+            "title": "Second Brain",
+            "description": "My public curation of courses, libraries, data sources, papers and books on quantitative finance, data science and engineering. A study map for those starting out in quant and an index for those already on the way.",
+            "links": "links",
+            "categories": "categories",
+            "subcategories": "subcategories",
+            "books": "books",
+            "explore": "Explore resources",
+            "github": "View on GitHub",
+            "updated": "updated {{date}}",
+            "disclaimer": "Educational content. Nothing here is investment advice: these are materials I use to study and that may help others study too."
+        },
+        "start": {
+            "title": "Start here",
+            "intro": "A path for those starting out in quantitative finance, built from items on this list.",
+            "booksHint": "on the bookshelf",
+            "subHint": "{{count}} links in this subcategory",
+            "steps": {
+                "markets": {
+                    "title": "Market fundamentals",
+                    "description": "How equities, fixed income and derivatives work before modeling anything."
+                },
+                "python": {
+                    "title": "Python and data",
+                    "description": "The tooling foundation: NumPy, pandas and visualization, with economics examples."
+                },
+                "backtest": {
+                    "title": "First backtest",
+                    "description": "A simple strategy, from raw data to results, to understand the process."
+                },
+                "pitfalls": {
+                    "title": "Research pitfalls",
+                    "description": "Survivorship bias, look-ahead and overfitting: why good backtests mislead."
+                },
+                "books": {
+                    "title": "Core books",
+                    "description": "Two introductory books from the bookshelf below."
+                }
+            }
+        },
+        "resources": {
+            "title": "Resources",
+            "intro": "Search by name, domain or description. Filter by category and link status.",
+            "searchPlaceholder": "Search {{count}} links… e.g. backtest, B3, kalman",
+            "searchAria": "Search resources",
+            "clear": "Clear search",
+            "count": "of {{total}} links",
+            "allCategories": "All",
+            "statusAria": "Filter by status",
+            "statusAll": "All",
+            "statusOk": "No caveats",
+            "statusSelect": "Status: {{label}}",
+            "toc": "Contents",
+            "items": "{{count}} items",
+            "empty": "Nothing found. Try another term or clear the filters.",
+            "reset": "Clear filters",
+            "copyLink": "Copy link to this search",
+            "copied": "Link copied",
+            "loading": "Loading resources…",
+            "error": "Could not load the resources right now."
+        },
+        "status": {
+            "bot": "🤖 blocks bots",
+            "archived": "📦 archived",
+            "login": "🔒 login required",
+            "broken": "❌ 404",
+            "offline": "⏸️ offline",
+            "nourl": "🔗 no URL",
+            "duplicate": "🔁 duplicate"
+        },
+        "statusHelp": {
+            "bot": "opens in the browser but refuses automated checks",
+            "archived": "archived repository (read-only)",
+            "login": "content requires login"
+        },
+        "bookshelf": {
+            "title": "Bookshelf",
+            "description": "The books on the list, with covers. Hover (or tap) to see details and the Amazon link."
+        },
+        "notice": {
+            "affiliateTitle": "Affiliate notice.",
+            "affiliate": "Book links point to Amazon Brazil with the celowiz05-20 affiliate tag. If you buy through them, I may earn a small commission at no extra cost to you. It helps keep the project going.",
+            "dataTitle": "About the data.",
+            "data": "Generated daily from the README and books.csv of the celowiz/second-brain repository. Educational content, not investment advice.",
+            "statusTitle": "Link status:"
+        },
+        "categories": {
+            "learning-materials": "Learning Materials",
+            "quant-research": "Quant Research",
+            "python-libraries": "Python Libraries",
+            "data-sources-apis": "Data Sources & APIs",
+            "open-source-brasil": "Open Source Brazil",
+            "papers-academic-sources": "Papers & Academic Sources",
+            "community-media": "Community & Media",
+            "tools": "Tools",
+            "career": "Career",
+            "related-awesome-lists": "Related Awesome Lists"
+        }
     }
-  }
+}

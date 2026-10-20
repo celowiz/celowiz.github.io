@@ -1,5 +1,6 @@
 export const GA_MEASUREMENT_ID: 'G-QCBFGR39WG';
 export const BOOK_CLICK_EVENT: 'click_book';
+export const RESOURCE_CLICK_EVENT: 'click_resource';
 
 export type AnalyticsWindow = {
   dataLayer?: unknown[];
@@ -19,6 +20,16 @@ export type BookClickInput = {
   amazonUrl?: string;
 };
 
+export type ResourceClickInput = {
+  name: string;
+  domain: string;
+  category: string;
+  subcategory?: string;
+  url?: string;
+};
+
+export function buildResourceClickParams(resource: ResourceClickInput): Record<string, unknown>;
+export function trackResourceClick(resource: ResourceClickInput, win?: AnalyticsWindow): void;
 export function extractAsinFromUrl(amazonUrl?: string | null): string | undefined;
 export function buildBookClickParams(book: BookClickInput): Record<string, unknown>;
 export function ensureGtagStub(win?: AnalyticsWindow): void;
