@@ -2,42 +2,11 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
+import { OG_HEIGHT, OG_WIDTH, homeOgSvg, loadOgFonts, readBrainSvg, secondBrainOgSvg } from './lib/og-images.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const IMAGES = path.join(ROOT, 'public', 'images');
-
-const OG_WIDTH = 1200;
-const OG_HEIGHT = 630;
-
-function ogSvg() {
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="${OG_WIDTH}" height="${OG_HEIGHT}" viewBox="0 0 ${OG_WIDTH} ${OG_HEIGHT}">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#030712"/>
-      <stop offset="45%" stop-color="#111827"/>
-      <stop offset="100%" stop-color="#1e3a5f"/>
-    </linearGradient>
-    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#2563eb"/>
-      <stop offset="100%" stop-color="#60a5fa"/>
-    </linearGradient>
-  </defs>
-  <rect width="${OG_WIDTH}" height="${OG_HEIGHT}" fill="url(#bg)"/>
-  <rect x="0" y="0" width="${OG_WIDTH}" height="8" fill="url(#bar)"/>
-  <circle cx="1040" cy="90" r="160" fill="#1d4ed8" opacity="0.18"/>
-  <circle cx="160" cy="540" r="180" fill="#2563eb" opacity="0.12"/>
-  ${Array.from({ length: 48 }, (_, i) => {
-    const x = 80 + (i % 12) * 90;
-    const y = 70 + Math.floor(i / 12) * 130;
-    return `<circle cx="${x}" cy="${y}" r="1.6" fill="#93c5fd" opacity="0.28"/>`;
-  }).join('\n  ')}
-  <text x="90" y="250" fill="#f9fafb" font-family="DejaVu Sans, Liberation Sans, sans-serif" font-size="64" font-weight="700">Marcelo Wizenberg</text>
-  <text x="90" y="330" fill="#60a5fa" font-family="DejaVu Sans, Liberation Sans, sans-serif" font-size="32" font-weight="500">Quant Developer · Trader · Analyst</text>
-  <text x="90" y="520" fill="#9ca3af" font-family="DejaVu Sans, Liberation Sans, sans-serif" font-size="22">celowiz.github.io</text>
-</svg>`;
-}
 
 const FAVICON_SVG = path.join(IMAGES, 'favicon.svg');
 
@@ -70,6 +39,16 @@ async function writePngFromSvg(svg, dest, width, height) {
   console.log(`wrote ${path.relative(ROOT, dest)} (${width}×${height})`);
 }
 
+/** PNG de preview social em cor plena (paleta criava faixas no brilho radial); fica bem abaixo de 300 KB. */
+async function writeOgPng(svg, dest) {
+  if (svg.includes('NaN')) throw new Error(`SVG inválido para ${path.basename(dest)} (coordenada NaN)`);
+  await sharp(Buffer.from(svg))
+    .png({ compressionLevel: 9, effort: 10 })
+    .toFile(dest);
+  const { size } = await fs.stat(dest);
+  console.log(`wrote ${path.relative(ROOT, dest)} (${OG_WIDTH}×${OG_HEIGHT}, ${Math.round(size / 1024)} KB)`);
+}
+
 async function copyInterLatin() {
   const source = path.join(
     ROOT,
@@ -84,7 +63,9 @@ async function copyInterLatin() {
 export async function generateSiteAssets() {
   await fs.mkdir(IMAGES, { recursive: true });
   await copyInterLatin();
-  await writePngFromSvg(ogSvg(), path.join(IMAGES, 'portfolio-preview.png'), OG_WIDTH, OG_HEIGHT);
+  const fonts = await loadOgFonts();
+  await writeOgPng(homeOgSvg(fonts), path.join(IMAGES, 'portfolio-preview.png'));
+  await writeOgPng(secondBrainOgSvg(fonts, await readBrainSvg(IMAGES)), path.join(IMAGES, 'og-second-brain.png'));
   const favicon = await fs.readFile(FAVICON_SVG, 'utf8');
   await writePngFromSvg(favicon, path.join(IMAGES, 'icon-192.png'), 192, 192);
   await writePngFromSvg(favicon, path.join(IMAGES, 'icon-512.png'), 512, 512);
