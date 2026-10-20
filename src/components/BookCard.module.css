@@ -114,13 +114,20 @@
 .ratingPill {
     background: #3f3f46;
     color: #f5f5f4;
-    padding: 0.5rem 1.15rem;
+    padding: 0.3rem 0.8rem;
     border-radius: 9999px;
-    font-size: 0.8125rem;
+    font-size: 0.6875rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     line-height: 1.2;
     text-transform: uppercase;
+}
+
+@media (min-width: 640px) {
+    .ratingPill {
+        padding: 0.4rem 1rem;
+        font-size: 0.75rem;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

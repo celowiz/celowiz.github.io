@@ -1,6 +1,7 @@
 export const GA_MEASUREMENT_ID: 'G-QCBFGR39WG';
 export const BOOK_CLICK_EVENT: 'click_book';
 export const RESOURCE_CLICK_EVENT: 'click_resource';
+export const BOOK_FORMATS: readonly ['physical', 'kindle'];
 
 export type AnalyticsWindow = {
   dataLayer?: unknown[];
@@ -18,6 +19,9 @@ export type BookClickInput = {
   isbn?: string;
   asin?: string | null;
   amazonUrl?: string;
+  kindleUrl?: string;
+  /** Botão clicado: livro físico (padrão) ou Kindle. */
+  format?: 'physical' | 'kindle';
 };
 
 export type ResourceClickInput = {

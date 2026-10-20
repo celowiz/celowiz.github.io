@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaAmazon } from 'react-icons/fa';
+import { Tablet } from 'lucide-react';
 import { trackBookClick } from '../lib/analytics.mjs';
+import { tagsOf, themeOf } from '../lib/bookTaxonomy';
 import type { Book } from '../types/Book';
 import styles from './BookCard.module.css';
 
@@ -15,7 +17,8 @@ export function BookCard({ book }: BookCardProps) {
   const { t } = useTranslation();
   const [isFlipped, setIsFlipped] = useState(false);
   const coverSrc = book.cover || book.imageUrl || PLACEHOLDER_COVER;
-  const primaryCategory = book.category?.split(',')[0]?.trim();
+  const theme = themeOf(book);
+  const tags = tagsOf(book);
 
   return (
     <div className={`${styles.bookWrapper} group cursor-pointer`} onClick={() => setIsFlipped(!isFlipped)}>
@@ -47,23 +50,47 @@ export function BookCard({ book }: BookCardProps) {
               ) : null}
             </div>
 
-            {primaryCategory ? (
-              <span className={styles.ratingPill}>{primaryCategory}</span>
-            ) : null}
+            <div className="flex flex-col items-center gap-1">
+              <span className={styles.ratingPill}>{t(`bookshelf.themes.${theme}`, { defaultValue: theme })}</span>
+              {tags.length > 0 ? (
+                <p className="line-clamp-2 text-[10px] leading-tight text-paper/50">
+                  {tags.map((tag) => t(`bookshelf.tags.${tag}`, { defaultValue: tag })).join(' · ')}
+                </p>
+              ) : null}
+            </div>
 
-            <a
-              href={book.amazonUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-1 rounded-lg bg-gradient-to-r from-amber-500 to-amber-400 px-2 py-1.5 text-xs font-medium text-black transition-all duration-300 group-hover:from-amber-400 hover:to-amber-300"
-              onClick={(e) => {
-                e.stopPropagation();
-                trackBookClick(book);
-              }}
-            >
-              {t('bookshelf.amazonLink')}
-              <FaAmazon className="h-3 w-3 text-black" />
-            </a>
+            <div className="flex w-full flex-col items-center gap-1">
+              <a
+                href={book.amazonUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center gap-1 rounded-lg bg-gradient-to-r from-amber-500 to-amber-400 px-2 py-1.5 text-xs font-medium text-black transition-all duration-300 group-hover:from-amber-400 hover:to-amber-300"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  trackBookClick({ ...book, format: 'physical' });
+                }}
+              >
+                {t('bookshelf.amazonLink')}
+                <FaAmazon className="h-3 w-3 text-black" />
+              </a>
+
+              {book.kindleUrl ? (
+                <a
+                  href={book.kindleUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={t('bookshelf.kindleAria', { title: book.title })}
+                  className="flex w-full items-center justify-center gap-1 rounded-lg border border-white/15 px-2 py-1 text-[11px] text-paper/70 transition-colors hover:border-teal/60 hover:text-teal focus-visible:border-teal focus-visible:text-teal focus-visible:outline-none"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    trackBookClick({ ...book, format: 'kindle' });
+                  }}
+                >
+                  <Tablet className="h-3 w-3" aria-hidden="true" />
+                  {t('bookshelf.kindle')}
+                </a>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

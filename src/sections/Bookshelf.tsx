@@ -1,23 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search, ArrowDownAZ, ArrowUpAZ } from 'lucide-react';
 import type { Book } from '../types/Book';
 import { BookCard } from '../components/BookCard';
+import { LANGUAGES, languageOf, tagsOf, themeOf, themesPresent } from '../lib/bookTaxonomy';
 import styles from './Bookshelf.module.css';
-
-const getUniqueCategories = (books: Book[]): string[] => {
-  const categories = new Set<string>(['All']);
-  books.forEach((book) => {
-    if (book?.category) {
-      book.category
-        .split(',')
-        .map((cat) => cat.trim())
-        .filter(Boolean)
-        .forEach((cat) => categories.add(cat));
-    }
-  });
-  return Array.from(categories);
-};
 
 type BookshelfProps = {
   /** Livros já carregados pela página (evita um segundo fetch de /books.json). */
@@ -34,7 +21,7 @@ export default function Bookshelf({
   const { t } = useTranslation();
   const [books, setBooks] = useState<Book[]>([]);
   const [filter, setFilter] = useState('All');
-  const [categories, setCategories] = useState<string[]>(['All']);
+  const [language, setLanguage] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
@@ -43,7 +30,6 @@ export default function Bookshelf({
   useEffect(() => {
     if (providedBooks) {
       setBooks(providedBooks);
-      setCategories(getUniqueCategories(providedBooks));
       setIsLoading(false);
       return;
     }
@@ -53,7 +39,6 @@ export default function Bookshelf({
         const data = (await response.json()) as Book[];
         const list = Array.isArray(data) ? data : [];
         setBooks(list);
-        setCategories(getUniqueCategories(list));
       } catch (error) {
         console.error('Error loading books:', error);
       } finally {
@@ -77,6 +62,11 @@ export default function Bookshelf({
     return () => window.removeEventListener('resize', updateCols);
   }, []);
 
+  const themes = useMemo(() => themesPresent(books), [books]);
+  const languages = useMemo(() => LANGUAGES.filter((lang) => books.some((book) => languageOf(book) === lang)), [books]);
+  const themeLabel = (theme: string) => t(`bookshelf.themes.${theme}`, { defaultValue: theme });
+  const tagLabel = (tag: string) => t(`bookshelf.tags.${tag}`, { defaultValue: tag });
+
   const filteredBooks = books.filter((book) => {
     if (!book || typeof book !== 'object') return false;
 
@@ -84,11 +74,13 @@ export default function Bookshelf({
     const matchesSearch =
       (book.title?.toLowerCase().includes(searchLower) ?? false) ||
       (book.author?.toLowerCase().includes(searchLower) ?? false) ||
-      (book.description?.toLowerCase().includes(searchLower) ?? false);
+      (book.description?.toLowerCase().includes(searchLower) ?? false) ||
+      themeLabel(themeOf(book)).toLowerCase().includes(searchLower) ||
+      tagsOf(book).some((tag) => `${tag} ${tagLabel(tag)}`.toLowerCase().includes(searchLower));
 
-    const bookCategories = book.category ? book.category.split(',').map((cat) => cat.trim()) : [];
-    const matchesCategory = filter === 'All' || bookCategories.includes(filter);
-    return matchesSearch && matchesCategory;
+    const matchesTheme = filter === 'All' || themeOf(book) === filter;
+    const matchesLanguage = language === 'All' || languageOf(book) === language;
+    return matchesSearch && matchesTheme && matchesLanguage;
   });
 
   const sortedBooks = [...filteredBooks].sort((a, b) => {
@@ -114,9 +106,9 @@ export default function Bookshelf({
           {t(descriptionKey)}
         </p>
 
-        <div className="mb-8 flex flex-col gap-3 lg:flex-row lg:items-center">
-          <div className="flex items-center gap-3">
-            <div className="relative min-w-0 flex-1 lg:w-72 lg:flex-none">
+        <div className="mb-8 flex flex-col gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="relative min-w-0 basis-full sm:flex-1 sm:basis-auto lg:w-72 lg:flex-none">
               <input
                 type="text"
                 placeholder={t('bookshelf.searchPlaceholder')}
@@ -135,21 +127,42 @@ export default function Bookshelf({
               {sortOrder === 'asc' ? <ArrowDownAZ className="h-4 w-4" /> : <ArrowUpAZ className="h-4 w-4" />}
               {sortOrder === 'asc' ? 'A → Z' : 'Z → A'}
             </button>
+
+            {languages.length > 1 ? (
+              <select
+                aria-label={t('bookshelf.languageAria')}
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className={`${controlClass} shrink-0 cursor-pointer hover:border-white/20 [&>option]:bg-ink`}
+              >
+                <option value="All">{t('bookshelf.languageAll')}</option>
+                {languages.map((lang) => (
+                  <option key={lang} value={lang}>
+                    {t(`bookshelf.languages.${lang}`, { defaultValue: lang })}
+                  </option>
+                ))}
+              </select>
+            ) : null}
           </div>
 
-          <div className="flex h-10 min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto">
-            {categories.map((cat) => (
+          <div
+            role="group"
+            aria-label={t('bookshelf.themesAria')}
+            className="flex min-w-0 flex-nowrap items-center gap-2 overflow-x-auto sm:flex-wrap sm:overflow-visible"
+          >
+            {['All', ...themes].map((theme) => (
               <button
-                key={cat}
+                key={theme}
                 type="button"
-                onClick={() => setFilter(cat)}
+                aria-pressed={filter === theme}
+                onClick={() => setFilter(theme)}
                 className={`h-10 shrink-0 rounded-lg px-3 text-sm whitespace-nowrap transition-colors ${
-                  filter === cat
+                  filter === theme
                     ? 'bg-teal/20 text-teal'
                     : 'border border-white/10 bg-white/5 text-paper/70 hover:border-white/20'
                 }`}
               >
-                {cat}
+                {theme === 'All' ? t('bookshelf.all') : themeLabel(theme)}
               </button>
             ))}
           </div>
@@ -159,6 +172,8 @@ export default function Bookshelf({
           <div className="flex h-64 items-center justify-center">
             <div className="h-10 w-10 animate-spin rounded-full border-t-2 border-b-2 border-teal" />
           </div>
+        ) : sortedBooks.length === 0 ? (
+          <p className="py-16 text-center text-paper/60">{t('bookshelf.empty')}</p>
         ) : (
           <div className="space-y-8">
             {rows.map((row, rowIndex) => (

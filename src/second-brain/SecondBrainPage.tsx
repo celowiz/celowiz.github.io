@@ -8,6 +8,7 @@ import Bookshelf from '../sections/Bookshelf';
 import { trackEvent } from '../lib/analytics.mjs';
 import { domId } from '../lib/secondBrain.mjs';
 import type { Book } from '../types/Book';
+import { themeOf } from '../lib/bookTaxonomy';
 import type { SecondBrainData } from '../types/SecondBrain';
 import Resources, { trackItemClick } from './Resources';
 import { TRAIL } from './trail';
@@ -156,7 +157,7 @@ function StartHere({ data, books }: { data: SecondBrainData; books: Book[] }) {
                       {b.title.split(':')[0]}
                     </a>
                     <span className={metaClass}>
-                      {t('secondBrain.start.booksHint')} · {b.category}
+                      {t('secondBrain.start.booksHint')} · {t(`bookshelf.themes.${themeOf(b)}`, { defaultValue: themeOf(b) })}
                     </span>
                   </li>
                 ));

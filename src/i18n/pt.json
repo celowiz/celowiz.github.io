@@ -17,7 +17,51 @@
         "searchPlaceholder": "Pesquisar por título ou autor...",
         "buyOnAmazon": "Ver na Amazon",
         "loading": "Carregando Livros...",
-        "amazonLink": "Comprar na Amazon"
+        "amazonLink": "Comprar na Amazon",
+        "all": "Todos",
+        "kindle": "Kindle",
+        "kindleAria": "Ver a edição Kindle de {{title}} na Amazon",
+        "themesAria": "Filtrar por tema",
+        "languageAria": "Filtrar por idioma",
+        "languageAll": "Todos os idiomas",
+        "languages": {
+            "PT": "Português",
+            "EN": "Inglês"
+        },
+        "empty": "Nenhum livro com esses filtros.",
+        "themes": {
+            "Quant": "Quant",
+            "Investing": "Investimentos",
+            "Economics": "Economia",
+            "Software": "Software",
+            "Behavior": "Comportamento",
+            "Data Science": "Ciência de Dados",
+            "Fiction & Philosophy": "Ficção e Filosofia",
+            "Other": "Outros"
+        },
+        "tags": {
+            "Trading": "Trading",
+            "Systematic": "Sistemático",
+            "Statistical Arbitrage": "Arbitragem estatística",
+            "Derivatives": "Derivativos",
+            "Portfolio": "Portfólio",
+            "Machine Learning": "Machine Learning",
+            "Python": "Python",
+            "Data Engineering": "Engenharia de dados",
+            "Software Architecture": "Arquitetura de software",
+            "Software Craft": "Boas práticas",
+            "Value Investing": "Value investing",
+            "Personal Finance": "Finanças pessoais",
+            "Risk & Probability": "Risco e probabilidade",
+            "Economic History": "História econômica",
+            "Macro & Policy": "Macro e política",
+            "Brazil": "Brasil",
+            "Biography": "Biografia",
+            "Market Stories": "Histórias do mercado",
+            "Classic": "Clássico",
+            "Fiction": "Ficção",
+            "Philosophy": "Filosofia"
+        }
     },
     "hero": {
         "name": "Marcelo Wizenberg",

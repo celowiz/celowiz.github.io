@@ -17,7 +17,51 @@
         "searchPlaceholder": "Search by title or author...",
         "buyOnAmazon": "View on Amazon",
         "loading": "Loading books...",
-        "amazonLink": "Buy on Amazon"
+        "amazonLink": "Buy on Amazon",
+        "all": "All",
+        "kindle": "Kindle",
+        "kindleAria": "View the Kindle edition of {{title}} on Amazon",
+        "themesAria": "Filter by theme",
+        "languageAria": "Filter by language",
+        "languageAll": "All languages",
+        "languages": {
+            "PT": "Portuguese",
+            "EN": "English"
+        },
+        "empty": "No books match these filters.",
+        "themes": {
+            "Quant": "Quant",
+            "Investing": "Investing",
+            "Economics": "Economics",
+            "Software": "Software",
+            "Behavior": "Behavior",
+            "Data Science": "Data Science",
+            "Fiction & Philosophy": "Fiction & Philosophy",
+            "Other": "Other"
+        },
+        "tags": {
+            "Trading": "Trading",
+            "Systematic": "Systematic",
+            "Statistical Arbitrage": "Statistical Arbitrage",
+            "Derivatives": "Derivatives",
+            "Portfolio": "Portfolio",
+            "Machine Learning": "Machine Learning",
+            "Python": "Python",
+            "Data Engineering": "Data Engineering",
+            "Software Architecture": "Software Architecture",
+            "Software Craft": "Software Craft",
+            "Value Investing": "Value Investing",
+            "Personal Finance": "Personal Finance",
+            "Risk & Probability": "Risk & Probability",
+            "Economic History": "Economic History",
+            "Macro & Policy": "Macro & Policy",
+            "Brazil": "Brazil",
+            "Biography": "Biography",
+            "Market Stories": "Market Stories",
+            "Classic": "Classic",
+            "Fiction": "Fiction",
+            "Philosophy": "Philosophy"
+        }
     },
     "hero": {
         "name": "Marcelo Wizenberg",
