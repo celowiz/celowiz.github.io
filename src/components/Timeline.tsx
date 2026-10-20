@@ -101,7 +101,7 @@ export default function Timeline({ items }: { items: TimelineEntry[] }) {
           </p>
           <h4 className="text-lg font-medium text-paper">
             {item.company}
-            <span className="text-paper/45"> · {item.role}</span>
+            <span className="text-paper/50"> · {item.role}</span>
           </h4>
           <p className="mt-1 text-sm text-paper/50">{item.period}</p>
         </li>

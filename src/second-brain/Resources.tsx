@@ -152,7 +152,7 @@ export default function Resources({ data }: { data: SecondBrainData }) {
                 value={state.q}
                 onChange={(e) => set({ q: e.target.value })}
                 placeholder={t('secondBrain.resources.searchPlaceholder', { count: items.length })}
-                className="h-10 w-full rounded-lg border border-white/10 bg-white/[0.04] pr-10 pl-10 text-[0.95rem] text-paper placeholder:text-paper/40 focus:border-teal focus:outline-none"
+                className="h-10 w-full rounded-lg border border-white/10 bg-white/[0.04] pr-10 pl-10 text-[0.95rem] text-paper placeholder:text-paper/50 focus:border-teal focus:outline-none"
               />
               {state.q ? (
                 <button
@@ -164,7 +164,7 @@ export default function Resources({ data }: { data: SecondBrainData }) {
                   <X className="h-4 w-4" />
                 </button>
               ) : (
-                <kbd className="absolute top-1/2 right-3 hidden -translate-y-1/2 rounded border border-white/10 px-1.5 font-mono text-[0.7rem] text-paper/40 sm:block">
+                <kbd className="absolute top-1/2 right-3 hidden -translate-y-1/2 rounded border border-white/10 px-1.5 font-mono text-[0.7rem] text-paper/50 sm:block">
                   /
                 </kbd>
               )}
@@ -231,7 +231,7 @@ export default function Resources({ data }: { data: SecondBrainData }) {
               className={cn(chipBase, state.cat === ALL ? chipOn : chipOff)}
             >
               {t('secondBrain.resources.allCategories')}
-              <i className="ml-1.5 font-mono text-[0.7rem] not-italic opacity-55">{items.length}</i>
+              <i className="ml-1.5 font-mono text-[0.7rem] not-italic opacity-75">{items.length}</i>
             </button>
             {categories.map((cat) => (
               <button
@@ -242,7 +242,7 @@ export default function Resources({ data }: { data: SecondBrainData }) {
                 className={cn(chipBase, state.cat === cat.id ? chipOn : chipOff)}
               >
                 {catLabel(cat)}
-                <i className="ml-1.5 font-mono text-[0.7rem] not-italic opacity-55">{totals[cat.id] ?? 0}</i>
+                <i className="ml-1.5 font-mono text-[0.7rem] not-italic opacity-75">{totals[cat.id] ?? 0}</i>
               </button>
             ))}
           </div>
@@ -250,7 +250,7 @@ export default function Resources({ data }: { data: SecondBrainData }) {
 
         <div className="mt-10 grid grid-cols-1 gap-14 md:grid-cols-[15rem_minmax(0,1fr)]">
           <aside className="sticky top-60 hidden max-h-[calc(100vh-16rem)] self-start overflow-auto text-[0.84rem] [scrollbar-width:thin] md:block">
-            <div className="mb-3 font-mono text-[0.7rem] tracking-[0.14em] text-paper/40 uppercase">
+            <div className="mb-3 font-mono text-[0.7rem] tracking-[0.14em] text-paper/50 uppercase">
               {t('secondBrain.resources.toc')}
             </div>
             <nav aria-label={t('secondBrain.resources.toc')}>
@@ -266,7 +266,7 @@ export default function Resources({ data }: { data: SecondBrainData }) {
                     )}
                   >
                     <span>{catLabel(cat)}</span>
-                    <i className="font-mono text-[0.7rem] not-italic opacity-60">{count}</i>
+                    <i className="font-mono text-[0.7rem] not-italic opacity-90">{count}</i>
                   </a>
                   {filtered
                     ? subs
@@ -275,10 +275,10 @@ export default function Resources({ data }: { data: SecondBrainData }) {
                           <a
                             key={g.sub.id}
                             href={`#${domId('sub', g.sub.id)}`}
-                            className="flex justify-between gap-2 border-l border-white/10 py-1 pl-6 text-[0.78rem] text-paper/45 hover:text-paper"
+                            className="flex justify-between gap-2 border-l border-white/10 py-1 pl-6 text-[0.78rem] text-paper/50 hover:text-paper"
                           >
                             <span>{g.sub.name}</span>
-                            <i className="font-mono text-[0.7rem] not-italic opacity-60">{g.items.length}</i>
+                            <i className="font-mono text-[0.7rem] not-italic">{g.items.length}</i>
                           </a>
                         ))
                     : null}
@@ -304,7 +304,7 @@ export default function Resources({ data }: { data: SecondBrainData }) {
               <div key={cat.id} id={domId('cat', cat.id)} className="mb-14 scroll-mt-60">
                 <h3 className="flex items-baseline gap-3 font-serif text-3xl text-paper">
                   {catLabel(cat)}
-                  <i className="font-mono text-[0.78rem] not-italic text-paper/40">{count}</i>
+                  <i className="font-mono text-[0.78rem] not-italic text-paper/50">{count}</i>
                 </h3>
                 {subs.map(({ sub, items: subItems }) => (
                   <div key={sub.id} id={domId('sub', sub.id)} className="scroll-mt-60">
@@ -338,7 +338,7 @@ export default function Resources({ data }: { data: SecondBrainData }) {
                             >
                               <Highlight text={item.n} query={query} />
                             </a>
-                            <span className="ml-2.5 font-mono text-[0.72rem] text-paper/40">
+                            <span className="ml-2.5 font-mono text-[0.72rem] text-paper/50">
                               <Highlight text={item.d} query={query} />
                             </span>
                             {item.x ? (

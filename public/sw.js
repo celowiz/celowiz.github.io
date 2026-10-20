@@ -1,8 +1,18 @@
-const CACHE_VERSION = 'v4';
-const STATIC_CACHE = `mw-portfolio-static-${CACHE_VERSION}`;
-const DYNAMIC_CACHE = `mw-portfolio-dynamic-${CACHE_VERSION}`;
+// Service worker do portfólio (celowiz.github.io).
+//
+// O registro fica em /sw.js com scope "/", o que no GitHub Pages cobre também os outros
+// repositórios publicados no mesmo host (/monitor-b3/, /rrg/, /hmm-regimes/...). Por isso o SW
+// trabalha com ALLOWLIST: só intercepta caminhos que são do portfólio. Qualquer outro caminho
+// passa direto para a rede (o SW nem chama respondWith), então os dados dos subprojetos nunca
+// saem do cache daqui.
+const CACHE_VERSION = 'v5';
+const CACHE_PREFIX = 'mw-portfolio-';
+const STATIC_CACHE = `${CACHE_PREFIX}static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `${CACHE_PREFIX}dynamic-${CACHE_VERSION}`;
+const MAX_DYNAMIC_ENTRIES = 40; // HTML + JSON do portfólio
+const MAX_STATIC_ENTRIES = 150; // bundles com hash, imagens, capas, ícones, fonte
 
-const STATIC_ASSETS = [
+const PRECACHE = [
   '/manifest.json',
   '/favicon.ico',
   '/images/favicon.svg',
@@ -12,11 +22,53 @@ const STATIC_ASSETS = [
   '/images/icon-512.png',
 ];
 
+// Páginas (navegação) do portfólio.
+const PAGE_PATHS = new Set(['/', '/index.html', '/second-brain', '/second-brain/', '/second-brain/index.html']);
+// Dados do portfólio gerados no build (mudam todo dia): rede primeiro.
+const DATA_PATHS = new Set(['/books.json', '/second-brain.json']);
+// Arquivos soltos da raiz.
+const ROOT_FILES = new Set(['/manifest.json', '/favicon.ico', '/placeholder-book.jpg']);
+// Pastas de assets do portfólio. /assets/ tem nome com hash (imutável).
+const HASHED_PREFIX = '/assets/';
+const ASSET_PREFIXES = ['/images/', '/icons/', '/fonts/', '/covers/'];
+
+/**
+ * Decide a estratégia para um caminho do mesmo host. Retorna null para "não interceptar".
+ * Exposto em self.__swRoute para os testes.
+ */
+function route(pathname, isNavigation) {
+  if (PAGE_PATHS.has(pathname)) return 'page';
+  if (isNavigation) return null; // navegação para fora do portfólio: rede pura
+  if (DATA_PATHS.has(pathname)) return 'data';
+  if (pathname.startsWith(HASHED_PREFIX)) return 'immutable';
+  if (ROOT_FILES.has(pathname) || ASSET_PREFIXES.some((p) => pathname.startsWith(p))) return 'asset';
+  return null;
+}
+self.__swRoute = route;
+
+async function trimCache(name, max) {
+  const cache = await caches.open(name);
+  const keys = await cache.keys();
+  // cache.keys() vem em ordem de inserção: remove as mais antigas.
+  for (let i = 0; i < keys.length - max; i += 1) {
+    await cache.delete(keys[i]);
+  }
+}
+
+async function put(name, max, request, response) {
+  if (!response || !response.ok || response.type === 'opaque') return;
+  const cache = await caches.open(name);
+  await cache.delete(request); // reinserir: a entrada vai para o fim (mais recente)
+  await cache.put(request, response);
+  await trimCache(name, max);
+}
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(STATIC_CACHE)
-      .then((cache) => cache.addAll(STATIC_ASSETS))
+      .then((cache) => cache.addAll(PRECACHE))
+      .catch(() => undefined) // precache é opcional; não bloqueia a atualização do SW
       .then(() => self.skipWaiting())
   );
 });
@@ -25,22 +77,58 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((cacheNames) =>
+      .then((names) =>
         Promise.all(
-          cacheNames
-            .filter((cacheName) => cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE)
-            .map((cacheName) => caches.delete(cacheName))
+          names
+            // Apaga todo cache antigo do portfólio (v4 e anteriores, que guardavam dados dos
+            // subprojetos) e qualquer cache que não seja o atual.
+            .filter((name) => name !== STATIC_CACHE && name !== DYNAMIC_CACHE)
+            .map((name) => caches.delete(name))
         )
       )
       .then(() => self.clients.claim())
   );
 });
 
-function isHtmlRequest(request) {
-  if (request.mode === 'navigate') return true;
-  if (request.destination === 'document') return true;
-  const accept = request.headers.get('accept') || '';
-  return accept.includes('text/html');
+function networkFirst(event, request) {
+  return fetch(request)
+    .then((response) => {
+      event.waitUntil(put(DYNAMIC_CACHE, MAX_DYNAMIC_ENTRIES, request, response.clone()));
+      return response;
+    })
+    .catch(() =>
+      caches.match(request).then((cached) => {
+        if (cached) return cached;
+        if (request.mode === 'navigate') return caches.match('/');
+        return Response.error();
+      })
+    );
+}
+
+function cacheFirst(event, request) {
+  return caches.match(request).then((cached) => {
+    if (cached) return cached;
+    return fetch(request).then((response) => {
+      event.waitUntil(put(STATIC_CACHE, MAX_STATIC_ENTRIES, request, response.clone()));
+      return response;
+    });
+  });
+}
+
+function staleWhileRevalidate(event, request) {
+  return caches.match(request).then((cached) => {
+    const network = fetch(request)
+      .then((response) => {
+        event.waitUntil(put(STATIC_CACHE, MAX_STATIC_ENTRIES, request, response.clone()));
+        return response;
+      })
+      .catch(() => cached || Response.error());
+    if (cached) {
+      event.waitUntil(network.catch(() => undefined));
+      return cached;
+    }
+    return network;
+  });
 }
 
 self.addEventListener('fetch', (event) => {
@@ -50,59 +138,15 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  if (isHtmlRequest(request)) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(DYNAMIC_CACHE).then((cache) => cache.put(request, copy));
-          }
-          return response;
-        })
-        .catch(() =>
-          caches
-            .match(request)
-            .then((cached) => cached || caches.match('/') || caches.match('/index.html'))
-        )
-    );
-    return;
+  const isNavigation = request.mode === 'navigate';
+  const strategy = route(url.pathname, isNavigation);
+  if (!strategy) return; // fora do portfólio (subprojetos e outros repos do Pages): rede
+
+  if (strategy === 'page' || strategy === 'data') {
+    event.respondWith(networkFirst(event, request));
+  } else if (strategy === 'immutable') {
+    event.respondWith(cacheFirst(event, request));
+  } else {
+    event.respondWith(staleWhileRevalidate(event, request));
   }
-
-  if (
-    STATIC_ASSETS.includes(url.pathname) ||
-    url.pathname.startsWith('/images/') ||
-    url.pathname.startsWith('/icons/') ||
-    url.pathname.startsWith('/fonts/')
-  ) {
-    event.respondWith(
-      caches.match(request).then((cached) => {
-        if (cached) return cached;
-        return fetch(request).then((response) => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(STATIC_CACHE).then((cache) => cache.put(request, copy));
-          }
-          return response;
-        });
-      })
-    );
-    return;
-  }
-
-  event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      const network = fetch(request)
-        .then((networkResponse) => {
-          if (networkResponse.ok) {
-            const copy = networkResponse.clone();
-            caches.open(DYNAMIC_CACHE).then((cache) => cache.put(request, copy));
-          }
-          return networkResponse;
-        })
-        .catch(() => cachedResponse);
-
-      return cachedResponse || network;
-    })
-  );
 });
