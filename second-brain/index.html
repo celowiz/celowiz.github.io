@@ -22,10 +22,12 @@
     <meta name="twitter:image" content="https://celowiz.github.io/images/portfolio-preview.png" />
 
     <meta name="theme-color" content="#050506" />
-    <link rel="icon" href="/favicon.ico" sizes="48x48" />
-    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+    <!-- Favicon próprio do Second Brain (cérebro creme/teal). Só PNG com sizes, sem SVG:
+         com um ícone SVG o navegador usaria a versão completa também em 16px. Assim a aba em
+         1x usa a versão simplificada (favicon-16) e telas 2x usam a completa (favicon-32). -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/second-brain/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/second-brain/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/second-brain/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/second-brain.json" as="fetch" crossorigin />
