@@ -94,7 +94,7 @@ export default function Bookshelf({
   }
 
   const controlClass =
-    'h-10 rounded-lg border border-white/10 bg-white/5 px-3 text-sm text-paper placeholder:text-paper/40 focus:border-teal focus:outline-none';
+    'h-10 rounded-lg border border-white/10 bg-white/5 px-3 text-sm text-paper placeholder:text-paper/50 focus:border-teal focus:outline-none';
 
   return (
     <section id="bookshelf" className="scroll-mt-28 bg-ink py-24 sm:py-28">

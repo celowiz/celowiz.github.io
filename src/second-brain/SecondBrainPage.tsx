@@ -93,12 +93,12 @@ function Hero({ data, bookCount }: { data: SecondBrainData | null; bookCount?: n
             {t('secondBrain.hero.github')} ↗
           </a>
           {updated ? (
-            <span className="font-mono text-[0.78rem] text-paper/40">
+            <span className="font-mono text-[0.78rem] text-paper/50">
               {t('secondBrain.hero.updated', { date: updated })}
             </span>
           ) : null}
         </div>
-        <p className="mt-6 max-w-[44rem] text-[0.82rem] text-paper/40">{t('secondBrain.hero.disclaimer')}</p>
+        <p className="mt-6 max-w-[44rem] text-[0.82rem] text-paper/50">{t('secondBrain.hero.disclaimer')}</p>
       </div>
     </header>
   );
@@ -110,7 +110,7 @@ function StartHere({ data, books }: { data: SecondBrainData; books: Book[] }) {
   const subs = useMemo(() => new Map(data.categories.flatMap((c) => c.subs.map((s) => [s.id, s]))), [data.categories]);
 
   const linkClass = 'text-paper transition-colors hover:text-teal';
-  const metaClass = 'mt-0.5 block font-mono text-[0.7rem] text-paper/40';
+  const metaClass = 'mt-0.5 block font-mono text-[0.7rem] text-paper/50';
 
   return (
     <section id="start" className="scroll-mt-20 border-b border-white/10 bg-ink py-18 sm:py-20">

@@ -8,6 +8,7 @@
     "prebuild": "node scripts/generate-site-assets.mjs",
     "build": "vite build",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p .",
     "preview": "vite preview",
     "test": "node --test scripts/lib/*.test.mjs src/lib/*.test.mjs",
     "sync-books": "node scripts/sync-books.mjs",
