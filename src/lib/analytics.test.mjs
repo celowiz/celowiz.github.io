@@ -160,6 +160,34 @@ describe('gtag stub queue', () => {
   });
 });
 
+describe('click_book format', () => {
+  const book = {
+    title: 'Quantitative Trading',
+    isbn: '9781119800064',
+    amazonUrl: 'https://www.amazon.com.br/x/dp/1119800064/?tag=celowiz05-20',
+    kindleUrl: 'https://www.amazon.com.br/dp/B0GQCW4DRB/?tag=celowiz05-20',
+  };
+
+  it('usa format=physical por padrão, com o ASIN do livro físico', () => {
+    const params = buildBookClickParams(book);
+    assert.equal(params.format, 'physical');
+    assert.equal(params.book_asin, '1119800064');
+  });
+
+  it('usa format=kindle e o ASIN do Kindle no botão Kindle', () => {
+    const win = createFakeWindow();
+    trackBookClick({ ...book, format: 'kindle' }, win);
+    const [event] = eventsNamed(win, BOOK_CLICK_EVENT);
+    assert.equal(event.format, 'kindle');
+    assert.equal(event.book_asin, 'B0GQCW4DRB');
+    assert.equal(event.book_isbn, '9781119800064');
+  });
+
+  it('ignora formatos desconhecidos', () => {
+    assert.equal(buildBookClickParams({ ...book, format: 'audio' }).format, 'physical');
+  });
+});
+
 describe('click_resource', () => {
   const resource = {
     name: 'QuantEcon: Python para Economia',

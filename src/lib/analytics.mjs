@@ -26,14 +26,25 @@ export function extractAsinFromUrl(amazonUrl) {
   return match ? match[1] : undefined;
 }
 
+export const BOOK_FORMATS = ['physical', 'kindle'];
+
+/**
+ * Parâmetros do click_book. `book.format` diz qual botão foi clicado: 'physical' (padrão,
+ * botão âmbar "Ver na Amazon") ou 'kindle' (botão Kindle, ASIN tirado do kindleUrl).
+ */
 export function buildBookClickParams(book) {
   const title = book?.title ?? '';
   const isbn = book?.isbn || book?.id;
-  const asin = book?.asin || extractAsinFromUrl(book?.amazonUrl);
+  const format = BOOK_FORMATS.includes(book?.format) ? book.format : 'physical';
+  const asin =
+    format === 'kindle'
+      ? extractAsinFromUrl(book?.kindleUrl)
+      : book?.asin || extractAsinFromUrl(book?.amazonUrl);
   const params = {
     book_title: title,
     event_label: title,
     event_category: 'Bookshelf',
+    format,
     transport_type: 'beacon',
   };
   if (isbn) params.book_isbn = isbn;

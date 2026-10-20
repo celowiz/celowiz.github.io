@@ -2,6 +2,40 @@ export const AFFILIATE_TAG = 'celowiz05-20';
 export const BOOKS_CSV_URL =
   'https://raw.githubusercontent.com/celowiz/second-brain/main/books.csv';
 
+/**
+ * Taxonomia fechada do books.csv (espelha scripts/taxonomy.py do celowiz/second-brain):
+ * categories = "Tema;tag;tag;Idioma". 1ª posição = tema (THEMES), última = idioma (LANGUAGES),
+ * meio = até 3 tags secundárias. Tema fora da lista vira OTHER_THEME, sem quebrar o build.
+ */
+export const THEMES = [
+  'Quant',
+  'Investing',
+  'Economics',
+  'Software',
+  'Behavior',
+  'Data Science',
+  'Fiction & Philosophy',
+];
+export const OTHER_THEME = 'Other';
+export const LANGUAGES = ['PT', 'EN'];
+
+export function parseTaxonomy(categories) {
+  const list = (Array.isArray(categories) ? categories : String(categories ?? '').split(';'))
+    .map((c) => String(c).trim())
+    .filter(Boolean);
+  let rest = list;
+  let language;
+  if (rest.length > 0 && LANGUAGES.includes(rest[rest.length - 1])) {
+    language = rest[rest.length - 1];
+    rest = rest.slice(0, -1);
+  }
+  const [first, ...tags] = rest;
+  const theme = THEMES.includes(first) ? first : OTHER_THEME;
+  // Tema desconhecido continua visível como tag, para não sumir informação.
+  const allTags = theme === OTHER_THEME && first ? [first, ...tags] : tags;
+  return { theme, tags: allTags, ...(language ? { language } : {}) };
+}
+
 export function normalizeIsbn(isbn) {
   return String(isbn ?? '').replace(/[-\s]/g, '').trim();
 }
@@ -70,13 +104,20 @@ export function mapBookRow(row) {
     .map((cat) => cat.trim())
     .filter(Boolean);
 
+  const { theme, tags, language } = parseTaxonomy(categories);
+  const kindle = String(row.kindle ?? '').trim();
+
   return {
     id: isbn,
     isbn,
     title: String(row.title ?? '').trim(),
     amazonUrl: withAffiliateTag(row.amazon),
-    category: categories.join(', '),
+    ...(kindle ? { kindleUrl: withAffiliateTag(kindle) } : {}),
+    category: theme,
     categories,
+    theme,
+    tags,
+    ...(language ? { language } : {}),
     asin: extractAsin(row.amazon),
     cover: `/covers/${isbn}.webp`,
   };
