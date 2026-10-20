@@ -19,7 +19,18 @@ const getUniqueCategories = (books: Book[]): string[] => {
   return Array.from(categories);
 };
 
-export default function Bookshelf() {
+type BookshelfProps = {
+  /** Livros já carregados pela página (evita um segundo fetch de /books.json). */
+  books?: Book[];
+  titleKey?: string;
+  descriptionKey?: string;
+};
+
+export default function Bookshelf({
+  books: providedBooks,
+  titleKey = 'bookshelf.title',
+  descriptionKey = 'bookshelf.description',
+}: BookshelfProps = {}) {
   const { t } = useTranslation();
   const [books, setBooks] = useState<Book[]>([]);
   const [filter, setFilter] = useState('All');
@@ -30,6 +41,12 @@ export default function Bookshelf() {
   const [booksPerRow, setBooksPerRow] = useState(2);
 
   useEffect(() => {
+    if (providedBooks) {
+      setBooks(providedBooks);
+      setCategories(getUniqueCategories(providedBooks));
+      setIsLoading(false);
+      return;
+    }
     const loadBooks = async () => {
       try {
         const response = await fetch('/books.json');
@@ -45,7 +62,7 @@ export default function Bookshelf() {
     };
 
     loadBooks();
-  }, []);
+  }, [providedBooks]);
 
   useEffect(() => {
     const updateCols = () => {
@@ -91,10 +108,10 @@ export default function Bookshelf() {
     <section id="bookshelf" className="scroll-mt-28 bg-ink py-24 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-center font-serif text-4xl tracking-tight text-paper sm:text-5xl">
-          {t('bookshelf.title')}
+          {t(titleKey)}
         </h2>
         <p className="mx-auto mt-6 mb-10 max-w-2xl text-center text-paper/70">
-          {t('bookshelf.description')}
+          {t(descriptionKey)}
         </p>
 
         <div className="mb-8 flex flex-col gap-3 lg:flex-row lg:items-center">

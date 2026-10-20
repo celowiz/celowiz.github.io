@@ -16,4 +16,5 @@ jobs:
       - run: npm test
       - run: npm run lint
       - run: npm run sync-books
+      - run: npm run sync-second-brain
       - run: npm run build

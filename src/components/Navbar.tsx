@@ -94,18 +94,29 @@ function TubelightNav({
   );
 }
 
-export default function Navbar() {
+export type NavSection = { id: string; label: string; icon: LucideIcon };
+
+type NavbarProps = {
+  /** Seções da página. Sem esta prop, usa as seções do portfólio (SECTION_IDS). */
+  sections?: NavSection[];
+};
+
+export default function Navbar({ sections }: NavbarProps = {}) {
   const { t } = useTranslation();
   const { trackSectionView } = useAnalytics();
   const scrolled = useScrolled(16);
-  const activeSection = useActiveSection(SECTION_IDS, trackSectionView);
-
-  const items: NavItem[] = SECTION_IDS.map((id) => ({
-    id,
-    name: id === 'hero' ? t('navbar.home') : t(`navbar.${id}`),
-    url: `#${id}`,
-    icon: NAV_ICONS[id],
-  }));
+  const items: NavItem[] = sections
+    ? sections.map(({ id, label, icon }) => ({ id, name: label, url: `#${id}`, icon }))
+    : SECTION_IDS.map((id) => ({
+        id,
+        name: id === 'hero' ? t('navbar.home') : t(`navbar.${id}`),
+        url: `#${id}`,
+        icon: NAV_ICONS[id],
+      }));
+  const activeSection = useActiveSection(
+    items.map((item) => item.id),
+    trackSectionView,
+  );
 
   return (
     <nav role="navigation" aria-label={t('navbar.aria')}>

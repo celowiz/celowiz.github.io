@@ -5,6 +5,13 @@ import './index.css';
 import './i18n';
 import { scheduleGtagScriptLoad } from './lib/analytics.mjs';
 
+// Links no formato de rota com hash (/#/second-brain) levam à página real.
+const hashRoute = window.location.hash.match(/^#\/?second-brain\/?(.*)$/);
+if (hashRoute) {
+  const rest = hashRoute[1];
+  window.location.replace(`/second-brain/${rest ? (rest.startsWith('?') ? rest : `#${rest}`) : ''}`);
+}
+
 scheduleGtagScriptLoad();
 
 if ('serviceWorker' in navigator) {

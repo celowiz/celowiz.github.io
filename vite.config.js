@@ -29,6 +29,12 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
+      // Duas páginas: o portfólio (/) e o Second Brain (/second-brain/), que vira
+      // dist/second-brain/index.html e abre direto no GitHub Pages.
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        secondBrain: path.resolve(__dirname, 'second-brain/index.html'),
+      },
       output: {
         manualChunks(id) {
           if (!id.includes('node_modules')) return
