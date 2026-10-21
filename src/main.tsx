@@ -11,6 +11,12 @@ if (hashRoute) {
   const rest = hashRoute[1];
   window.location.replace(`/second-brain/${rest ? (rest.startsWith('?') ? rest : `#${rest}`) : ''}`);
 }
+// Mesmo para o Mercado Hoje (/#/mercado-hoje → /mercado-hoje/).
+const mhRoute = window.location.hash.match(/^#\/?mercado-hoje\/?(.*)$/);
+if (mhRoute) {
+  const rest = mhRoute[1];
+  window.location.replace(`/mercado-hoje/${rest ? (rest.startsWith('?') ? rest : `#${rest}`) : ''}`);
+}
 // Mesmo para o Lab (/#/lab → /lab/).
 const labRoute = window.location.hash.match(/^#\/?lab\/?(.*)$/);
 if (labRoute) {

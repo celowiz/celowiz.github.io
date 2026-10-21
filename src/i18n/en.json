@@ -174,6 +174,10 @@
         "7": {
             "title": "Lab · Interactive demos",
             "description": "Quantitative finance demos that run in the browser, with no server: Monte Carlo price paths with geometric Brownian motion (percentile fan, final price histogram and statistics), computed in a Web Worker, with explanation and code. Efficient frontier, pairs z-score, Kelly and Black-Scholes are on the way. Educational content."
+        },
+        "8": {
+            "title": "Market Today",
+            "description": "A daily market digest built from the data my other projects already compute: market regime (3-state HMM), B3 sector rotation (RRG), Monitor B3 breadth and signals, cointegrated pairs, and the Selic, CDI, IPCA and PTAX dollar from the Central Bank of Brazil (SGS, via python-bcb). Each project publishes a small summary, GitHub Actions merges them on weekdays and a fixed-rule text, no AI, describes the day. Zero cost and educational only, not investment advice."
         }
     },
     "footer": {

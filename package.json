@@ -13,6 +13,7 @@
     "test": "node --test scripts/lib/*.test.mjs src/lib/*.test.mjs",
     "sync-books": "node scripts/sync-books.mjs",
     "sync-second-brain": "node scripts/sync-second-brain.mjs",
+    "sync-mercado-hoje": "node scripts/sync-mercado-hoje.mjs",
     "generate-assets": "node scripts/generate-site-assets.mjs",
     "fetch-devicons": "node scripts/fetch-devicons.mjs"
   },

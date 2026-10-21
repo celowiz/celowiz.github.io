@@ -5,6 +5,10 @@ on:
     branches: [main]
   schedule:
     - cron: '0 6 * * *'
+    # Mercado Hoje: dias úteis às 21:00 BRT (depois do fechamento do Monitor B3) e às 23:30 BRT
+    # (os jobs agendados das 19:30 BRT do RRG, HMM e Pares costumam começar com 2–3 h de atraso).
+    - cron: '0 0 * * 2-6'
+    - cron: '30 2 * * 2-6'
   workflow_dispatch:
 
 permissions:
@@ -28,6 +32,16 @@ jobs:
       - run: npm ci
       - run: npm run sync-books
       - run: npm run sync-second-brain
+      # Mercado Hoje: Selic, CDI, IPCA e PTAX do Banco Central (SGS) via python-bcb, depois junta
+      # os data/summary.json dos subprojetos. Os dois passos nunca derrubam o deploy (fallback por bloco).
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: scripts/requirements-bcb.txt
+      - run: pip install -r scripts/requirements-bcb.txt
+      - run: python scripts/fetch_bcb.py .cache/bcb-sgs.json
+      - run: npm run sync-mercado-hoje
       - run: npm run build
       - uses: actions/upload-pages-artifact@v5
         with:
