@@ -170,6 +170,10 @@
         "6": {
             "title": "Pairs Trading",
             "description": "Relative value between pairs of assets, with tests against spurious correlation: only economically linked pairs, cointegration via Engle-Granger (both directions) and Johansen, multiple-testing correction with FDR (Benjamini-Hochberg), mean-reversion half-life between 2 and 60 days, rolling-window stability and an out-of-sample walk-forward backtest with costs. Pairs are split into robust and candidate tiers, with spread, z-score and entry/exit bands. Yahoo Finance data refreshed via GitHub Actions, zero cost, educational only."
+        },
+        "7": {
+            "title": "Lab · Interactive demos",
+            "description": "Quantitative finance demos that run in the browser, with no server: Monte Carlo price paths with geometric Brownian motion (percentile fan, final price histogram and statistics), computed in a Web Worker, with explanation and code. Efficient frontier, pairs z-score, Kelly and Black-Scholes are on the way. Educational content."
         }
     },
     "footer": {

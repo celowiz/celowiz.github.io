@@ -193,3 +193,67 @@ export function secondBrainOgSvg(fonts, brainSvg) {
 export async function readBrainSvg(imagesDir) {
   return fs.readFile(path.join(imagesDir, 'second-brain', 'favicon.svg'), 'utf8');
 }
+
+/**
+ * Leque de Monte Carlo (bandas P5–P95 e P25–P75, mediana e algumas trajetórias), o mesmo
+ * desenho do demo do /lab/, em miniatura. Determinístico (rng com semente fixa).
+ */
+export function fanGlyphSvg({ x, y, width, height, seed = 5 }) {
+  const random = rng(seed);
+  const steps = 48;
+  const mid = y + height * 0.52;
+  const X = (i) => x + (width * i) / steps;
+  // Abertura ~√t, com leve deriva para cima (mediana sobe devagar).
+  const spread = (i, k) => k * height * 0.5 * Math.sqrt(i / steps);
+  const median = (i) => mid - height * 0.12 * (i / steps);
+  const band = (k, opacity) => {
+    const top = [];
+    const bottom = [];
+    for (let i = 0; i <= steps; i += 1) {
+      top.push(`${X(i).toFixed(1)},${(median(i) - spread(i, k)).toFixed(1)}`);
+      bottom.unshift(`${X(i).toFixed(1)},${(median(i) + spread(i, k) * 0.8).toFixed(1)}`);
+    }
+    return `<polygon points="${top.concat(bottom).join(' ')}" fill="${COLORS.teal}" fill-opacity="${opacity}"/>`;
+  };
+  const paths = [];
+  for (let p = 0; p < 9; p += 1) {
+    let v = 0;
+    const pts = [];
+    for (let i = 0; i <= steps; i += 1) {
+      // Soma de 48 uniformes(−½, ½): desvio-padrão final ≈ 2, então v/2 cai quase sempre na banda.
+      if (i) v += random() - 0.5;
+      const yy = median(i) + (v / 2) * height * 0.42 * (v < 0 ? 0.8 : 1);
+      pts.push(`${X(i).toFixed(1)},${Math.min(y + height, Math.max(y, yy)).toFixed(1)}`);
+    }
+    paths.push(`<polyline points="${pts.join(' ')}" fill="none" stroke="${COLORS.paper}" stroke-opacity="0.16" stroke-width="1.2"/>`);
+  }
+  const medianLine = Array.from({ length: steps + 1 }, (_, i) => `${X(i).toFixed(1)},${median(i).toFixed(1)}`).join(' ');
+  const s0 = `<line x1="${x}" y1="${mid}" x2="${x + width}" y2="${mid}" stroke="${COLORS.paper}" stroke-opacity="0.3" stroke-width="1.2" stroke-dasharray="5 5"/>`;
+  return (
+    band(1, 0.14) +
+    band(0.5, 0.26) +
+    paths.join('') +
+    s0 +
+    `<polyline points="${medianLine}" fill="none" stroke="${COLORS.teal}" stroke-width="3" stroke-linecap="round"/>`
+  );
+}
+
+/** Variante do /lab/: leque de Monte Carlo + título. */
+export function labOgSvg(fonts) {
+  const glyph = fanGlyphSvg({ x: OG_WIDTH / 2 - 130, y: 92, width: 260, height: 120 });
+  const title = textPath(fonts.serif, 'Lab', {
+    x: OG_WIDTH / 2,
+    y: 340,
+    size: 112,
+    fill: COLORS.paper,
+    anchor: 'middle',
+    letterSpacing: -1.2,
+  });
+  return frame(
+    glyph +
+      title.svg +
+      promptLine(fonts, 'monte carlo · fronteira · pares · kelly · black-scholes', 418, 26) +
+      footerUrl(fonts, 'celowiz.github.io/lab'),
+    { seed: 13 }
+  );
+}

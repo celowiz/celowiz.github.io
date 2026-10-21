@@ -11,6 +11,12 @@ if (hashRoute) {
   const rest = hashRoute[1];
   window.location.replace(`/second-brain/${rest ? (rest.startsWith('?') ? rest : `#${rest}`) : ''}`);
 }
+// Mesmo para o Lab (/#/lab → /lab/).
+const labRoute = window.location.hash.match(/^#\/?lab\/?(.*)$/);
+if (labRoute) {
+  const rest = labRoute[1];
+  window.location.replace(`/lab/${rest ? (rest.startsWith('?') ? rest : `#${rest}`) : ''}`);
+}
 
 scheduleGtagScriptLoad();
 

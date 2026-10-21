@@ -170,6 +170,10 @@
         "6": {
             "title": "Pairs Trading",
             "description": "Valor relativo entre pares de ativos com testes contra correlação espúria: só pares com vínculo econômico, cointegração por Engle-Granger (nos dois sentidos) e Johansen, correção de testes múltiplos por FDR (Benjamini-Hochberg), meia-vida de reversão entre 2 e 60 dias, estabilidade em janelas móveis e backtest walk-forward fora da amostra com custos. Os pares são separados em faixas de robustos e candidatos, com spread, z-score e bandas de entrada/saída. Dados do Yahoo Finance atualizados via GitHub Actions, custo zero e uso educacional."
+        },
+        "7": {
+            "title": "Lab · Demos interativos",
+            "description": "Demos de finanças quantitativas que rodam no navegador, sem servidor: Monte Carlo de preços com movimento browniano geométrico (leque de percentis, histograma do preço final e estatísticas), calculado num Web Worker, com explicação e código. Fronteira eficiente, z-score de pares, Kelly e Black-Scholes estão a caminho. Conteúdo educativo."
         }
     },
     "footer": {

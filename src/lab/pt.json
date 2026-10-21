@@ -1,0 +1,144 @@
+{
+  "metaTitle": "Lab · Marcelo Wizenberg",
+  "back": "Voltar ao portfólio",
+  "nav": {
+    "hero": "Início",
+    "demos": "Demos",
+    "monteCarlo": "Monte Carlo",
+    "how": "Como funciona"
+  },
+  "hero": {
+    "prompt": "open lab --interactive",
+    "title": "Lab",
+    "description": "Demos de finanças quantitativas que rodam no seu navegador. Mexa nos parâmetros e veja o que acontece com a distribuição de preços, a fronteira eficiente ou o z-score de um par.",
+    "demos": "ativa · {{soon}} em breve",
+    "servers": "Servidores",
+    "inBrowser": "No navegador",
+    "related": "Projetos relacionados",
+    "open": "Abrir Monte Carlo",
+    "github": "Código no GitHub",
+    "tech": "JavaScript puro · sem servidor · sem login",
+    "disclaimer": "Conteúdo educativo, não é recomendação de investimento. As simulações usam modelos simplificados e parâmetros escolhidos por você; resultados passados ou simulados não garantem resultados futuros."
+  },
+  "demos": {
+    "title": "Demos",
+    "intro": "Cada demo tem uma explicação curta, os parâmetros principais e o código por trás. Onde existe, aponto o projeto completo com dados reais.",
+    "openBelow": "Aberta abaixo",
+    "soon": "Em breve",
+    "open": "Abrir demo →",
+    "soonAction": "Em construção",
+    "repoAria": "Repositório {{repo}} no GitHub",
+    "items": {
+      "monteCarlo": {
+        "title": "Monte Carlo de preços",
+        "description": "Simula milhares de trajetórias com movimento browniano geométrico e mostra o leque de resultados possíveis.",
+        "tags": [
+          "GBM",
+          "simulação",
+          "risco"
+        ]
+      },
+      "frontier": {
+        "title": "Fronteira eficiente",
+        "description": "Monte uma carteira com 2 a 4 ativos, ajuste retornos, vols e correlações e veja a fronteira de Markowitz se mover.",
+        "tags": [
+          "Markowitz",
+          "correlação",
+          "carteira"
+        ]
+      },
+      "pairs": {
+        "title": "Z-score de pares",
+        "description": "Gere dois preços cointegrados, escolha a janela e os limites de entrada e veja quando o spread se afasta e volta.",
+        "tags": [
+          "cointegração",
+          "spread",
+          "meia-vida"
+        ]
+      },
+      "kelly": {
+        "title": "Kelly e tamanho de posição",
+        "description": "Compare frações de Kelly em uma aposta repetida e veja o efeito sobre crescimento, drawdown e risco de ruína.",
+        "tags": [
+          "Kelly",
+          "sizing",
+          "drawdown"
+        ]
+      },
+      "blackScholes": {
+        "title": "Black-Scholes e gregas",
+        "description": "Preço de uma opção europeia e as gregas em função do preço do ativo, do prazo e da volatilidade implícita.",
+        "tags": [
+          "opções",
+          "gregas",
+          "vol implícita"
+        ]
+      }
+    },
+    "real": {
+      "eyebrow": "Com dados reais",
+      "description": "Os demos usam dados sintéticos. Para ver os mesmos conceitos aplicados a ativos de verdade, os projetos completos:",
+      "monitor-b3": "scanner da B3",
+      "rrg": "rotação relativa",
+      "hmm-regimes": "regimes de mercado",
+      "pairs-trading": "pares cointegrados",
+      "quant-notebooks": "notebooks"
+    }
+  },
+  "mc": {
+    "crumb": "lab / monte-carlo",
+    "title": "Monte Carlo de preços",
+    "intro": "Movimento browniano geométrico: o log-retorno de cada dia é normal, com média e volatilidade constantes. É o modelo por trás de Black-Scholes, e também a sua maior simplificação.",
+    "loading": "Carregando a simulação…",
+    "load": "Carregar a demo",
+    "controls": "Parâmetros da simulação",
+    "s0": "Preço inicial (S₀)",
+    "mu": "Drift anual (μ)",
+    "muHint": "retorno médio esperado por ano",
+    "sigma": "Volatilidade anual (σ)",
+    "sigmaHint": "desvio-padrão anualizado dos log-retornos",
+    "horizon": "Horizonte",
+    "horizonHint": "em pregões (252 ≈ 1 ano)",
+    "horizonValue": "{{days}} d · {{years}} a",
+    "horizonText": "{{days}} pregões, {{years}} anos",
+    "n": "Nº de simulações",
+    "newSeed": "Nova semente",
+    "showCode": "Ver código",
+    "hideCode": "Ocultar código",
+    "paramsNote": "Parâmetros ilustrativos escolhidos por você, não estimados de nenhum ativo. Conteúdo educativo, não é recomendação de investimento.",
+    "fan": "Leque de trajetórias",
+    "median": "mediana",
+    "fanAria": "Leque de {{n}} trajetórias simuladas em {{days}} pregões, partindo de {{s0}}. Mediana final {{median}}, faixa P5 a P95 de {{p5}} a {{p95}}.",
+    "hist": "Distribuição do preço final",
+    "histLabel": "{{n}} simulações · semente {{seed}}",
+    "histAria": "Histograma do preço final: {{below}} das trajetórias terminam abaixo de S₀ ({{s0}}). Mediana {{median}}.",
+    "histTail": "{{hi}} (P99; cauda omitida)",
+    "observe": "O que observar",
+    "obsPositive": "Com σ = {{sigma}}, a média ({{mean}}) fica <b>acima</b> da mediana ({{median}}): poucas trajetórias muito altas puxam a média. Em {{below}} das simulações o preço termina abaixo de S₀, mesmo com drift positivo. Aumente a vol para ver o leque abrir e a assimetria crescer.",
+    "obsNegative": "Com σ = {{sigma}}, a média ({{mean}}) fica <b>acima</b> da mediana ({{median}}): poucas trajetórias muito altas puxam a média. Com drift negativo, {{below}} das simulações terminam abaixo de S₀. Aumente a vol para ver o leque abrir e a assimetria crescer.",
+    "obsDrag": "Repare: μ é positivo, mas μ − σ²/2 é negativo. A trajetória típica (mediana) cai mesmo com retorno médio positivo; é o “arrasto da volatilidade”.",
+    "statMedian": "Mediana",
+    "statMean": "Média",
+    "statBelowText": "Probabilidade de terminar abaixo de S₀",
+    "running": "Simulando…",
+    "formula": "Fórmula",
+    "formulaText": "Z ~ N(0,1), sorteado por Box-Muller; Δt = 1/252. O termo −σ²/2 faz a <b>mediana</b> crescer a μ − σ²/2 por ano, enquanto a <b>média</b> cresce a μ. Quanto maior a vol, maior a distância entre as duas.",
+    "memory": "A simulação anda dia a dia com um vetor de N preços e só calcula os percentis nos dias do gráfico, então não precisa guardar a matriz inteira de trajetórias. Roda num Web Worker para não travar a página.",
+    "codeAria": "Código da simulação em JavaScript"
+  },
+  "how": {
+    "title": "Como funciona",
+    "1": {
+      "title": "01 · No navegador",
+      "text": "Cada demo é um módulo carregado só quando você chega nele. Nada roda em servidor; o site continua estático no GitHub Pages."
+    },
+    "2": {
+      "title": "02 · Código aberto",
+      "text": "O botão “Ver código” mostra a fórmula e o trecho de JavaScript que gera o gráfico. O mesmo código está no repositório."
+    },
+    "3": {
+      "title": "03 · Educativo",
+      "text": "Modelos simplificados para entender conceitos. Para dados reais, cada demo aponta o projeto completo correspondente."
+    }
+  }
+}

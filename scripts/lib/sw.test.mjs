@@ -17,6 +17,9 @@ describe('service worker: allowlist do portfólio', () => {
   it('intercepta as páginas e os dados do portfólio', () => {
     assert.equal(route('/', true), 'page');
     assert.equal(route('/second-brain/', true), 'page');
+    assert.equal(route('/lab/', true), 'page');
+    assert.equal(route('/lab', true), 'page');
+    assert.equal(route('/assets/mc.worker-abc123.js', false), 'immutable');
     assert.equal(route('/books.json', false), 'data');
     assert.equal(route('/second-brain.json', false), 'data');
     assert.equal(route('/assets/main-abc123.js', false), 'immutable');
