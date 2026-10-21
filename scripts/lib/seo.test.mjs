@@ -35,8 +35,8 @@ describe('SEO e PWA do portfólio', () => {
     assert.match(html, new RegExp(`<meta name="theme-color" content="${ink}"`));
   });
 
-  it('sitemap lista home, Second Brain e os subprojetos do Pages', () => {
-    for (const path of ['', 'second-brain/', 'monitor-b3/', 'rrg/', 'hmm-regimes/', 'pairs-trading/', 'quant-notebooks/']) {
+  it('sitemap lista home, Second Brain, Lab e os subprojetos do Pages', () => {
+    for (const path of ['', 'second-brain/', 'lab/', 'monitor-b3/', 'rrg/', 'hmm-regimes/', 'pairs-trading/', 'quant-notebooks/']) {
       assert.match(sitemap, new RegExp(`<loc>https://celowiz\\.github\\.io/${path}</loc>`));
     }
   });

@@ -1,0 +1,144 @@
+{
+  "metaTitle": "Lab · Marcelo Wizenberg",
+  "back": "Back to the portfolio",
+  "nav": {
+    "hero": "Home",
+    "demos": "Demos",
+    "monteCarlo": "Monte Carlo",
+    "how": "How it works"
+  },
+  "hero": {
+    "prompt": "open lab --interactive",
+    "title": "Lab",
+    "description": "Quantitative finance demos that run in your browser. Move the parameters and see what happens to the price distribution, the efficient frontier or a pair's z-score.",
+    "demos": "Demos",
+    "servers": "Servers",
+    "inBrowser": "In the browser",
+    "related": "Related projects",
+    "open": "Open Monte Carlo",
+    "github": "Code on GitHub",
+    "tech": "Plain JavaScript · no server · no login",
+    "disclaimer": "Educational content, not investment advice. The simulations use simplified models and parameters you choose; past or simulated results do not guarantee future results."
+  },
+  "demos": {
+    "title": "Demos",
+    "intro": "Each demo has a short explanation, the main parameters and the code behind it. Where there is one, I link the full project with real data.",
+    "openBelow": "Open below",
+    "soon": "Coming soon",
+    "open": "Open demo →",
+    "soonAction": "In progress",
+    "repoAria": "{{repo}} repository on GitHub",
+    "items": {
+      "monteCarlo": {
+        "title": "Monte Carlo price paths",
+        "description": "Simulates thousands of paths with geometric Brownian motion and shows the fan of possible outcomes.",
+        "tags": [
+          "GBM",
+          "simulation",
+          "risk"
+        ]
+      },
+      "frontier": {
+        "title": "Efficient frontier",
+        "description": "Build a portfolio with 2 to 4 assets, tune returns, vols and correlations and watch the Markowitz frontier move.",
+        "tags": [
+          "Markowitz",
+          "correlation",
+          "portfolio"
+        ]
+      },
+      "pairs": {
+        "title": "Pairs z-score",
+        "description": "Generate two cointegrated prices, pick the window and entry bands and see when the spread drifts away and comes back.",
+        "tags": [
+          "cointegration",
+          "spread",
+          "half-life"
+        ]
+      },
+      "kelly": {
+        "title": "Kelly and position sizing",
+        "description": "Compare Kelly fractions on a repeated bet and see the effect on growth, drawdown and risk of ruin.",
+        "tags": [
+          "Kelly",
+          "sizing",
+          "drawdown"
+        ]
+      },
+      "blackScholes": {
+        "title": "Black-Scholes and the Greeks",
+        "description": "Price of a European option and its Greeks as a function of the underlying price, time to expiry and implied volatility.",
+        "tags": [
+          "options",
+          "Greeks",
+          "implied vol"
+        ]
+      }
+    },
+    "real": {
+      "eyebrow": "With real data",
+      "description": "The demos use synthetic data. To see the same ideas applied to real assets, the full projects:",
+      "monitor-b3": "B3 scanner",
+      "rrg": "relative rotation",
+      "hmm-regimes": "market regimes",
+      "pairs-trading": "cointegrated pairs",
+      "quant-notebooks": "notebooks"
+    }
+  },
+  "mc": {
+    "crumb": "lab / monte-carlo",
+    "title": "Monte Carlo price paths",
+    "intro": "Geometric Brownian motion: each day's log return is normal, with constant mean and volatility. It is the model behind Black-Scholes, and also its biggest simplification.",
+    "loading": "Loading the simulation…",
+    "load": "Load the demo",
+    "controls": "Simulation parameters",
+    "s0": "Initial price (S₀)",
+    "mu": "Annual drift (μ)",
+    "muHint": "expected average return per year",
+    "sigma": "Annual volatility (σ)",
+    "sigmaHint": "annualized standard deviation of log returns",
+    "horizon": "Horizon",
+    "horizonHint": "in trading days (252 ≈ 1 year)",
+    "horizonValue": "{{days}} d · {{years}} y",
+    "horizonText": "{{days}} trading days, {{years}} years",
+    "n": "Number of simulations",
+    "newSeed": "New seed",
+    "showCode": "Show code",
+    "hideCode": "Hide code",
+    "paramsNote": "Illustrative parameters chosen by you, not estimated from any asset. Educational content, not investment advice.",
+    "fan": "Fan of paths",
+    "median": "median",
+    "fanAria": "Fan of {{n}} simulated paths over {{days}} trading days, starting at {{s0}}. Final median {{median}}, P5 to P95 range from {{p5}} to {{p95}}.",
+    "hist": "Final price distribution",
+    "histLabel": "{{n}} simulations · seed {{seed}}",
+    "histAria": "Final price histogram: {{below}} of the paths end below S₀ ({{s0}}). Median {{median}}.",
+    "histTail": "{{hi}} (P99; tail omitted)",
+    "observe": "What to look for",
+    "obsPositive": "With σ = {{sigma}}, the mean ({{mean}}) sits <b>above</b> the median ({{median}}): a few very high paths pull the mean up. In {{below}} of the simulations the price ends below S₀, even with a positive drift. Raise the vol to watch the fan widen and the skew grow.",
+    "obsNegative": "With σ = {{sigma}}, the mean ({{mean}}) sits <b>above</b> the median ({{median}}): a few very high paths pull the mean up. With a negative drift, {{below}} of the simulations end below S₀. Raise the vol to watch the fan widen and the skew grow.",
+    "obsDrag": "Notice: μ is positive but μ − σ²/2 is negative. The typical path (median) falls even with a positive average return; that is “volatility drag”.",
+    "statMedian": "Median",
+    "statMean": "Mean",
+    "statBelowText": "Probability of ending below S₀",
+    "running": "Simulating…",
+    "formula": "Formula",
+    "formulaText": "Z ~ N(0,1), drawn with Box-Muller; Δt = 1/252. The −σ²/2 term makes the <b>median</b> grow at μ − σ²/2 per year, while the <b>mean</b> grows at μ. The higher the vol, the bigger the gap between them.",
+    "memory": "The simulation steps day by day with a vector of N prices and only computes percentiles on the days that are charted, so it never stores the full path matrix. It runs in a Web Worker so the page stays responsive.",
+    "codeAria": "Simulation code in JavaScript"
+  },
+  "how": {
+    "title": "How it works",
+    "1": {
+      "title": "01 · In the browser",
+      "text": "Each demo is a module loaded only when you reach it. Nothing runs on a server; the site stays static on GitHub Pages."
+    },
+    "2": {
+      "title": "02 · Open source",
+      "text": "The “Show code” button shows the formula and the JavaScript snippet that draws the chart. The same code is in the repository."
+    },
+    "3": {
+      "title": "03 · Educational",
+      "text": "Simplified models to understand concepts. For real data, each demo links the matching full project."
+    }
+  }
+}

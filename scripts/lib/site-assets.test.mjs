@@ -23,13 +23,14 @@ describe('ícones do site (prebuild)', () => {
 });
 
 describe('imagens de preview social (og:image)', async () => {
-  const { OG_WIDTH, OG_HEIGHT, homeOgSvg, secondBrainOgSvg, loadOgFonts } = await import('./og-images.mjs');
+  const { OG_WIDTH, OG_HEIGHT, homeOgSvg, secondBrainOgSvg, labOgSvg, loadOgFonts } = await import('./og-images.mjs');
   const fonts = await loadOgFonts();
   const brain = await fs.readFile(new URL('../../public/images/second-brain/favicon.svg', import.meta.url), 'utf8');
 
   for (const [name, svg] of [
     ['home', homeOgSvg(fonts)],
     ['second-brain', secondBrainOgSvg(fonts, brain)],
+    ['lab', labOgSvg(fonts)],
   ]) {
     it(`${name}: 1200×630, texto em paths (independe de fontes do sistema) e sem NaN`, () => {
       assert.equal(OG_WIDTH, 1200);
@@ -49,6 +50,7 @@ describe('imagens de preview social (og:image)', async () => {
   for (const [page, image] of [
     ['../../index.html', 'portfolio-preview.png'],
     ['../../second-brain/index.html', 'og-second-brain.png'],
+    ['../../lab/index.html', 'og-lab.png'],
   ]) {
     it(`${page.replace('../../', '')}: og/twitter image absolutas, com tamanho e alt`, async () => {
       const html = await fs.readFile(new URL(page, import.meta.url), 'utf8');

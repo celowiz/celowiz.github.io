@@ -1,0 +1,58 @@
+/* Sliders do /lab/: trilho fino creme e polegar teal, como no mock aprovado. */
+.lab-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  margin: 4px 0 0;
+  background: transparent;
+  cursor: pointer;
+}
+.lab-range:focus {
+  outline: none;
+}
+.lab-range::-webkit-slider-runnable-track {
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.22);
+}
+.lab-range::-moz-range-track {
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.22);
+}
+.lab-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -7px;
+  border: 0;
+  border-radius: 50%;
+  background: #2dd4bf;
+  box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.15);
+}
+.lab-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 50%;
+  background: #2dd4bf;
+  box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.15);
+}
+.lab-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px #050506, 0 0 0 5px #2dd4bf;
+}
+.lab-range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 3px #050506, 0 0 0 5px #2dd4bf;
+}
+
+.lab-code .tok-k {
+  color: #f9a8d4;
+}
+.lab-code .tok-c {
+  color: rgba(244, 241, 234, 0.55);
+}
+.lab-code .tok-n {
+  color: #5eead4;
+}
