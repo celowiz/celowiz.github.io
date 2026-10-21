@@ -7,6 +7,22 @@ NOW = dt.datetime(2026, 10, 21, 0, 30, tzinfo=dt.timezone.utc)  # 20/10 21:30 BR
 
 
 class T(unittest.TestCase):
+    def test_retry_backoff(self):
+        calls, waits = [], []
+
+        def fn():
+            calls.append(1)
+            if len(calls) < 3:
+                raise RuntimeError("502")
+            return "ok"
+
+        self.assertEqual(B.retry(fn, sleep=waits.append), "ok")
+        self.assertEqual(waits, [3.0, 9.0])
+        waits.clear()
+        with self.assertRaises(RuntimeError):
+            B.retry(lambda: (_ for _ in ()).throw(RuntimeError("x")), attempts=3, sleep=waits.append)
+        self.assertEqual(waits, [3.0, 9.0])
+
     def test_clips_future_dates_and_nulls(self):
         pts = B.clean([(D(2026, 10, 21), 13.75), (D(2026, 10, 20), 13.75), (D(2026, 10, 19), None)], B.today_brt(NOW))
         self.assertEqual(pts, [(D(2026, 10, 20), 13.75)])
