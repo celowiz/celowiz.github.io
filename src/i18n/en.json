@@ -173,7 +173,7 @@
         },
         "7": {
             "title": "Lab · Interactive demos",
-            "description": "Quantitative finance demos that run in the browser, with no server: Monte Carlo price paths with geometric Brownian motion (percentile fan, final price histogram and statistics), computed in a Web Worker, with explanation and code. Efficient frontier, pairs z-score, Kelly and Black-Scholes are on the way. Educational content."
+            "description": "Quantitative finance demos that run in the browser, with no server: Monte Carlo price paths with geometric Brownian motion (percentile fan, final price histogram and statistics), computed in a Web Worker, with explanation and code. It also has the Markowitz efficient frontier, a cointegrated pairs z-score, the Kelly criterion and Black-Scholes with Greeks. Educational content."
         },
         "8": {
             "title": "Market Today",

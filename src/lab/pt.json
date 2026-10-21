@@ -4,29 +4,26 @@
   "nav": {
     "hero": "Início",
     "demos": "Demos",
-    "monteCarlo": "Monte Carlo",
     "how": "Como funciona"
   },
   "hero": {
     "prompt": "open lab --interactive",
     "title": "Lab",
     "description": "Demos de finanças quantitativas que rodam no seu navegador. Mexa nos parâmetros e veja o que acontece com a distribuição de preços, a fronteira eficiente ou o z-score de um par.",
-    "demos": "ativa · {{soon}} em breve",
     "servers": "Servidores",
     "inBrowser": "No navegador",
     "related": "Projetos relacionados",
-    "open": "Abrir Monte Carlo",
+    "open": "Explorar as demos",
     "github": "Código no GitHub",
     "tech": "JavaScript puro · sem servidor · sem login",
-    "disclaimer": "Conteúdo educativo, não é recomendação de investimento. As simulações usam modelos simplificados e parâmetros escolhidos por você; resultados passados ou simulados não garantem resultados futuros."
+    "disclaimer": "Conteúdo educativo, não é recomendação de investimento. As simulações usam modelos simplificados e parâmetros escolhidos por você; resultados passados ou simulados não garantem resultados futuros.",
+    "demos_one": "ativa",
+    "demos_other": "ativas"
   },
   "demos": {
     "title": "Demos",
     "intro": "Cada demo tem uma explicação curta, os parâmetros principais e o código por trás. Onde existe, aponto o projeto completo com dados reais.",
-    "openBelow": "Aberta abaixo",
-    "soon": "Em breve",
     "open": "Abrir demo →",
-    "soonAction": "Em construção",
     "repoAria": "Repositório {{repo}} no GitHub",
     "items": {
       "monteCarlo": {
@@ -36,7 +33,8 @@
           "GBM",
           "simulação",
           "risco"
-        ]
+        ],
+        "intro": "Movimento browniano geométrico: o log-retorno de cada dia é normal, com média e volatilidade constantes. É o modelo por trás de Black-Scholes, e também a sua maior simplificação."
       },
       "frontier": {
         "title": "Fronteira eficiente",
@@ -45,7 +43,8 @@
           "Markowitz",
           "correlação",
           "carteira"
-        ]
+        ],
+        "intro": "Markowitz com 2 a 4 ativos sintéticos e só posições compradas: cada ponto é uma carteira, e a curva é a menor vol possível para cada retorno esperado."
       },
       "pairs": {
         "title": "Z-score de pares",
@@ -54,7 +53,8 @@
           "cointegração",
           "spread",
           "meia-vida"
-        ]
+        ],
+        "intro": "Dois preços simulados que andam juntos porque o spread entre eles volta à média. A regra opera o z-score do spread; tudo aqui é sintético."
       },
       "kelly": {
         "title": "Kelly e tamanho de posição",
@@ -63,7 +63,8 @@
           "Kelly",
           "sizing",
           "drawdown"
-        ]
+        ],
+        "intro": "Quanto apostar quando você tem vantagem? Kelly maximiza o crescimento de longo prazo, e apostar mais que ele aumenta o risco sem aumentar o retorno."
       },
       "blackScholes": {
         "title": "Black-Scholes e gregas",
@@ -72,7 +73,8 @@
           "opções",
           "gregas",
           "vol implícita"
-        ]
+        ],
+        "intro": "Preço de uma opção europeia e as gregas pelo modelo de Black-Scholes-Merton, com taxa de juro e dividend yield contínuos."
       }
     },
     "real": {
@@ -83,14 +85,12 @@
       "hmm-regimes": "regimes de mercado",
       "pairs-trading": "pares cointegrados",
       "quant-notebooks": "notebooks"
-    }
+    },
+    "live": "Interativa"
   },
   "mc": {
-    "crumb": "lab / monte-carlo",
-    "title": "Monte Carlo de preços",
-    "intro": "Movimento browniano geométrico: o log-retorno de cada dia é normal, com média e volatilidade constantes. É o modelo por trás de Black-Scholes, e também a sua maior simplificação.",
-    "loading": "Carregando a simulação…",
-    "load": "Carregar a demo",
+    "loading": "Carregando o demo…",
+    "load": "Carregar o demo",
     "controls": "Parâmetros da simulação",
     "s0": "Preço inicial (S₀)",
     "mu": "Drift anual (μ)",
