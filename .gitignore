@@ -76,3 +76,6 @@ src/config/secrets.ts
 # VS Code
 .vscode/settings.json
 .vscode/launch.json
+
+# Python
+__pycache__/

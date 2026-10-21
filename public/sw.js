@@ -25,8 +25,10 @@ const PRECACHE = [
 // Páginas (navegação) do portfólio.
 const PAGE_PATHS = new Set(['/', '/index.html', '/second-brain', '/second-brain/', '/second-brain/index.html']);
 ['/lab', '/lab/', '/lab/index.html'].forEach((p) => PAGE_PATHS.add(p));
+['/mercado-hoje', '/mercado-hoje/', '/mercado-hoje/index.html'].forEach((p) => PAGE_PATHS.add(p));
 // Dados do portfólio gerados no build (mudam todo dia): rede primeiro.
 const DATA_PATHS = new Set(['/books.json', '/second-brain.json']);
+DATA_PATHS.add('/mercado-hoje.json'); // Mercado Hoje: muda todo dia útil
 // Arquivos soltos da raiz.
 const ROOT_FILES = new Set(['/manifest.json', '/favicon.ico', '/placeholder-book.jpg']);
 // Pastas de assets do portfólio. /assets/ tem nome com hash (imutável).

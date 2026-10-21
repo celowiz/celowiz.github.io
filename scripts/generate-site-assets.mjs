@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { OG_HEIGHT, OG_WIDTH, homeOgSvg, loadOgFonts, readBrainSvg, secondBrainOgSvg } from './lib/og-images.mjs';
 import { labOgSvg } from './lib/og-images.mjs';
+import { mercadoHojeOgSvg } from './lib/og-images.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -68,6 +69,7 @@ export async function generateSiteAssets() {
   await writeOgPng(homeOgSvg(fonts), path.join(IMAGES, 'portfolio-preview.png'));
   await writeOgPng(secondBrainOgSvg(fonts, await readBrainSvg(IMAGES)), path.join(IMAGES, 'og-second-brain.png'));
   await writeOgPng(labOgSvg(fonts), path.join(IMAGES, 'og-lab.png'));
+  await writeOgPng(mercadoHojeOgSvg(fonts), path.join(IMAGES, 'og-mercado-hoje.png'));
   const favicon = await fs.readFile(FAVICON_SVG, 'utf8');
   await writePngFromSvg(favicon, path.join(IMAGES, 'icon-192.png'), 192, 192);
   await writePngFromSvg(favicon, path.join(IMAGES, 'icon-512.png'), 512, 512);

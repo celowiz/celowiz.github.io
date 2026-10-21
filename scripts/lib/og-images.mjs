@@ -257,3 +257,59 @@ export function labOgSvg(fonts) {
     { seed: 13 }
   );
 }
+
+/**
+ * Glifo do /mercado-hoje/: faixa de regimes (como no bloco do HMM) sob uma linha de preço.
+ * Ilustrativo e determinístico (não são dados reais).
+ */
+export function marketGlyphSvg({ x, y, width, height, seed = 3 }) {
+  const random = rng(seed);
+  const n = 40;
+  const gap = 3;
+  const bw = (width - gap * (n - 1)) / n;
+  const colors = ['#2dd4bf', '#e5b454', '#f97366'];
+  // blocos de regime: longos em calmo, curtos em estresse
+  const seq = [];
+  let state = 0;
+  while (seq.length < n) {
+    const len = state === 0 ? 8 + Math.floor(random() * 8) : 2 + Math.floor(random() * 5);
+    for (let i = 0; i < len && seq.length < n; i += 1) seq.push(state);
+    state = state === 0 ? (random() < 0.6 ? 1 : 2) : 0;
+  }
+  const ribbonY = y + height - 22;
+  const bars = seq
+    .map((s, i) => `<rect x="${(x + i * (bw + gap)).toFixed(1)}" y="${ribbonY}" width="${bw.toFixed(1)}" height="22" rx="1.5" fill="${colors[s]}" fill-opacity="0.9"/>`)
+    .join('');
+  let v = 0;
+  const pts = [];
+  for (let i = 0; i <= n; i += 1) {
+    if (i) v += (random() - 0.45) * (seq[Math.min(i, n - 1)] === 2 ? 2.4 : 1);
+    pts.push([x + (width * i) / n, v]);
+  }
+  const min = Math.min(...pts.map((p) => p[1]));
+  const max = Math.max(...pts.map((p) => p[1]));
+  const top = y;
+  const h = height - 40;
+  const line = pts.map(([px, pv]) => `${px.toFixed(1)},${(top + h - ((pv - min) / (max - min || 1)) * h).toFixed(1)}`).join(' ');
+  return `<polyline points="${line}" fill="none" stroke="${COLORS.paper}" stroke-opacity="0.75" stroke-width="2.5" stroke-linejoin="round"/>${bars}`;
+}
+
+/** Variante do /mercado-hoje/: glifo + título. */
+export function mercadoHojeOgSvg(fonts) {
+  const glyph = marketGlyphSvg({ x: OG_WIDTH / 2 - 150, y: 88, width: 300, height: 130 });
+  const title = textPath(fonts.serif, 'Mercado Hoje', {
+    x: OG_WIDTH / 2,
+    y: 340,
+    size: 100,
+    fill: COLORS.paper,
+    anchor: 'middle',
+    letterSpacing: -1.2,
+  });
+  return frame(
+    glyph +
+      title.svg +
+      promptLine(fonts, 'regime · setores · b3 · pares · juros', 418, 28) +
+      footerUrl(fonts, 'celowiz.github.io/mercado-hoje'),
+    { seed: 17 }
+  );
+}
