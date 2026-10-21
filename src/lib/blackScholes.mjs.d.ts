@@ -1,0 +1,10 @@
+export type OptionType = 'call' | 'put';
+export type BsParams = { S: number; K: number; T: number; sigma: number; r: number; q?: number; type: OptionType };
+export type Greeks = { delta: number; gamma: number; vega: number; theta: number; rho: number };
+export function erf(x: number): number;
+export function normPdf(x: number): number;
+export function normCdf(x: number): number;
+export function d12(p: Omit<BsParams, 'type'>): { d1: number; d2: number };
+export function bsPrice(p: BsParams): number;
+export function bsGreeks(p: BsParams): Greeks;
+export function payoff(p: { S: number; K: number; type: OptionType }): number;

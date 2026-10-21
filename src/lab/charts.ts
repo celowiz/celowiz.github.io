@@ -1,23 +1,10 @@
 // Desenho em canvas puro (sem biblioteca de gráficos) do leque e do histograma do Monte Carlo.
 import { QUANTILES, histogram, quantileSorted, type GbmResult } from '../lib/gbm.mjs';
+import { setupCanvas } from './canvas';
 
 const TEAL = '#2dd4bf';
 const PAPER = 'rgba(244,241,234,';
 const FONT = '11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
-
-/** Ajusta o canvas ao tamanho CSS com devicePixelRatio. Altura base reduzida em telas estreitas. */
-export function setupCanvas(canvas: HTMLCanvasElement, baseHeight: number) {
-  const dpr = window.devicePixelRatio || 1;
-  const w = canvas.clientWidth;
-  const h = Math.round(baseHeight * (w < 500 ? 0.72 : 1));
-  canvas.width = Math.round(w * dpr);
-  canvas.height = Math.round(h * dpr);
-  canvas.style.height = `${h}px`;
-  const ctx = canvas.getContext('2d')!;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.clearRect(0, 0, w, h);
-  return { ctx, w, h };
-}
 
 export function drawFan(canvas: HTMLCanvasElement, r: GbmResult, s0: number, fmt: (v: number, d?: number) => string) {
   const { ctx: c, w, h } = setupCanvas(canvas, 340);
