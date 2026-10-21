@@ -12,7 +12,7 @@ Séries (códigos do SGS, conferidos no catálogo do BCB):
   1     Taxa de câmbio - Livre - Dólar americano (venda) - diário: PTAX venda (R$/US$)
 Uso: python scripts/fetch_bcb.py [.cache/bcb-sgs.json]
 """
-import datetime as dt, json, os, sys
+import datetime as dt, json, os, sys, time
 
 SCHEMA = 1
 SERIES = {"selic": 432, "cdi": 4389, "ipca12": 13522, "ptax": 1}
@@ -63,6 +63,17 @@ def build(raw, now=None):
             "generated_at": (now or dt.datetime.now(dt.timezone.utc)).strftime("%Y-%m-%dT%H:%M:%SZ"), "series": series}
 
 
+def retry(fn, attempts=4, base=3.0, factor=3.0, sleep=time.sleep):
+    """O SGS devolve 502/timeout de forma intermitente: novas tentativas com esperas de 3, 9 e 27 s (sem jitter)."""
+    for i in range(attempts):
+        try:
+            return fn()
+        except Exception:  # noqa: BLE001
+            if i == attempts - 1:
+                raise
+            sleep(base * factor ** i)
+
+
 def fetch(now=None):
     from bcb import sgs  # importado aqui para os testes rodarem sem a dependência
     today = today_brt(now)
@@ -71,7 +82,7 @@ def fetch(now=None):
     raw, errors = {}, []
     for k, code in SERIES.items():
         try:
-            df = sgs.get({k: code}, start=starts[k].isoformat())
+            df = retry(lambda: sgs.get({k: code}, start=starts[k].isoformat()))
             raw[k] = [(ix.date(), row) for ix, row in df[k].items()]
         except Exception as e:  # noqa: BLE001 - uma série fora não derruba as outras
             errors.append(f"{k} ({code}): {type(e).__name__}: {e}")
