@@ -1,7 +1,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import { bleedIconSvg } from '../generate-site-assets.mjs';
+import path from 'node:path';
+import { PAGE_FAVICONS, bleedIconSvg, pageFaviconTargets } from '../generate-site-assets.mjs';
 
 const favicon = await fs.readFile(new URL('../../public/images/favicon.svg', import.meta.url), 'utf8');
 
@@ -69,4 +70,46 @@ describe('imagens de preview social (og:image)', async () => {
       assert.ok(size < 300 * 1024, `${image} tem ${size} bytes`);
     });
   }
+});
+
+describe('favicons próprios do /lab/ e do /mercado-hoje/', () => {
+  const images = new URL('../../public/images/', import.meta.url).pathname;
+
+  it('o gerador só escreve na pasta da própria página (não toca MW nem o cérebro)', () => {
+    assert.deepEqual(PAGE_FAVICONS, ['lab', 'mercado-hoje']);
+    for (const page of PAGE_FAVICONS) {
+      const targets = pageFaviconTargets(page);
+      assert.deepEqual(targets.map((t) => path.basename(t.dest)), ['favicon-16.png', 'favicon-32.png', 'apple-touch-icon.png']);
+      for (const t of targets) {
+        assert.equal(path.dirname(t.dest), path.join(images, page));
+        assert.equal(path.dirname(t.src), path.join(images, page));
+      }
+    }
+  });
+
+  for (const page of PAGE_FAVICONS) {
+    it(`${page}/index.html usa só os ícones da própria pasta, que existem`, async () => {
+      const html = await fs.readFile(new URL(`../../${page}/index.html`, import.meta.url), 'utf8');
+      const icons = [...html.matchAll(/<link rel="(?:icon|apple-touch-icon)"[^>]*href="([^"]+)"/g)].map((m) => m[1]);
+      assert.deepEqual(icons, [
+        `/images/${page}/favicon-16.png`,
+        `/images/${page}/favicon-32.png`,
+        `/images/${page}/apple-touch-icon.png`,
+      ]);
+      for (const icon of icons) await fs.access(new URL(`../../public${icon}`, import.meta.url));
+      for (const svg of ['favicon.svg', 'favicon-16.svg']) {
+        const src = await fs.readFile(new URL(`../../public/images/${page}/${svg}`, import.meta.url), 'utf8');
+        assert.match(src, /viewBox="0 0 64 64"/);
+        assert.match(src, /#2dd4bf/);
+      }
+    });
+  }
+
+  it('home e /second-brain/ mantêm os próprios ícones', async () => {
+    const home = await fs.readFile(new URL('../../index.html', import.meta.url), 'utf8');
+    assert.match(home, /href="\/images\/favicon\.svg"/);
+    assert.doesNotMatch(home, /images\/(lab|mercado-hoje)\//);
+    const sb = await fs.readFile(new URL('../../second-brain/index.html', import.meta.url), 'utf8');
+    assert.match(sb, /href="\/images\/second-brain\/favicon-16\.png"/);
+  });
 });
