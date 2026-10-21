@@ -11,7 +11,7 @@
     "prompt": "open lab --interactive",
     "title": "Lab",
     "description": "Demos de finanças quantitativas que rodam no seu navegador. Mexa nos parâmetros e veja o que acontece com a distribuição de preços, a fronteira eficiente ou o z-score de um par.",
-    "demos": "Demos",
+    "demos": "ativa · {{soon}} em breve",
     "servers": "Servidores",
     "inBrowser": "No navegador",
     "related": "Projetos relacionados",

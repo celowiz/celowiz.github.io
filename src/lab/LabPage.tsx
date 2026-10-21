@@ -34,6 +34,8 @@ const DEMOS: DemoCard[] = [
   { key: 'blackScholes', icon: Sigma, repo: 'quant-notebooks' },
 ];
 
+const ACTIVE = DEMOS.filter((d) => d.active).length;
+
 export type OpenTrigger = 'click' | 'scroll' | 'hash';
 
 function Stat({ value, label }: { value: ReactNode; label: string }) {
@@ -60,8 +62,8 @@ function Hero({ onOpen }: { onOpen: () => void }) {
         <p className="mt-7 max-w-[44rem] text-[1.05rem] leading-relaxed text-paper/70 sm:text-xl">
           {t('lab.hero.description')}
         </p>
-        <div className="mt-12 grid grid-cols-2 border-t border-white/10 sm:flex sm:flex-wrap">
-          <Stat value={DEMOS.length} label={t('lab.hero.demos')} />
+        <div className="mt-12 grid grid-cols-2 gap-x-6 border-t border-white/10 sm:flex sm:flex-wrap sm:gap-x-0">
+          <Stat value={ACTIVE} label={t('lab.hero.demos', { soon: DEMOS.length - ACTIVE })} />
           <Stat value={0} label={t('lab.hero.servers')} />
           <Stat value="100%" label={t('lab.hero.inBrowser')} />
           <Stat value={REAL_PROJECTS.length} label={t('lab.hero.related')} />

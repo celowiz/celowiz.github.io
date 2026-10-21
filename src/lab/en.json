@@ -11,7 +11,7 @@
     "prompt": "open lab --interactive",
     "title": "Lab",
     "description": "Quantitative finance demos that run in your browser. Move the parameters and see what happens to the price distribution, the efficient frontier or a pair's z-score.",
-    "demos": "Demos",
+    "demos": "live · {{soon}} coming soon",
     "servers": "Servers",
     "inBrowser": "In the browser",
     "related": "Related projects",
