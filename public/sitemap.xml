@@ -15,6 +15,11 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://celowiz.github.io/mercado-hoje/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
   <!-- Subprojetos publicados no mesmo host (um repositório do GitHub Pages cada) -->
   <url>
     <loc>https://celowiz.github.io/monitor-b3/</loc>
