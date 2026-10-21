@@ -4,29 +4,26 @@
   "nav": {
     "hero": "Home",
     "demos": "Demos",
-    "monteCarlo": "Monte Carlo",
     "how": "How it works"
   },
   "hero": {
     "prompt": "open lab --interactive",
     "title": "Lab",
     "description": "Quantitative finance demos that run in your browser. Move the parameters and see what happens to the price distribution, the efficient frontier or a pair's z-score.",
-    "demos": "live · {{soon}} coming soon",
     "servers": "Servers",
     "inBrowser": "In the browser",
     "related": "Related projects",
-    "open": "Open Monte Carlo",
+    "open": "Explore the demos",
     "github": "Code on GitHub",
     "tech": "Plain JavaScript · no server · no login",
-    "disclaimer": "Educational content, not investment advice. The simulations use simplified models and parameters you choose; past or simulated results do not guarantee future results."
+    "disclaimer": "Educational content, not investment advice. The simulations use simplified models and parameters you choose; past or simulated results do not guarantee future results.",
+    "demos_one": "live",
+    "demos_other": "live"
   },
   "demos": {
     "title": "Demos",
     "intro": "Each demo has a short explanation, the main parameters and the code behind it. Where there is one, I link the full project with real data.",
-    "openBelow": "Open below",
-    "soon": "Coming soon",
     "open": "Open demo →",
-    "soonAction": "In progress",
     "repoAria": "{{repo}} repository on GitHub",
     "items": {
       "monteCarlo": {
@@ -36,7 +33,8 @@
           "GBM",
           "simulation",
           "risk"
-        ]
+        ],
+        "intro": "Geometric Brownian motion: each day's log return is normal, with constant mean and volatility. It is the model behind Black-Scholes, and also its biggest simplification."
       },
       "frontier": {
         "title": "Efficient frontier",
@@ -45,7 +43,8 @@
           "Markowitz",
           "correlation",
           "portfolio"
-        ]
+        ],
+        "intro": "Markowitz with 2 to 4 synthetic assets and long-only positions: each dot is a portfolio, and the curve is the lowest possible vol for each expected return."
       },
       "pairs": {
         "title": "Pairs z-score",
@@ -54,7 +53,8 @@
           "cointegration",
           "spread",
           "half-life"
-        ]
+        ],
+        "intro": "Two simulated prices that move together because the spread between them mean-reverts. The rule trades the spread's z-score; everything here is synthetic."
       },
       "kelly": {
         "title": "Kelly and position sizing",
@@ -63,7 +63,8 @@
           "Kelly",
           "sizing",
           "drawdown"
-        ]
+        ],
+        "intro": "How much should you bet when you have an edge? Kelly maximizes long-run growth, and betting more than it adds risk without adding return."
       },
       "blackScholes": {
         "title": "Black-Scholes and the Greeks",
@@ -72,7 +73,8 @@
           "options",
           "Greeks",
           "implied vol"
-        ]
+        ],
+        "intro": "Price of a European option and its Greeks under the Black-Scholes-Merton model, with continuous interest rate and dividend yield."
       }
     },
     "real": {
@@ -83,13 +85,11 @@
       "hmm-regimes": "market regimes",
       "pairs-trading": "cointegrated pairs",
       "quant-notebooks": "notebooks"
-    }
+    },
+    "live": "Interactive"
   },
   "mc": {
-    "crumb": "lab / monte-carlo",
-    "title": "Monte Carlo price paths",
-    "intro": "Geometric Brownian motion: each day's log return is normal, with constant mean and volatility. It is the model behind Black-Scholes, and also its biggest simplification.",
-    "loading": "Loading the simulation…",
+    "loading": "Loading the demo…",
     "load": "Load the demo",
     "controls": "Simulation parameters",
     "s0": "Initial price (S₀)",

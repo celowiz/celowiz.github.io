@@ -173,7 +173,7 @@
         },
         "7": {
             "title": "Lab · Demos interativos",
-            "description": "Demos de finanças quantitativas que rodam no navegador, sem servidor: Monte Carlo de preços com movimento browniano geométrico (leque de percentis, histograma do preço final e estatísticas), calculado num Web Worker, com explicação e código. Fronteira eficiente, z-score de pares, Kelly e Black-Scholes estão a caminho. Conteúdo educativo."
+            "description": "Demos de finanças quantitativas que rodam no navegador, sem servidor: Monte Carlo de preços com movimento browniano geométrico (leque de percentis, histograma do preço final e estatísticas), calculado num Web Worker, com explicação e código. Também tem fronteira eficiente de Markowitz, z-score de pares cointegrados, critério de Kelly e Black-Scholes com gregas. Conteúdo educativo."
         }
     },
     "footer": {

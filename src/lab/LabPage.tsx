@@ -1,42 +1,20 @@
-import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  ArrowLeft,
-  ChartLine,
-  ChartPie,
-  ChartScatter,
-  GitCompareArrows,
-  Home,
-  Info,
-  LayoutGrid,
-  Sigma,
-  type LucideIcon,
-} from 'lucide-react';
+import { ArrowLeft, Home, Info, LayoutGrid } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import Navbar, { type NavSection } from '../components/Navbar';
 import Footer from '../components/Footer';
 import { trackEvent } from '../lib/analytics.mjs';
-
-// O demo (sliders, canvas, worker) só é baixado quando o visitante chega perto dele.
-const MonteCarloDemo = lazy(() => import('./MonteCarloDemo'));
+import { DEMOS, parseDemoHash, type DemoDef, type OpenTrigger } from './demos';
 
 const CODE_URL = 'https://github.com/celowiz/celowiz.github.io/tree/main/src/lab';
 const GH = 'https://github.com/celowiz';
 const PAGES = 'https://celowiz.github.io';
 const REAL_PROJECTS = ['monitor-b3', 'rrg', 'hmm-regimes', 'pairs-trading', 'quant-notebooks'] as const;
+// Todo demo da lista tem componente, então o contador é "N ativas".
+const ACTIVE = DEMOS.length;
 
-type DemoCard = { key: string; icon: LucideIcon; repo: string; active?: boolean };
-const DEMOS: DemoCard[] = [
-  { key: 'monteCarlo', icon: ChartLine, repo: 'quant-notebooks', active: true },
-  { key: 'frontier', icon: ChartScatter, repo: 'quant-notebooks' },
-  { key: 'pairs', icon: GitCompareArrows, repo: 'pairs-trading' },
-  { key: 'kelly', icon: ChartPie, repo: 'monitor-b3' },
-  { key: 'blackScholes', icon: Sigma, repo: 'quant-notebooks' },
-];
-
-const ACTIVE = DEMOS.filter((d) => d.active).length;
-
-export type OpenTrigger = 'click' | 'scroll' | 'hash';
+export type { OpenTrigger };
 
 function Stat({ value, label }: { value: ReactNode; label: string }) {
   return (
@@ -47,7 +25,7 @@ function Stat({ value, label }: { value: ReactNode; label: string }) {
   );
 }
 
-function Hero({ onOpen }: { onOpen: () => void }) {
+function Hero() {
   const { t } = useTranslation();
   return (
     <header id="hero" className="border-b border-white/10 bg-ink pt-26 pb-16 sm:pt-38">
@@ -63,15 +41,14 @@ function Hero({ onOpen }: { onOpen: () => void }) {
           {t('lab.hero.description')}
         </p>
         <div className="mt-12 grid grid-cols-2 gap-x-6 border-t border-white/10 sm:flex sm:flex-wrap sm:gap-x-0">
-          <Stat value={ACTIVE} label={t('lab.hero.demos', { soon: DEMOS.length - ACTIVE })} />
+          <Stat value={ACTIVE} label={t('lab.hero.demos', { count: ACTIVE })} />
           <Stat value={0} label={t('lab.hero.servers')} />
           <Stat value="100%" label={t('lab.hero.inBrowser')} />
           <Stat value={REAL_PROJECTS.length} label={t('lab.hero.related')} />
         </div>
         <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4 text-[0.95rem]">
           <a
-            href="#monte-carlo"
-            onClick={onOpen}
+            href="#gallery"
             className="border-b border-teal/50 pb-0.5 text-teal transition-colors hover:border-teal hover:text-teal-dim"
           >
             {t('lab.hero.open')}
@@ -110,33 +87,24 @@ function RepoLink({ repo }: { repo: string }) {
   );
 }
 
-function Demos({ onOpen }: { onOpen: () => void }) {
+function Gallery({ onOpen }: { onOpen: (id: string) => void }) {
   const { t } = useTranslation();
-  const pill = 'rounded-full border px-2 py-0.5 font-mono text-[0.66rem] tracking-[0.1em] uppercase';
+  const pill = 'rounded-full border border-teal/40 px-2 py-0.5 font-mono text-[0.66rem] tracking-[0.1em] text-teal uppercase';
   return (
-    <section id="demos" className="scroll-mt-20 border-b border-white/10 bg-ink py-18 sm:py-24">
+    <section id="gallery" className="scroll-mt-20 border-b border-white/10 bg-ink py-18 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
           <h2 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">{t('lab.demos.title')}</h2>
           <p className="max-w-md text-[0.92rem] text-paper/60">{t('lab.demos.intro')}</p>
         </div>
         <ul className="mt-12 grid grid-cols-1 border-t border-l border-white/10 sm:grid-cols-2 lg:grid-cols-3">
-          {DEMOS.map(({ key, icon: Icon, repo, active }) => {
+          {DEMOS.map(({ id, key, icon: Icon, repo }) => {
             const tags = t(`lab.demos.items.${key}.tags`, { returnObjects: true }) as string[];
             return (
-              <li
-                key={key}
-                className={`flex flex-col gap-3.5 border-r border-b border-white/10 p-7 sm:min-h-[15.5rem] ${
-                  active ? 'bg-gradient-to-b from-teal/[0.06] to-transparent' : ''
-                }`}
-              >
+              <li key={id} className="flex flex-col gap-3.5 border-r border-b border-white/10 p-7 sm:min-h-[15.5rem]">
                 <div className="flex items-center justify-between">
                   <Icon aria-hidden="true" className="h-[22px] w-[22px] text-teal/80" strokeWidth={1.75} />
-                  {active ? (
-                    <span className={`${pill} border-teal/40 text-teal`}>{t('lab.demos.openBelow')}</span>
-                  ) : (
-                    <span className={`${pill} border-white/10 text-paper/60`}>{t('lab.demos.soon')}</span>
-                  )}
+                  <span className={pill}>{t('lab.demos.live')}</span>
                 </div>
                 <h3 className="text-[1.15rem] font-medium text-paper">{t(`lab.demos.items.${key}.title`)}</h3>
                 <p className="text-[0.95rem] leading-relaxed text-paper/65">{t(`lab.demos.items.${key}.description`)}</p>
@@ -150,17 +118,14 @@ function Demos({ onOpen }: { onOpen: () => void }) {
                     : null}
                 </ul>
                 <div className="mt-auto flex items-center justify-between pt-1 text-[0.88rem]">
-                  {active ? (
-                    <a
-                      href="#monte-carlo"
-                      onClick={onOpen}
-                      className="border-b border-teal/50 pb-0.5 text-teal transition-colors hover:border-teal hover:text-teal-dim"
-                    >
-                      {t('lab.demos.open')}
-                    </a>
-                  ) : (
-                    <span className="text-paper/55">{t('lab.demos.soonAction')}</span>
-                  )}
+                  <a
+                    href={`#${id}`}
+                    onClick={() => onOpen(id)}
+                    aria-label={`${t('lab.demos.open').replace(' →', '')}: ${t(`lab.demos.items.${key}.title`)}`}
+                    className="border-b border-teal/50 pb-0.5 text-teal transition-colors hover:border-teal hover:text-teal-dim"
+                  >
+                    {t('lab.demos.open')}
+                  </a>
                   <RepoLink repo={repo} />
                 </div>
               </li>
@@ -190,41 +155,68 @@ function Demos({ onOpen }: { onOpen: () => void }) {
   );
 }
 
-function MonteCarloSection({ open, trigger, onOpen }: { open: boolean; trigger: OpenTrigger; onOpen: (t: OpenTrigger) => void }) {
+function DemoSection({
+  demo,
+  open,
+  initialCode,
+  onOpen,
+}: {
+  demo: DemoDef;
+  open: OpenTrigger | undefined;
+  initialCode: boolean;
+  onOpen: (id: string, t: OpenTrigger) => void;
+}) {
   const { t } = useTranslation();
   const ref = useRef<HTMLElement>(null);
+  const { id, key, Component } = demo;
 
   // Carrega quando a seção chega a ~600px da tela.
   useEffect(() => {
     if (open || !ref.current) return;
     if (!('IntersectionObserver' in window)) {
-      onOpen('scroll');
+      onOpen(id, 'scroll');
       return;
     }
     const io = new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) onOpen('scroll');
+        if (entries.some((e) => e.isIntersecting)) onOpen(id, 'scroll');
       },
       { rootMargin: '600px 0px' },
     );
     io.observe(ref.current);
     return () => io.disconnect();
-  }, [open, onOpen]);
+  }, [open, onOpen, id]);
 
   return (
-    <section id="monte-carlo" ref={ref} className="scroll-mt-20 border-b border-white/10 bg-ink py-18 sm:py-24">
+    <section id={id} ref={ref} className="scroll-mt-20 border-b border-white/10 bg-ink py-18 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <p className="font-mono text-[0.78rem] text-paper/55">{t('lab.mc.crumb')}</p>
+        <p className="font-mono text-[0.78rem] text-paper/55">
+          <a href="#gallery" className="transition-colors hover:text-teal">
+            lab
+          </a>{' '}
+          / {id}
+        </p>
         <div className="mt-3.5 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
-          <h2 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">{t('lab.mc.title')}</h2>
-          <p className="max-w-md text-[0.92rem] leading-relaxed text-paper/60">{t('lab.mc.intro')}</p>
+          <h2 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">{t(`lab.demos.items.${key}.title`)}</h2>
+          <p className="max-w-md text-[0.92rem] leading-relaxed text-paper/60">{t(`lab.demos.items.${key}.intro`)}</p>
         </div>
         {open ? (
           <Suspense fallback={<DemoPlaceholder label={t('lab.mc.loading')} />}>
-            <MonteCarloDemo trigger={trigger} />
+            <Component trigger={open} initialCode={initialCode} />
           </Suspense>
         ) : (
-          <DemoPlaceholder label={t('lab.mc.loading')} action={<button type="button" onClick={() => onOpen('click')} className="rounded-lg border border-teal/45 px-3.5 py-2 text-sm text-teal">{t('lab.mc.load')}</button>} />
+          <DemoPlaceholder
+            label={t('lab.mc.loading')}
+            action={
+              <button
+                type="button"
+                onClick={() => onOpen(id, 'click')}
+                className="rounded-lg border border-teal/45 px-3.5 py-2 text-sm text-teal"
+              >
+                {t('lab.mc.load')}
+              </button>
+            }
+          />
         )}
       </div>
     </section>
@@ -233,7 +225,10 @@ function MonteCarloSection({ open, trigger, onOpen }: { open: boolean; trigger: 
 
 function DemoPlaceholder({ label, action }: { label: string; action?: ReactNode }) {
   return (
-    <div className="mt-10 flex min-h-[40rem] flex-col items-center justify-center gap-4 rounded-xl border border-white/10 text-sm text-paper/55" role="status">
+    <div
+      className="mt-10 flex min-h-[40rem] flex-col items-center justify-center gap-4 rounded-xl border border-white/10 text-sm text-paper/55"
+      role="status"
+    >
       <span>{label}</span>
       {action}
     </div>
@@ -261,24 +256,32 @@ function How() {
 
 export default function LabPage() {
   const { t, i18n } = useTranslation();
-  const initialHash = typeof window !== 'undefined' ? window.location.hash : '';
-  const fromHash = initialHash === '#monte-carlo' || initialHash === '#code';
-  const [demo, setDemo] = useState<{ open: boolean; trigger: OpenTrigger }>({
-    open: fromHash,
-    trigger: 'hash',
-  });
-  const openDemo = useRef((trigger: OpenTrigger) =>
-    setDemo((d) => (d.open ? d : { open: true, trigger })),
-  ).current;
+  const initial = typeof window !== 'undefined' ? parseDemoHash(window.location.hash) : null;
+  const [open, setOpen] = useState<Record<string, OpenTrigger>>(() => (initial ? { [initial.id]: 'hash' } : {}));
+  const [codeFor] = useState(initial?.code ? initial.id : '');
+
+  const openDemo = useCallback((id: string, trigger: OpenTrigger) => {
+    setOpen((o) => (o[id] ? o : { ...o, [id]: trigger }));
+  }, []);
+
+  // Link direto digitado depois do carregamento (/lab/#kelly).
+  useEffect(() => {
+    const onHash = () => {
+      const h = parseDemoHash(window.location.hash);
+      if (h) openDemo(h.id, 'hash');
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, [openDemo]);
 
   useEffect(() => {
     document.title = t('lab.metaTitle');
   }, [t, i18n.language]);
 
+  // "Demos" cobre a galeria e as seções de cada demo (o wrapper #demos).
   const sections: NavSection[] = [
     { id: 'hero', label: t('lab.nav.hero'), icon: Home },
     { id: 'demos', label: t('lab.nav.demos'), icon: LayoutGrid },
-    { id: 'monte-carlo', label: t('lab.nav.monteCarlo'), icon: ChartLine },
     { id: 'how', label: t('lab.nav.how'), icon: Info },
   ];
 
@@ -294,9 +297,13 @@ export default function LabPage() {
       </a>
       <Navbar sections={sections} />
       <main>
-        <Hero onOpen={() => openDemo('click')} />
-        <Demos onOpen={() => openDemo('click')} />
-        <MonteCarloSection open={demo.open} trigger={demo.trigger} onOpen={openDemo} />
+        <Hero />
+        <div id="demos" className="scroll-mt-20">
+          <Gallery onOpen={(id) => openDemo(id, 'click')} />
+          {DEMOS.map((d) => (
+            <DemoSection key={d.id} demo={d} open={open[d.id]} initialCode={codeFor === d.id} onOpen={openDemo} />
+          ))}
+        </div>
         <How />
       </main>
       <Footer />
