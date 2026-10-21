@@ -28,6 +28,22 @@ export function bleedIconSvg(faviconSvg, scale) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#0b0d10"/><g transform="translate(32 32) scale(${scale}) translate(-32 -32)">${inner}</g></svg>`;
 }
 
+/**
+ * Favicons próprios de páginas internas. Fonte: public/images/<página>/favicon.svg (completo,
+ * 32px e apple-touch) e favicon-16.svg (simplificado para 16px). Cada página só escreve na
+ * própria pasta, então não sobrescreve os ícones MW da home nem o cérebro do /second-brain/
+ * (que tem PNGs commitados).
+ */
+export const PAGE_FAVICONS = ['lab', 'mercado-hoje'];
+
+export function pageFaviconTargets(page) {
+  return [
+    { src: 'favicon-16.svg', dest: 'favicon-16.png', size: 16 },
+    { src: 'favicon.svg', dest: 'favicon-32.png', size: 32 },
+    { src: 'favicon.svg', dest: 'apple-touch-icon.png', size: 180, bleed: 0.92 },
+  ].map((t) => ({ ...t, src: path.join(IMAGES, page, t.src), dest: path.join(IMAGES, page, t.dest) }));
+}
+
 async function writePngFromSvg(svg, dest, width, height) {
   // Rasteriza já no tamanho final (sem ampliar um PNG pequeno): densidade proporcional à
   // largura do viewBox, para SVGs sem width/height como o favicon (viewBox 0 0 64 64).
@@ -75,6 +91,12 @@ export async function generateSiteAssets() {
   await writePngFromSvg(favicon, path.join(IMAGES, 'icon-512.png'), 512, 512);
   await writePngFromSvg(bleedIconSvg(favicon, 0.75), path.join(IMAGES, 'icon-maskable-512.png'), 512, 512);
   await writePngFromSvg(bleedIconSvg(favicon, 0.92), path.join(IMAGES, 'apple-touch-icon.png'), 180, 180);
+  for (const page of PAGE_FAVICONS) {
+    for (const t of pageFaviconTargets(page)) {
+      const svg = await fs.readFile(t.src, 'utf8');
+      await writePngFromSvg(t.bleed ? bleedIconSvg(svg, t.bleed) : svg, t.dest, t.size, t.size);
+    }
+  }
 }
 
 const isDirectRun = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
