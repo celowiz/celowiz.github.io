@@ -67,6 +67,7 @@ function drawGrowth(canvas: HTMLCanvasElement, p: number, b: number, f: number, 
   const ymax = Math.max(gStar, 0.1) * 1.3;
   const ymin = Math.max(Math.min(...finite), -Math.max(ymax * 2.5, 1));
   const s = makeScale(w, h, { l: 48, r: 12, t: 14, b: 26 }, [0, fmax], [ymin, ymax]);
+  const base = s.h - s.m.b;
   drawGrid(c, s, {
     xTicks: niceTicks(0, fmax, 5),
     yTicks: niceTicks(ymin, ymax, 4),
@@ -90,11 +91,15 @@ function drawGrowth(canvas: HTMLCanvasElement, p: number, b: number, f: number, 
   if (Number.isFinite(gNow)) dot(c, s.X(f), s.Y(Math.max(gNow, ymin)), 4.5, AMBER, '#050506');
   c.restore();
   if (fStar > 0) {
-    tag(c, s, s.X(fStar), s.m.t + 12, 'f*', TEAL);
-    tag(c, s, s.X(fStar / 2), s.m.t + 26, '½f*', PAPER(0.6));
+    tag(c, s, s.X(fStar), base, 'f*', TEAL);
+    tag(c, s, s.X(fStar / 2), base - 14, '½f*', PAPER(0.6), 'left');
     if (f0 < fmax) tag(c, s, s.X(f0), s.m.t + 12, 'g = 0', CORAL);
   }
-  if (Number.isFinite(gNow)) tag(c, s, s.X(f), s.Y(Math.max(gNow, ymin)) + 20, labels.current, AMBER);
+  if (Number.isFinite(gNow)) {
+    // "atual" fica do lado do ponto com mais espaço, longe dos rótulos de f* no rodapé
+    const yNow = s.Y(Math.max(gNow, ymin));
+    tag(c, s, s.X(f), yNow < (s.m.t + base) / 2 ? yNow + 20 : yNow - 8, labels.current, AMBER);
+  }
 }
 
 function drawWealth(canvas: HTMLCanvasElement, r: KellyResult, fmt: (v: number, d?: number) => string) {

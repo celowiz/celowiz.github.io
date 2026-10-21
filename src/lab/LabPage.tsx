@@ -169,6 +169,8 @@ function DemoSection({
   const { t } = useTranslation();
   const ref = useRef<HTMLElement>(null);
   const { id, key, Component } = demo;
+  const [ready, setReady] = useState(false);
+  const markReady = useCallback(() => setReady(true), []);
 
   // Carrega quando a seção chega a ~600px da tela.
   useEffect(() => {
@@ -188,7 +190,12 @@ function DemoSection({
   }, [open, onOpen, id]);
 
   return (
-    <section id={id} ref={ref} className="scroll-mt-20 border-b border-white/10 bg-ink py-18 sm:py-24">
+    <section
+      id={id}
+      ref={ref}
+      // título logo abaixo da barra: compensa o scroll-padding do html e o padding da seção
+      className="scroll-mt-[-4.5rem] border-b border-white/10 bg-ink py-18 sm:scroll-mt-[-6rem] sm:py-24"
+    >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <p className="font-mono text-[0.78rem] text-paper/55">
           <a href="#gallery" className="transition-colors hover:text-teal">
@@ -200,33 +207,42 @@ function DemoSection({
           <h2 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">{t(`lab.demos.items.${key}.title`)}</h2>
           <p className="max-w-md text-[0.92rem] leading-relaxed text-paper/60">{t(`lab.demos.items.${key}.intro`)}</p>
         </div>
-        {open ? (
-          <Suspense fallback={<DemoPlaceholder label={t('lab.mc.loading')} />}>
-            <Component trigger={open} initialCode={initialCode} />
-          </Suspense>
-        ) : (
-          <DemoPlaceholder
-            label={t('lab.mc.loading')}
-            action={
-              <button
-                type="button"
-                onClick={() => onOpen(id, 'click')}
-                className="rounded-lg border border-teal/45 px-3.5 py-2 text-sm text-teal"
-              >
-                {t('lab.mc.load')}
-              </button>
-            }
-          />
-        )}
+        {/* Reserva a altura medida do demo até ele montar: deep links não deslocam o layout. */}
+        <div className={ready ? undefined : `flex flex-col ${initialCode ? demo.minHCode : demo.minH}`}>
+          {open ? (
+            <Suspense fallback={<DemoPlaceholder label={t('lab.mc.loading')} />}>
+              <Component trigger={open} initialCode={initialCode} />
+              <Mounted onMount={markReady} />
+            </Suspense>
+          ) : (
+            <DemoPlaceholder
+              label={t('lab.mc.loading')}
+              action={
+                <button
+                  type="button"
+                  onClick={() => onOpen(id, 'click')}
+                  className="rounded-lg border border-teal/45 px-3.5 py-2 text-sm text-teal"
+                >
+                  {t('lab.mc.load')}
+                </button>
+              }
+            />
+          )}
+        </div>
       </div>
     </section>
   );
 }
 
+function Mounted({ onMount }: { onMount: () => void }) {
+  useEffect(onMount, [onMount]);
+  return null;
+}
+
 function DemoPlaceholder({ label, action }: { label: string; action?: ReactNode }) {
   return (
     <div
-      className="mt-10 flex min-h-[40rem] flex-col items-center justify-center gap-4 rounded-xl border border-white/10 text-sm text-paper/55"
+      className="mt-10 flex min-h-[24rem] flex-1 flex-col items-center justify-center gap-4 rounded-xl border border-white/10 text-sm text-paper/55"
       role="status"
     >
       <span>{label}</span>
