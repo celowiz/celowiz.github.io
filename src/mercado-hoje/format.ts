@@ -1,4 +1,4 @@
-import type { BlockKind, MercadoHojeData } from '../types/MercadoHoje';
+import type { BlockKind, MercadoHojeData, SetoresMarket, SetoresSummary } from '../types/MercadoHoje';
 
 /** Igual a scripts/lib/mercado-hoje.mjs: blocos com dados mais velhos que isso não aparecem. */
 export const STALE_DAYS = 7;
@@ -11,7 +11,16 @@ export function freshBlocks(data: MercadoHojeData, today = todayBrt()) {
     const b = data.blocks[k];
     return b && typeof b.as_of === 'string' && daysBetween(b.as_of, today) <= STALE_DAYS ? b : null;
   };
-  return { b3: ok('b3') as MercadoHojeData['blocks']['b3'], rrg: ok('rrg') as MercadoHojeData['blocks']['rrg'], hmm: ok('hmm') as MercadoHojeData['blocks']['hmm'], pairs: ok('pairs') as MercadoHojeData['blocks']['pairs'] };
+  return { b3: ok('b3') as MercadoHojeData['blocks']['b3'], rrg: ok('rrg') as MercadoHojeData['blocks']['rrg'], hmm: ok('hmm') as MercadoHojeData['blocks']['hmm'], pairs: ok('pairs') as MercadoHojeData['blocks']['pairs'], setores: freshSetores(data.blocks.setores, today) };
+}
+
+/** Setores: cada aba (EUA, Brasil) segue a regra dos 7 dias pela própria data; sem aba fresca, o bloco some. */
+export function freshSetores(s: SetoresSummary | null | undefined, today = todayBrt()) {
+  if (!s) return null;
+  const ok = (m: SetoresMarket | null | undefined) => (m && typeof m.as_of === 'string' && daysBetween(m.as_of, today) <= STALE_DAYS ? m : null);
+  const us = ok(s.us);
+  const br = ok(s.br);
+  return us || br ? { ...s, us, br } : null;
 }
 
 export function makeFmt(lang: string) {

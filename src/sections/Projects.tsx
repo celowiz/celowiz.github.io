@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { AnimatedSection } from '../components/AnimatedSection';
 import { useAnalytics } from '../hooks/useAnalytics';
-import { BrainCircuit, CloudSun, FlaskConical, GitCompareArrows, Newspaper, NotebookPen, Orbit, Radar, Sigma, type LucideIcon } from 'lucide-react';
+import { BrainCircuit, ChartColumnBig, CloudSun, FlaskConical, GitCompareArrows, Newspaper, NotebookPen, Orbit, Radar, Sigma, type LucideIcon } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 
 const projects: { icon: LucideIcon; techs: string[]; projectUrl: string; codeUrl: string }[] = [
@@ -40,6 +40,12 @@ const projects: { icon: LucideIcon; techs: string[]; projectUrl: string; codeUrl
     techs: ['javascript', 'python', 'pandas', 'numpy', 'statsmodels', 'yfinance', 'githubactions', 'githubpages'],
     projectUrl: 'https://celowiz.github.io/pairs-trading/',
     codeUrl: 'https://github.com/celowiz/pairs-trading',
+  },
+  {
+    icon: ChartColumnBig,
+    techs: ['javascript', 'python', 'pandas', 'yfinance', 'githubactions', 'githubpages'],
+    projectUrl: 'https://celowiz.github.io/setores/',
+    codeUrl: 'https://github.com/celowiz/setores',
   },
   {
     icon: FlaskConical,

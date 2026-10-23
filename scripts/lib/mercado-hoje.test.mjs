@@ -128,3 +128,53 @@ describe('Mercado Hoje: bloco do Banco Central', async () => {
     assert.ok(!isItemFresh('ptax', bcb.series.ptax, '2026-11-10'));
   });
 });
+
+describe('Mercado Hoje: bloco do Setores', async () => {
+  const { mergeSetores, normalizeSetores, validSetoresMarket } = await import('./mercado-hoje.mjs');
+  const pick = (t, ret) => ({ t, pt: t, en: t, ret });
+  const market = (as_of, bench) => ({
+    as_of, stale: false, bench, day_base: '2026-10-19', ytd_base: '2025-12-31', day_bench: 0.001, ytd_bench: 0.12,
+    day_leader: pick('A', 0.02), day_laggard: pick('B', -0.01), ytd_leader: pick('C', 0.4), ytd_laggard: pick('D', -0.05),
+    sectors: [],
+  });
+  const setores = { schema: 1, project: 'setores', url: 'https://celowiz.github.io/setores/', generated_at: '2026-10-20T22:30:00Z', us: market('2026-10-19', 'SPY'), br: market('2026-10-20', 'IBOV') };
+
+  it('as_of do bloco é a data mais recente entre as abas', () => {
+    assert.equal(normalizeSetores(setores).as_of, '2026-10-20');
+    assert.deepEqual(validateBlock('setores', normalizeSetores(setores)), []);
+  });
+  it('rejeita aba sem líder/lanterna ou sem data', () => {
+    assert.ok(validSetoresMarket({ ...setores.us, ytd_laggard: null }).length);
+    assert.ok(validSetoresMarket({ ...setores.us, as_of: 'ontem' }).length);
+    assert.ok(validateBlock('setores', normalizeSetores({ ...setores, us: null, br: { as_of: '2026-10-20' } })).length);
+    assert.ok(validateBlock('setores', { ...normalizeSetores(setores), schema: 2 }).length);
+  });
+  it('payload: ok, fonte fora do ar usa a última versão e sem nada some', () => {
+    const ok = buildPayload({ b3, setores }, null, now);
+    assert.equal(ok.sources.setores.status, 'ok');
+    assert.equal(ok.sources.setores.as_of, '2026-10-20');
+    assert.equal(ok.blocks.setores.br.ytd_leader.t, 'C');
+    const fb = buildPayload({ b3, setores: new Error('404') }, ok, now);
+    assert.equal(fb.sources.setores.status, 'fallback');
+    assert.deepEqual(fb.blocks.setores, ok.blocks.setores);
+    const none = buildPayload({ b3, setores: new Error('404') }, null, now);
+    assert.equal(none.sources.setores.status, 'missing');
+    assert.equal(none.blocks.setores, null);
+  });
+  it('aba que veio quebrada mantém a anterior (parcial)', () => {
+    const prev = normalizeSetores(setores);
+    const got = { ...setores, us: { ...setores.us, as_of: '2026-10-20' }, br: { ...setores.br, day_leader: null } };
+    const m = mergeSetores(normalizeSetores(got), prev);
+    assert.equal(m.status, 'partial');
+    assert.deepEqual(m.kept, ['br']);
+    assert.equal(m.block.us.as_of, '2026-10-20');
+    assert.equal(m.block.br, prev.br);
+    const p = buildPayload({ b3, setores: got }, { schema: 1, blocks: { setores: prev } }, now);
+    assert.equal(p.sources.setores.status, 'partial');
+  });
+  it('bloco velho (> 7 dias) não é fresco', () => {
+    const old = normalizeSetores({ ...setores, us: market('2026-10-01', 'SPY'), br: market('2026-10-02', 'IBOV') });
+    assert.ok(!isFresh(old, '2026-10-20'));
+    assert.ok(isFresh(normalizeSetores(setores), '2026-10-27'));
+  });
+});

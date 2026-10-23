@@ -1,5 +1,5 @@
 // Mercado Hoje: junta os data/summary.json publicados pelos subprojetos (monitor-b3, rrg,
-// hmm-regimes, pairs-trading) num único public/mercado-hoje.json e escreve o resumo do dia
+// hmm-regimes, pairs-trading, setores) num único public/mercado-hoje.json e escreve o resumo do dia
 // por regras fixas (sem IA). Nenhum número é calculado aqui além de contagens e datas: a
 // lógica de cada indicador fica no projeto de origem.
 export const SCHEMA = 1;
@@ -9,10 +9,14 @@ export const SOURCES = {
   rrg: `${SITE}/rrg/data/summary.json`,
   hmm: `${SITE}/hmm-regimes/data/summary.json`,
   pairs: `${SITE}/pairs-trading/data/summary.json`,
+  setores: `${SITE}/setores/data/summary.json`,
   // Gerado no próprio deploy (scripts/fetch_bcb.py, python-bcb): arquivo local, não URL.
   bcb: '.cache/bcb-sgs.json',
 };
 export const BCB_SERIES = ['selic', 'cdi', 'ipca12', 'ptax'];
+/** Abas do projeto Setores (cada uma com a própria data). */
+export const SETORES_MARKETS = ['us', 'br'];
+const SETORES_PICKS = ['day_leader', 'day_laggard', 'ytd_leader', 'ytd_laggard'];
 /** IPCA 12m é mensal (data = mês de referência, divulgado ~40 dias depois): tolera mais. */
 export const ITEM_STALE_DAYS = { selic: 7, cdi: 7, ptax: 7, ipca12: 75 };
 export const BLOCKS = Object.keys(SOURCES);
@@ -46,11 +50,56 @@ export function validateBlock(kind, s) {
     const ser = s.series ?? {};
     const ok = BCB_SERIES.filter((k) => ser[k] && isNum(ser[k].value) && isDate(ser[k].date));
     if (!ok.length) e.push('nenhuma série válida');
+  } else if (kind === 'setores') {
+    const ok = SETORES_MARKETS.filter((m) => !validSetoresMarket(s[m]).length);
+    if (!ok.length) e.push(`nenhuma aba válida (${SETORES_MARKETS.map((m) => `${m}: ${validSetoresMarket(s[m]).join(', ')}`).join('; ')})`);
   } else if (kind === 'pairs') {
     if (!s.funnel || !isNum(s.funnel.all_pairs)) e.push('funil ausente');
     if (!Array.isArray(s.robust)) e.push('robust ausente');
   }
   return e;
+}
+
+/** Erros de uma aba (us/br) do summary.json do Setores. */
+export function validSetoresMarket(m) {
+  const e = [];
+  if (!m || typeof m !== 'object') return ['ausente'];
+  if (!isDate(m.as_of)) e.push('as_of ausente');
+  for (const k of SETORES_PICKS) {
+    const p = m[k];
+    if (!p || typeof p.t !== 'string' || !isNum(p.ret)) e.push(`${k} incompleto`);
+  }
+  return e;
+}
+
+/**
+ * O summary.json do Setores não tem as_of no topo (cada aba tem o seu): o bloco ganha
+ * as_of = a data mais recente entre as abas, para seguir as mesmas regras dos outros blocos.
+ */
+export function normalizeSetores(s) {
+  if (!s || typeof s !== 'object' || s instanceof Error) return s;
+  const dates = SETORES_MARKETS.map((m) => s[m]?.as_of).filter(isDate).sort();
+  return dates.length ? { ...s, as_of: dates[dates.length - 1] } : s;
+}
+
+/** Aba a aba: a que veio válida entra; a que falhou fica com a última versão publicada. */
+export function mergeSetores(got, prev) {
+  const out = {};
+  const kept = [];
+  for (const m of SETORES_MARKETS) {
+    if (got && !validSetoresMarket(got[m]).length) out[m] = got[m];
+    else if (prev && !validSetoresMarket(prev[m]).length) {
+      out[m] = prev[m];
+      kept.push(m);
+    }
+  }
+  if (!Object.keys(out).length) return { block: null, status: 'missing', kept };
+  const base = got && Object.keys(out).some((m) => !kept.includes(m)) ? got : prev;
+  return {
+    block: normalizeSetores({ ...base, us: out.us ?? null, br: out.br ?? null }),
+    status: base === prev ? 'fallback' : kept.length ? 'partial' : 'ok',
+    kept,
+  };
 }
 
 /** Dias corridos entre duas datas YYYY-MM-DD (b - a). */
@@ -167,12 +216,19 @@ export function buildPayload(fetched, previous, now = new Date()) {
   const blocks = {};
   const sources = {};
   for (const kind of BLOCKS) {
-    const got = fetched[kind];
+    const got = kind === 'setores' ? normalizeSetores(fetched[kind]) : fetched[kind];
     const errors = got instanceof Error ? [got.message] : validateBlock(kind, got);
     if (kind === 'bcb') {
       const merged = mergeBcb(errors.length ? null : got, previous?.blocks?.bcb);
       blocks.bcb = merged.block;
       sources.bcb = { url: 'https://www3.bcb.gov.br/sgspub/', status: merged.status, as_of: merged.block?.as_of ?? null, ...(errors.length ? { error: errors.join('; ') } : {}), ...(merged.kept.length ? { kept: merged.kept } : {}) };
+      continue;
+    }
+    if (kind === 'setores') {
+      const prevOk = previous?.blocks?.setores && !validateBlock('setores', previous.blocks.setores).length ? previous.blocks.setores : null;
+      const merged = mergeSetores(errors.length ? null : got, prevOk);
+      blocks.setores = merged.block;
+      sources.setores = { url: SOURCES.setores, status: merged.status, as_of: merged.block?.as_of ?? null, ...(errors.length ? { error: errors.join('; ') } : {}), ...(merged.kept.length ? { kept: merged.kept } : {}) };
       continue;
     }
     if (!errors.length) {
