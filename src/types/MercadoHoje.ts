@@ -45,10 +45,22 @@ export interface BcbSummary {
   series: { selic?: BcbItem; cdi?: BcbItem; ipca12?: BcbItem; ptax?: BcbItem };
 }
 
-export type BlockKind = 'b3' | 'rrg' | 'hmm' | 'pairs' | 'bcb';
+export interface SetoresPick { t: string; pt: string; en: string; ret: number }
+export interface SetoresMarket {
+  as_of: string; stale: boolean; bench: string;
+  /** pregão em andamento (dados parciais, com atraso) e horário da última cotação; ausentes em versões antigas */
+  intraday?: boolean; as_of_ts?: string | null;
+  day_base: string | null; ytd_base: string | null; day_bench: number | null; ytd_bench: number | null;
+  day_leader: SetoresPick; day_laggard: SetoresPick; ytd_leader: SetoresPick; ytd_laggard: SetoresPick;
+  sectors: { t: string; pt: string; en: string; day: number | null; ytd: number | null }[];
+}
+/** as_of do topo é acrescentado no sync (a data mais recente entre as abas). */
+export interface SetoresSummary { schema: number; project: 'setores'; url: string; generated_at: string; as_of: string; us: SetoresMarket | null; br: SetoresMarket | null }
+
+export type BlockKind = 'b3' | 'rrg' | 'hmm' | 'pairs' | 'setores' | 'bcb';
 export interface MercadoHojeData {
   schema: number; generatedAt: string; as_of: string | null;
-  sources: Record<BlockKind, { url: string; status: 'ok' | 'fallback' | 'partial' | 'missing'; as_of: string | null; kept?: string[] }>;
-  blocks: { b3: B3Summary | null; rrg: RrgSummary | null; hmm: HmmSummary | null; pairs: PairsSummary | null; bcb?: BcbSummary | null };
+  sources: Partial<Record<BlockKind, { url: string; status: 'ok' | 'fallback' | 'partial' | 'missing'; as_of: string | null; kept?: string[] }>>;
+  blocks: { b3: B3Summary | null; rrg: RrgSummary | null; hmm: HmmSummary | null; pairs: PairsSummary | null; setores?: SetoresSummary | null; bcb?: BcbSummary | null };
   text: { pt: string; en: string };
 }

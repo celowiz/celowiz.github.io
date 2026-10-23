@@ -4,11 +4,14 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: '0 6 * * *'
-    # Mercado Hoje: dias úteis às 21:00 BRT (depois do fechamento do Monitor B3) e às 23:30 BRT
-    # (os jobs agendados das 19:30 BRT do RRG, HMM e Pares costumam começar com 2–3 h de atraso).
-    - cron: '0 0 * * 2-6'
-    - cron: '30 2 * * 2-6'
+    # Mercado Hoje: de hora em hora (:11) todos os dias e também no :41 nos dias úteis das 09:41 às
+    # 21:41 BRT, ou seja, a cada 30 min das 09:11 às 22:11 BRT. Minutos quebrados para não cair junto
+    # do topo da hora nem dos crons dos subprojetos (monitor-b3 :04/:34, rrg :07, setores :09/:23/:39,
+    # hmm-regimes :13, pairs-trading :17). O GitHub pode atrasar execuções agendadas.
+    # Um workflow só de dados não daria: o deploy do Pages troca o artefato inteiro do site.
+    - cron: '11 * * * *'           # todo dia, de hora em hora (UTC = BRT + 3)
+    - cron: '41 12-23 * * 1-5'     # seg–sex 09:41–20:41 BRT
+    - cron: '41 0 * * 2-6'         # seg–sex 21:41 BRT (00:41 UTC do dia seguinte)
   workflow_dispatch:
 
 permissions:

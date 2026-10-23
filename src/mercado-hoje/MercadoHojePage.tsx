@@ -4,7 +4,14 @@ import { ArrowLeft, Home, LayoutGrid, Workflow } from "lucide-react";
 import Navbar, { type NavSection } from "../components/Navbar";
 import Footer from "../components/Footer";
 import type { MercadoHojeData } from "../types/MercadoHoje";
-import { B3Block, BcbBlock, HmmBlock, PairsBlock, RrgBlock } from "./Blocks";
+import {
+  B3Block,
+  BcbBlock,
+  HmmBlock,
+  PairsBlock,
+  RrgBlock,
+  SetoresBlock,
+} from "./Blocks";
 import {
   daysBetween,
   freshBlocks,
@@ -231,10 +238,16 @@ export default function MercadoHojePage() {
       ptaxOk: Boolean(ptax && daysBetween(ptax.date, today) <= ITEM_STALE.ptax),
     };
   }, [data, today]);
-  const warn = (k: "b3" | "rrg" | "hmm" | "pairs") =>
+  const warn = (k: "b3" | "rrg" | "hmm" | "pairs" | "setores") =>
     data?.sources?.[k]?.status === "fallback"
       ? t("mercadoHoje.panel.fallback")
-      : null;
+      : data?.sources?.[k]?.status === "partial"
+        ? t("mercadoHoje.panel.keptSome", {
+            m: (data.sources[k]?.kept ?? [])
+              .map((x) => t(`mercadoHoje.setores.tabs.${x}`))
+              .join(", "),
+          })
+        : null;
   const ref = fresh?.b3?.as_of ?? data?.as_of ?? null;
   const panels = fresh
     ? [
@@ -242,6 +255,7 @@ export default function MercadoHojePage() {
         fresh.rrg?.presets.setbr ? fresh.rrg : null,
         fresh.b3,
         fresh.pairs,
+        fresh.setores,
       ].filter(Boolean).length
     : 0;
 
@@ -292,9 +306,14 @@ export default function MercadoHojePage() {
                     </b>
                   </span>
                   <span>
-                    {t("mercadoHoje.hero.updated", {
-                      time: fmt.timeBrt(data.generatedAt),
-                    })}
+                    {todayBrt(new Date(data.generatedAt)) === today
+                      ? t("mercadoHoje.hero.updated", {
+                          time: fmt.timeBrt(data.generatedAt),
+                        })
+                      : t("mercadoHoje.hero.updatedOn", {
+                          date: fmt.dm(todayBrt(new Date(data.generatedAt))),
+                          time: fmt.timeBrt(data.generatedAt),
+                        })}
                   </span>
                   <span>{t("mercadoHoje.hero.next")}</span>
                 </div>
@@ -305,9 +324,6 @@ export default function MercadoHojePage() {
                   <p className="mt-9 max-w-[52rem] font-serif text-[1.15rem] leading-[1.55] text-paper/85 sm:text-[1.45rem]">
                     <RichText text={en ? data.text.en : data.text.pt} />
                   </p>
-                  <div className="mt-2.5 font-mono text-[0.7rem] text-paper/55">
-                    {t("mercadoHoje.hero.rules")}
-                  </div>
                 </>
               ) : null}
               {!data ? (
@@ -318,9 +334,6 @@ export default function MercadoHojePage() {
                 </p>
               ) : null}
             </div>
-            <p className="mt-6 max-w-[34rem] text-[0.78rem] leading-relaxed text-paper/50">
-              {t("mercadoHoje.hero.disclaimer")}
-            </p>
           </div>
         </header>
 
@@ -346,6 +359,13 @@ export default function MercadoHojePage() {
                 ) : null}
                 {fresh.rrg?.presets.setbr ? (
                   <RrgBlock r={fresh.rrg} fmt={fmt} warn={warn("rrg")} />
+                ) : null}
+                {fresh.setores ? (
+                  <SetoresBlock
+                    s={fresh.setores}
+                    fmt={fmt}
+                    warn={warn("setores")}
+                  />
                 ) : null}
                 {fresh.b3 ? (
                   <B3Block b={fresh.b3} fmt={fmt} warn={warn("b3")} />

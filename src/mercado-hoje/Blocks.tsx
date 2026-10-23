@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { trackEvent } from "../lib/analytics.mjs";
 import type {
@@ -14,6 +14,8 @@ import type {
   Regime,
   RrgItem,
   RrgSummary,
+  SetoresPick,
+  SetoresSummary,
 } from "../types/MercadoHoje";
 import { type Fmt, tone } from "./format";
 
@@ -863,5 +865,126 @@ export function BcbBlock({
       </div>
       <p className={`${note} mt-4`}>{t("mercadoHoje.bcb.note")}</p>
     </div>
+  );
+}
+
+// ---------- Setores ----------
+function SetoresPickRow({
+  label,
+  p,
+  fmt,
+  en,
+}: {
+  label: string;
+  p: SetoresPick;
+  fmt: Fmt;
+  en: boolean;
+}) {
+  return (
+    <div className="flex items-baseline justify-between gap-3 border-b border-white/[0.06] py-1.5 last:border-b-0">
+      <span className="min-w-0">
+        <span className="mr-2 font-mono text-[0.66rem] tracking-[0.1em] text-paper/45 uppercase">
+          {label}
+        </span>
+        <b className="font-mono text-[0.86rem] font-normal text-paper">
+          {p.t}
+        </b>{" "}
+        <span className="text-[0.84rem] text-paper/60">{en ? p.en : p.pt}</span>
+      </span>
+      <span className={`font-mono text-[0.95rem] ${tone(p.ret)}`}>
+        {fmt.pct(p.ret, 2)}
+      </span>
+    </div>
+  );
+}
+
+export function SetoresBlock({
+  s,
+  fmt,
+  warn,
+}: {
+  s: SetoresSummary;
+  fmt: Fmt;
+  warn?: string | null;
+}) {
+  const { t } = useTranslation();
+  const markets = (["us", "br"] as const).filter((k) => s[k]);
+  const [sel, setSel] = useState<"us" | "br">(markets[0] ?? "us");
+  const k = s[sel] ? sel : markets[0];
+  const m = k ? s[k] : null;
+  if (!k || !m) return null;
+  const intraday = Boolean(m.intraday);
+  const badge = intraday
+    ? t("mercadoHoje.setores.intraday", {
+        d: fmt.dm(m.as_of),
+        t: m.as_of_ts ? fmt.timeBrt(m.as_of_ts) : "",
+      })
+    : t("mercadoHoje.dates.close", { d: fmt.dm(m.as_of) });
+  const col = (head: string, lead: SetoresPick, lag: SetoresPick) => (
+    <div>
+      <div className={`${eyebrow} mb-1`}>{head}</div>
+      <SetoresPickRow label={t("mercadoHoje.setores.leader")} p={lead} fmt={fmt} en={fmt.en} />
+      <SetoresPickRow label={t("mercadoHoje.setores.laggard")} p={lag} fmt={fmt} en={fmt.en} />
+    </div>
+  );
+  return (
+    <Card
+      id="setores"
+      eyebrowText={t("mercadoHoje.setores.eyebrow")}
+      badge={badge}
+      warn={warn}
+      title={t("mercadoHoje.setores.title")}
+      more={{
+        href: s.url,
+        label: t("mercadoHoje.panel.more", { name: "setores" }),
+      }}
+    >
+      <div
+        role="tablist"
+        aria-label={t("mercadoHoje.setores.tabsLabel")}
+        className="flex gap-1.5"
+      >
+        {(["us", "br"] as const).map((x) => (
+          <button
+            key={x}
+            type="button"
+            role="tab"
+            aria-selected={k === x}
+            disabled={!s[x]}
+            onClick={() => setSel(x)}
+            className={`rounded-full border px-3 py-1 font-mono text-[0.74rem] transition-colors disabled:opacity-35 ${k === x ? "border-teal/70 bg-teal/10 text-teal" : "border-white/15 text-paper/60 hover:text-paper"}`}
+          >
+            {t(`mercadoHoje.setores.tabs.${x}`)}
+          </button>
+        ))}
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {col(
+          intraday ? t("mercadoHoje.setores.dayPartial") : t("mercadoHoje.setores.day"),
+          m.day_leader,
+          m.day_laggard,
+        )}
+        {col(t("mercadoHoje.setores.ytd"), m.ytd_leader, m.ytd_laggard)}
+      </div>
+      {m.day_bench != null && m.ytd_bench != null ? (
+        <p className="font-mono text-[0.78rem] text-paper/60">
+          {t("mercadoHoje.setores.bench", {
+            b: m.bench,
+            d: fmt.pct(m.day_bench, 2),
+            y: fmt.pct(m.ytd_bench, 2),
+          })}
+        </p>
+      ) : null}
+      <p className={note}>
+        {t(`mercadoHoje.setores.src.${k}`)}{" "}
+        {m.day_base && m.ytd_base
+          ? t("mercadoHoje.setores.base", {
+              d: fmt.dm(m.day_base),
+              y: fmt.dm(m.ytd_base),
+            })
+          : null}
+        {intraday ? ` ${t("mercadoHoje.setores.intradayNote")}` : ""}
+      </p>
+    </Card>
   );
 }
