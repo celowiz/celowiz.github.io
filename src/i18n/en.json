@@ -147,41 +147,47 @@
         "technologies": "Technologies",
         "viewProject": "View Project",
         "code": "Code",
-        "1": {
-            "title": "Quant Notebooks",
-            "description": "Repository dedicated to learning Marimo and quantitative financial data analysis. Includes studies on trading strategies, macroeconomic analysis, and technical indicators using Python and financial libraries."
-        },
-        "2": {
-            "title": "Second Brain",
-            "description": "Public curation of courses, Python libraries, data sources, papers and books on quantitative finance and data science, awesome-list style. Its own page with search, category and status filters, a beginner path and a bookshelf, updated daily from the repository."
-        },
-        "3": {
-            "title": "Monitor B3",
-            "description": "n8n-style visual tool to build market-signal screens for B3 assets: blocks for universe (stocks, units, BDRs, ETFs and FIIs), filters and 9 signals, such as 52-week highs/lows, SMA 50/200 crossovers, RSI 14, unusual volume and relative strength vs. Ibovespa/IFIX, with a live execution animation. Data refreshed every ~30 min via GitHub Actions, zero cost, educational only."
-        },
-        "4": {
-            "title": "RRG · Relative Rotation",
-            "description": "Interactive Relative Rotation Graph (RRG) with real data since 2018: Brazilian sectors, stocks and REITs, US stocks and sectors, countries, asset classes, factors, commodities and currencies, each group against its benchmark. Animated trails, a timeline with historical moments, “what changed this week”, per-asset detail and free mode. B3 and Yahoo Finance data refreshed daily via GitHub Actions, zero cost, educational only."
-        },
-        "5": {
-            "title": "Market Regimes (HMM)",
-            "description": "Hidden Markov Model that estimates, day by day, whether the Ibovespa and the S&P 500 are in a calm, intermediate or stress regime, using real data since 2000. Regime-colored price, filtered probabilities (no look-ahead) over time, transition matrix, duration and per-regime stats, 2 or 3 states, daily or weekly frequency and historical moments for each market. Model refitted daily via GitHub Actions, zero cost, educational only."
-        },
-        "6": {
-            "title": "Pairs Trading",
-            "description": "Relative value between pairs of assets, with tests against spurious correlation: only economically linked pairs, cointegration via Engle-Granger (both directions) and Johansen, multiple-testing correction with FDR (Benjamini-Hochberg), mean-reversion half-life between 2 and 60 days, rolling-window stability and an out-of-sample walk-forward backtest with costs. Pairs are split into robust and candidate tiers, with spread, z-score and entry/exit bands. Yahoo Finance data refreshed via GitHub Actions, zero cost, educational only."
-        },
-        "7": {
-            "title": "Sectors",
-            "description": "Which sectors are driving the market in the US and Brazil: cumulative return over 13 windows (1 day to 10 years), absolute or relative to the benchmark, and rotation with 1, 3, 6 or 12-month rolling returns, with ranking, heatmap and leader line. The US uses the 11 SPDR sector ETFs against SPY (adjusted close, Yahoo Finance) and Brazil uses 7 B3 sector indices against the Ibovespa (B3 public API). Refreshed via GitHub Actions, zero cost, educational only."
-        },
-        "8": {
-            "title": "Lab · Interactive demos",
-            "description": "Quantitative finance demos that run in the browser, with no server: Monte Carlo price paths with geometric Brownian motion (percentile fan, final price histogram and statistics), computed in a Web Worker, with explanation and code. It also has the Markowitz efficient frontier, a cointegrated pairs z-score, the Kelly criterion and Black-Scholes with Greeks. Educational content."
-        },
-        "9": {
-            "title": "Market Today",
-            "description": "A daily market digest built from the data my other projects already compute: market regime (3-state HMM), B3 sector rotation (RRG), sector leaders and laggards in the US and Brazil (Sectors), Monitor B3 breadth and signals, cointegrated pairs, and the Selic, CDI, IPCA and PTAX dollar from the Central Bank of Brazil (SGS, via python-bcb). Each project publishes a small summary and GitHub Actions merges them every 30 minutes during market hours and hourly otherwise, with a fixed-rule text, no AI, describing the day. Zero cost and educational only, not investment advice."
+        "items": {
+            "quant-terminal": {
+                "title": "Quant Terminal",
+                "description": "A market terminal in the browser, in the style of professional terminals: a command bar and 50 functions, such as candlestick charts (GP/GPC), relative rotation (RRG), the CDI rate implied for each Copom meeting from DI futures (CDIE), DI, Brazilian Treasury and US Treasury yield curves, Focus survey expectations, a stock screener and CVM financial statements. It uses only open data (Yahoo Finance, CVM, B3, Central Bank of Brazil, FRED and Tesouro Direto), processed by a Python pipeline on GitHub Actions and published as a static Next.js site on GitHub Pages. Zero cost and educational only, not investment advice."
+            },
+            "monitor-b3": {
+                "title": "Monitor B3",
+                "description": "n8n-style visual tool to build market-signal screens for B3 assets: blocks for universe (stocks, units, BDRs, ETFs and FIIs), filters and 9 signals, such as 52-week highs/lows, SMA 50/200 crossovers, RSI 14, unusual volume and relative strength vs. Ibovespa/IFIX, with a live execution animation. Data refreshed every ~30 min via GitHub Actions, zero cost, educational only."
+            },
+            "hmm-regimes": {
+                "title": "Market Regimes (HMM)",
+                "description": "Hidden Markov Model that estimates, day by day, whether the Ibovespa and the S&P 500 are in a calm, intermediate or stress regime, using real data since 2000. Regime-colored price, filtered probabilities (no look-ahead) over time, transition matrix, duration and per-regime stats, 2 or 3 states, daily or weekly frequency and historical moments for each market. Model refitted daily via GitHub Actions, zero cost, educational only."
+            },
+            "pairs-trading": {
+                "title": "Pairs Trading",
+                "description": "Relative value between pairs of assets, with tests against spurious correlation: only economically linked pairs, cointegration via Engle-Granger (both directions) and Johansen, multiple-testing correction with FDR (Benjamini-Hochberg), mean-reversion half-life between 2 and 60 days, rolling-window stability and an out-of-sample walk-forward backtest with costs. Pairs are split into robust and candidate tiers, with spread, z-score and entry/exit bands. Yahoo Finance data refreshed via GitHub Actions, zero cost, educational only."
+            },
+            "rrg": {
+                "title": "RRG · Relative Rotation",
+                "description": "Interactive Relative Rotation Graph (RRG) with real data since 2018: Brazilian sectors, stocks and REITs, US stocks and sectors, countries, asset classes, factors, commodities and currencies, each group against its benchmark. Animated trails, a timeline with historical moments, “what changed this week”, per-asset detail and free mode. B3 and Yahoo Finance data refreshed daily via GitHub Actions, zero cost, educational only."
+            },
+            "mercado-hoje": {
+                "title": "Market Today",
+                "description": "A daily market digest built from the data my other projects already compute: market regime (3-state HMM), B3 sector rotation (RRG), sector leaders and laggards in the US and Brazil (Sectors), Monitor B3 breadth and signals, cointegrated pairs, and the Selic, CDI, IPCA and PTAX dollar from the Central Bank of Brazil (SGS, via python-bcb). Each project publishes a small summary and GitHub Actions merges them every 30 minutes during market hours and hourly otherwise, with a fixed-rule text, no AI, describing the day. Zero cost and educational only, not investment advice."
+            },
+            "setores": {
+                "title": "Sectors",
+                "description": "Which sectors are driving the market in the US and Brazil: cumulative return over 13 windows (1 day to 10 years), absolute or relative to the benchmark, and rotation with 1, 3, 6 or 12-month rolling returns, with ranking, heatmap and leader line. The US uses the 11 SPDR sector ETFs against SPY (adjusted close, Yahoo Finance) and Brazil uses 7 B3 sector indices against the Ibovespa (B3 public API). Refreshed via GitHub Actions, zero cost, educational only."
+            },
+            "lab": {
+                "title": "Lab · Interactive demos",
+                "description": "Quantitative finance demos that run in the browser, with no server: Monte Carlo price paths with geometric Brownian motion (percentile fan, final price histogram and statistics), computed in a Web Worker, with explanation and code. It also has the Markowitz efficient frontier, a cointegrated pairs z-score, the Kelly criterion and Black-Scholes with Greeks. Educational content."
+            },
+            "quant-notebooks": {
+                "title": "Quant Notebooks",
+                "description": "Repository dedicated to learning Marimo and quantitative financial data analysis. Includes studies on trading strategies, macroeconomic analysis, and technical indicators using Python and financial libraries."
+            },
+            "second-brain": {
+                "title": "Second Brain",
+                "description": "Public curation of courses, Python libraries, data sources, papers and books on quantitative finance and data science, awesome-list style. Its own page with search, category and status filters, a beginner path and a bookshelf, updated daily from the repository."
+            }
         }
     },
     "footer": {

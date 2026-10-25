@@ -22,6 +22,11 @@
   </url>
   <!-- Subprojetos publicados no mesmo host (um repositório do GitHub Pages cada) -->
   <url>
+    <loc>https://celowiz.github.io/quant-terminal/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://celowiz.github.io/monitor-b3/</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
@@ -38,6 +43,11 @@
   </url>
   <url>
     <loc>https://celowiz.github.io/pairs-trading/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://celowiz.github.io/setores/</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>

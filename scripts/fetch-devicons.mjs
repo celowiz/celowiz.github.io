@@ -13,6 +13,8 @@ const ICONS = [
   'javascript',
   'mysql',
   'nextjs',
+  'typescript',
+  'tailwindcss',
   'vite',
   'react',
   'nodejs',

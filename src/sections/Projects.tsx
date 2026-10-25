@@ -1,63 +1,81 @@
 import { useTranslation } from 'react-i18next';
 import { AnimatedSection } from '../components/AnimatedSection';
 import { useAnalytics } from '../hooks/useAnalytics';
-import { BrainCircuit, ChartColumnBig, CloudSun, FlaskConical, GitCompareArrows, Newspaper, NotebookPen, Orbit, Radar, Sigma, type LucideIcon } from 'lucide-react';
+import { BrainCircuit, ChartColumnBig, CloudSun, FlaskConical, GitCompareArrows, Newspaper, NotebookPen, Orbit, Radar, Sigma, SquareTerminal, type LucideIcon } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 
-const projects: { icon: LucideIcon; techs: string[]; projectUrl: string; codeUrl: string }[] = [
+// A ordem do array é a ordem na página. Os textos ficam em projects.items.<id> (pt.json/en.json),
+// então reordenar é só mover o objeto aqui.
+const projects: { id: string; icon: LucideIcon; techs: string[]; projectUrl: string; codeUrl: string }[] = [
   {
-    icon: NotebookPen,
-    techs: ['python', 'pandas', 'matplotlib'],
-    projectUrl: 'https://celowiz.github.io/quant-notebooks/',
-    codeUrl: 'https://github.com/celowiz/quant-notebooks',
+    id: 'quant-terminal',
+    icon: SquareTerminal,
+    techs: ['nextjs', 'typescript', 'tailwind', 'python', 'githubactions', 'githubpages'],
+    projectUrl: 'https://celowiz.github.io/quant-terminal/',
+    codeUrl: 'https://github.com/celowiz/quant-terminal',
   },
   {
-    icon: BrainCircuit,
-    techs: ['markdown'],
-    projectUrl: '/second-brain/',
-    codeUrl: 'https://github.com/celowiz/second-brain',
-  },
-  {
+    id: 'monitor-b3',
     icon: Radar,
     techs: ['react', 'vite', 'python', 'yfinance', 'githubactions', 'githubpages'],
     projectUrl: 'https://celowiz.github.io/monitor-b3/',
     codeUrl: 'https://github.com/celowiz/monitor-b3',
   },
   {
-    icon: Orbit,
-    techs: ['javascript', 'python', 'pandas', 'yfinance', 'githubactions', 'githubpages'],
-    projectUrl: 'https://celowiz.github.io/rrg/',
-    codeUrl: 'https://github.com/celowiz/rrg',
-  },
-  {
+    id: 'hmm-regimes',
     icon: CloudSun,
     techs: ['javascript', 'python', 'pandas', 'yfinance', 'githubactions', 'githubpages'],
     projectUrl: 'https://celowiz.github.io/hmm-regimes/',
     codeUrl: 'https://github.com/celowiz/hmm-regimes',
   },
   {
+    id: 'pairs-trading',
     icon: GitCompareArrows,
     techs: ['javascript', 'python', 'pandas', 'numpy', 'statsmodels', 'yfinance', 'githubactions', 'githubpages'],
     projectUrl: 'https://celowiz.github.io/pairs-trading/',
     codeUrl: 'https://github.com/celowiz/pairs-trading',
   },
   {
+    id: 'rrg',
+    icon: Orbit,
+    techs: ['javascript', 'python', 'pandas', 'yfinance', 'githubactions', 'githubpages'],
+    projectUrl: 'https://celowiz.github.io/rrg/',
+    codeUrl: 'https://github.com/celowiz/rrg',
+  },
+  {
+    id: 'mercado-hoje',
+    icon: Newspaper,
+    techs: ['javascript', 'python', 'githubactions', 'githubpages'],
+    projectUrl: '/mercado-hoje/',
+    codeUrl: 'https://github.com/celowiz/celowiz.github.io/tree/main/src/mercado-hoje',
+  },
+  {
+    id: 'setores',
     icon: ChartColumnBig,
     techs: ['javascript', 'python', 'pandas', 'yfinance', 'githubactions', 'githubpages'],
     projectUrl: 'https://celowiz.github.io/setores/',
     codeUrl: 'https://github.com/celowiz/setores',
   },
   {
+    id: 'lab',
     icon: FlaskConical,
     techs: ['vite', 'javascript', 'githubpages'],
     projectUrl: '/lab/',
     codeUrl: 'https://github.com/celowiz/celowiz.github.io/tree/main/src/lab',
   },
   {
-    icon: Newspaper,
-    techs: ['javascript', 'python', 'githubactions', 'githubpages'],
-    projectUrl: '/mercado-hoje/',
-    codeUrl: 'https://github.com/celowiz/celowiz.github.io/tree/main/src/mercado-hoje',
+    id: 'quant-notebooks',
+    icon: NotebookPen,
+    techs: ['python', 'pandas', 'matplotlib'],
+    projectUrl: 'https://celowiz.github.io/quant-notebooks/',
+    codeUrl: 'https://github.com/celowiz/quant-notebooks',
+  },
+  {
+    id: 'second-brain',
+    icon: BrainCircuit,
+    techs: ['markdown'],
+    projectUrl: '/second-brain/',
+    codeUrl: 'https://github.com/celowiz/second-brain',
   },
 ];
 
@@ -73,6 +91,9 @@ const techIcons: Record<string, string> = {
   githubactions: '/icons/githubactions/githubactions-original.svg',
   githubpages: '/icons/github/github-original.svg',
   numpy: '/icons/numpy/numpy-original.svg',
+  nextjs: '/icons/nextjs/nextjs-original.svg',
+  typescript: '/icons/typescript/typescript-original.svg',
+  tailwind: '/icons/tailwindcss/tailwindcss-original.svg',
 };
 
 // Techs sem ícone no devicon local: ícone Lucide genérico.
@@ -91,6 +112,9 @@ const techLabels: Record<string, string> = {
   githubpages: 'GitHub Pages',
   numpy: 'NumPy',
   statsmodels: 'statsmodels',
+  nextjs: 'Next.js',
+  typescript: 'TypeScript',
+  tailwind: 'Tailwind CSS',
 };
 
 export default function Projects() {
@@ -105,14 +129,14 @@ export default function Projects() {
         <div className="mt-12">
           {projects.map((project, idx) => (
             <AnimatedSection
-              key={project.codeUrl}
+              key={project.id}
               delay={idx * 60}
               className="group border-b border-white/10 py-8 transition-transform duration-200 hover:-translate-y-0.5"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
                 <h3 className="flex items-center gap-2.5 text-xl font-medium text-paper">
                   <project.icon aria-hidden="true" className="h-5 w-5 shrink-0 text-teal/80" strokeWidth={1.75} />
-                  {t(`projects.${idx + 1}.title`)}
+                  {t(`projects.items.${project.id}.title`)}
                 </h3>
                 <div className="flex gap-5 text-sm">
                   <a
@@ -137,7 +161,7 @@ export default function Projects() {
                 </div>
               </div>
               <p className="mt-3 text-base leading-relaxed text-paper/65">
-                {t(`projects.${idx + 1}.description`)}
+                {t(`projects.items.${project.id}.description`)}
               </p>
               <ul className="mt-5 flex flex-wrap gap-3">
                 {project.techs.map((tech) => { const TechIcon = techLucide[tech]; return (
@@ -150,7 +174,7 @@ export default function Projects() {
                         alt=""
                         width={16}
                         height={16}
-                        className={`h-4 w-4${tech === 'githubpages' ? ' invert' : ''}`}
+                        className={`h-4 w-4${tech === 'githubpages' || tech === 'nextjs' ? ' invert' : ''}`}
                       />
                     )}
                     <span>{techLabels[tech] ?? tech}</span>

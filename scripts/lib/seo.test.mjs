@@ -36,7 +36,7 @@ describe('SEO e PWA do portfólio', () => {
   });
 
   it('sitemap lista home, Second Brain, Lab, Mercado Hoje e os subprojetos do Pages', () => {
-    for (const path of ['', 'second-brain/', 'lab/', 'mercado-hoje/', 'monitor-b3/', 'rrg/', 'hmm-regimes/', 'pairs-trading/', 'quant-notebooks/']) {
+    for (const path of ['', 'second-brain/', 'lab/', 'mercado-hoje/', 'quant-terminal/', 'monitor-b3/', 'rrg/', 'hmm-regimes/', 'pairs-trading/', 'setores/', 'quant-notebooks/']) {
       assert.match(sitemap, new RegExp(`<loc>https://celowiz\\.github\\.io/${path}</loc>`));
     }
   });
