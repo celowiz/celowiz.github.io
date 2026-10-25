@@ -150,7 +150,7 @@
         "items": {
             "quant-terminal": {
                 "title": "Quant Terminal",
-                "description": "A market terminal in the browser, in the style of professional terminals: a command bar and 50 functions, such as candlestick charts (GP/GPC), relative rotation (RRG), the CDI rate implied for each Copom meeting from DI futures (CDIE), DI, Brazilian Treasury and US Treasury yield curves, Focus survey expectations, a stock screener and CVM financial statements. It uses only open data (Yahoo Finance, CVM, B3, Central Bank of Brazil, FRED and Tesouro Direto), processed by a Python pipeline on GitHub Actions and published as a static Next.js site on GitHub Pages. Zero cost and educational only, not investment advice."
+                "description": "A market terminal in the browser, in the style of professional terminals: a command bar and 50 functions, such as candlestick charts (GP/GPC), relative rotation (RRG), the CDI rate implied for each Copom meeting from DI futures (CDIE), DI, Brazilian Treasury and US Treasury yield curves, Focus survey expectations, a stock screener and CVM financial statements. It uses only open data (Yahoo Finance, CVM, B3, Central Bank of Brazil, FRED and Tesouro Direto), processed by a Python pipeline on GitHub Actions and published as a static Next.js site on GitHub Pages."
             },
             "monitor-b3": {
                 "title": "Monitor B3",
@@ -170,7 +170,7 @@
             },
             "mercado-hoje": {
                 "title": "Market Today",
-                "description": "A daily market digest built from the data my other projects already compute: market regime (3-state HMM), B3 sector rotation (RRG), sector leaders and laggards in the US and Brazil (Sectors), Monitor B3 breadth and signals, cointegrated pairs, and the Selic, CDI, IPCA and PTAX dollar from the Central Bank of Brazil (SGS, via python-bcb). Each project publishes a small summary and GitHub Actions merges them every 30 minutes during market hours and hourly otherwise, with a fixed-rule text, no AI, describing the day. Zero cost and educational only, not investment advice."
+                "description": "A daily market digest built from the data my other projects already compute: market regime (3-state HMM), B3 sector rotation (RRG), sector leaders and laggards in the US and Brazil (Sectors), Monitor B3 breadth and signals, cointegrated pairs, and the Selic, CDI, IPCA and PTAX dollar from the Central Bank of Brazil (SGS, via python-bcb). Each project publishes a small summary and GitHub Actions merges them every 30 minutes during market hours and hourly otherwise, with a fixed-rule text, no AI, describing the day."
             },
             "setores": {
                 "title": "Sectors",

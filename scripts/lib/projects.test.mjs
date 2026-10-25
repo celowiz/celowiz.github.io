@@ -37,12 +37,10 @@ describe('Projetos do portfólio', () => {
     }
   });
 
-  it('sem nome de marca de terminal e com aviso educativo no Quant Terminal', () => {
+  it('sem nome de marca de terminal no Quant Terminal', () => {
     for (const lang of [pt, en]) {
       assert.doesNotMatch(JSON.stringify(lang.items['quant-terminal']), /bloomberg/i);
     }
-    assert.match(pt.items['quant-terminal'].description, /sem recomendação de investimento/);
-    assert.match(en.items['quant-terminal'].description, /not investment advice/);
   });
 
   it('subprojetos externos do Pages estão no sitemap', () => {

@@ -150,7 +150,7 @@
         "items": {
             "quant-terminal": {
                 "title": "Quant Terminal",
-                "description": "Terminal de mercado no navegador, no estilo dos terminais profissionais: barra de comandos e 50 funções, como gráficos de candles (GP/GPC), rotação relativa (RRG), CDI esperado em cada reunião do Copom a partir do DI futuro (CDIE), curvas de juros do DI, do Tesouro e dos Treasuries, expectativas do Focus, screener de ações e demonstrativos financeiros da CVM. Usa só dados abertos (Yahoo Finance, CVM, B3, Banco Central, FRED e Tesouro Direto), processados por um pipeline em Python no GitHub Actions e publicados como site estático em Next.js no GitHub Pages. Custo zero e conteúdo educativo, sem recomendação de investimento."
+                "description": "Terminal de mercado no navegador, no estilo dos terminais profissionais: barra de comandos e 50 funções, como gráficos de candles (GP/GPC), rotação relativa (RRG), CDI esperado em cada reunião do Copom a partir do DI futuro (CDIE), curvas de juros do DI, do Tesouro e dos Treasuries, expectativas do Focus, screener de ações e demonstrativos financeiros da CVM. Usa só dados abertos (Yahoo Finance, CVM, B3, Banco Central, FRED e Tesouro Direto), processados por um pipeline em Python no GitHub Actions e publicados como site estático em Next.js no GitHub Pages."
             },
             "monitor-b3": {
                 "title": "Monitor B3",
@@ -170,7 +170,7 @@
             },
             "mercado-hoje": {
                 "title": "Mercado Hoje",
-                "description": "Resumo diário do mercado montado com os dados que os outros projetos já calculam: regime de mercado (HMM de 3 estados), rotação de setores da B3 (RRG), líderes e lanternas setoriais nos EUA e no Brasil (Setores), amplitude e sinais do Monitor B3, pares cointegrados e Selic, CDI, IPCA e dólar PTAX do Banco Central (SGS, via python-bcb). Cada projeto publica um resumo pequeno e o GitHub Actions junta tudo a cada 30 minutos no horário de mercado e de hora em hora no restante do tempo, com um texto por regras fixas, sem IA, descrevendo o dia. Custo zero e conteúdo educativo, sem recomendação de investimento."
+                "description": "Resumo diário do mercado montado com os dados que os outros projetos já calculam: regime de mercado (HMM de 3 estados), rotação de setores da B3 (RRG), líderes e lanternas setoriais nos EUA e no Brasil (Setores), amplitude e sinais do Monitor B3, pares cointegrados e Selic, CDI, IPCA e dólar PTAX do Banco Central (SGS, via python-bcb). Cada projeto publica um resumo pequeno e o GitHub Actions junta tudo a cada 30 minutos no horário de mercado e de hora em hora no restante do tempo, com um texto por regras fixas, sem IA, descrevendo o dia."
             },
             "setores": {
                 "title": "Setores",
