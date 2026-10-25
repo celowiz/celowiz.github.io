@@ -32,6 +32,8 @@ describe('service worker: allowlist do portfólio', () => {
   });
 
   for (const path of [
+    '/quant-terminal/',
+    '/quant-terminal/data/prices/PETR4.json',
     '/monitor-b3/',
     '/monitor-b3/data/latest_br.json',
     '/monitor-b3/assets/index-D8M5F-KA.js',
