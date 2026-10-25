@@ -107,7 +107,7 @@ Não há PAT nem `repository_dispatch` para o second-brain: o CSV é público.
 
 ## 📈 Mercado Hoje (/mercado-hoje/)
 
-Resumo do mercado em `/mercado-hoje/` (segunda entrada do Vite, como o Second Brain). No deploy (push e cron: a cada 30 min nos dias úteis das 09:11 às 22:11 BRT, de hora em hora no :11 no restante do tempo; o GitHub pode atrasar execuções agendadas):
+Resumo do mercado em `/mercado-hoje/` (segunda entrada do Vite, como o Second Brain). No deploy (push e cron: agendado a cada 30 min nos dias úteis das 09:11 às 22:11 BRT e de hora em hora no :11 no restante do tempo; o GitHub atrasa e descarta parte das execuções agendadas, então na prática atualiza várias vezes por dia em horário de mercado):
 
 1. `scripts/fetch_bcb.py` lê no SGS do Banco Central, com [python-bcb](https://github.com/wilsonfreitas/python-bcb) (versão fixa em `scripts/requirements-bcb.txt`): Selic meta (432), CDI anualizado base 252 (4389), IPCA 12 meses (13522) e dólar PTAX venda (1). Grava `.cache/bcb-sgs.json`.
 2. `scripts/sync-mercado-hoje.mjs` baixa o `data/summary.json` de monitor-b3, rrg, hmm-regimes, pairs-trading e setores, junta com o bloco do BCB e escreve `public/mercado-hoje.json` (~12 KB), com o resumo do topo gerado por regras fixas (sem IA) em PT e EN.

@@ -38,7 +38,9 @@ export default function About() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const years = useCounter(9, 1200, isVisible, reduced);
-  const projects = useCounter(15, 1200, isVisible, reduced);
+  // Derivado da lista de projetos (i18n), para o número nunca ficar defasado.
+  const projectCount = Object.keys(t('projects.items', { returnObjects: true }) as Record<string, unknown>).length;
+  const projects = useCounter(projectCount, 1200, isVisible, reduced);
   const items = mergeTimeline(
     asTimelineItems(t('about.experience', { returnObjects: true })),
     asTimelineItems(t('about.education', { returnObjects: true })),
@@ -66,7 +68,7 @@ export default function About() {
           <span className="tabular-nums text-teal">{years}+</span>{' '}
           {t('about.years').toLowerCase()}
           <span className="text-paper/30"> · </span>
-          <span className="tabular-nums text-teal">{projects}+</span>{' '}
+          <span className="tabular-nums text-teal">{projects}</span>{' '}
           {t('about.projects').toLowerCase()}
         </p>
         <h3 className="mt-16 mb-4 font-serif text-2xl text-paper">{t('about.timelineTitle')}</h3>
