@@ -883,7 +883,7 @@ function SetoresPickRow({
   return (
     <div className="flex items-baseline justify-between gap-3 border-b border-white/[0.06] py-1.5 last:border-b-0">
       <span className="min-w-0">
-        <span className="mr-2 font-mono text-[0.66rem] tracking-[0.1em] text-paper/45 uppercase">
+        <span className="mr-2 font-mono text-[0.66rem] tracking-[0.1em] text-paper/55 uppercase">
           {label}
         </span>
         <b className="font-mono text-[0.86rem] font-normal text-paper">

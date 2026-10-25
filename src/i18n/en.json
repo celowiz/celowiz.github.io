@@ -154,7 +154,7 @@
             },
             "monitor-b3": {
                 "title": "Monitor B3",
-                "description": "n8n-style visual tool to build market-signal screens for B3 assets: blocks for universe (stocks, units, BDRs, ETFs and FIIs), filters and 9 signals, such as 52-week highs/lows, SMA 50/200 crossovers, RSI 14, unusual volume and relative strength vs. Ibovespa/IFIX, with a live execution animation. Data refreshed every ~30 min via GitHub Actions, zero cost, educational only."
+                "description": "n8n-style visual tool to build market-signal screens for B3 assets: blocks for universe (stocks, units, BDRs, ETFs and FIIs), filters and 9 signals, such as 52-week highs/lows, SMA 50/200 crossovers, RSI 14, unusual volume and relative strength vs. Ibovespa/IFIX, with a live execution animation. Data refreshed several times a day during market hours via GitHub Actions, zero cost, educational only."
             },
             "hmm-regimes": {
                 "title": "Market Regimes (HMM)",
@@ -170,7 +170,7 @@
             },
             "mercado-hoje": {
                 "title": "Market Today",
-                "description": "A daily market digest built from the data my other projects already compute: market regime (3-state HMM), B3 sector rotation (RRG), sector leaders and laggards in the US and Brazil (Sectors), Monitor B3 breadth and signals, cointegrated pairs, and the Selic, CDI, IPCA and PTAX dollar from the Central Bank of Brazil (SGS, via python-bcb). Each project publishes a small summary and GitHub Actions merges them every 30 minutes during market hours and hourly otherwise, with a fixed-rule text, no AI, describing the day."
+                "description": "A daily market digest built from the data my other projects already compute: market regime (3-state HMM), B3 sector rotation (RRG), sector leaders and laggards in the US and Brazil (Sectors), Monitor B3 breadth and signals, cointegrated pairs, and the Selic, CDI, IPCA and PTAX dollar from the Central Bank of Brazil (SGS, via python-bcb). Each project publishes a small summary and GitHub Actions merges them several times a day during market hours and less often otherwise, with a fixed-rule text, no AI, describing the day."
             },
             "setores": {
                 "title": "Sectors",

@@ -154,7 +154,7 @@
             },
             "monitor-b3": {
                 "title": "Monitor B3",
-                "description": "Ferramenta visual no estilo n8n para montar telas de sinais de mercado da B3: blocos de universo (ações, units, BDRs, ETFs e FIIs), filtros e 9 sinais, como máx./mín. de 52 semanas, cruzamento das SMAs 50/200, RSI 14, volume anormal e força relativa vs. Ibovespa/IFIX, com animação de execução ao vivo. Dados atualizados a cada ~30 min via GitHub Actions, custo zero e uso educacional."
+                "description": "Ferramenta visual no estilo n8n para montar telas de sinais de mercado da B3: blocos de universo (ações, units, BDRs, ETFs e FIIs), filtros e 9 sinais, como máx./mín. de 52 semanas, cruzamento das SMAs 50/200, RSI 14, volume anormal e força relativa vs. Ibovespa/IFIX, com animação de execução ao vivo. Dados atualizados várias vezes por dia em horário de mercado via GitHub Actions, custo zero e uso educacional."
             },
             "hmm-regimes": {
                 "title": "Regimes de mercado (HMM)",
@@ -170,7 +170,7 @@
             },
             "mercado-hoje": {
                 "title": "Mercado Hoje",
-                "description": "Resumo diário do mercado montado com os dados que os outros projetos já calculam: regime de mercado (HMM de 3 estados), rotação de setores da B3 (RRG), líderes e lanternas setoriais nos EUA e no Brasil (Setores), amplitude e sinais do Monitor B3, pares cointegrados e Selic, CDI, IPCA e dólar PTAX do Banco Central (SGS, via python-bcb). Cada projeto publica um resumo pequeno e o GitHub Actions junta tudo a cada 30 minutos no horário de mercado e de hora em hora no restante do tempo, com um texto por regras fixas, sem IA, descrevendo o dia."
+                "description": "Resumo diário do mercado montado com os dados que os outros projetos já calculam: regime de mercado (HMM de 3 estados), rotação de setores da B3 (RRG), líderes e lanternas setoriais nos EUA e no Brasil (Setores), amplitude e sinais do Monitor B3, pares cointegrados e Selic, CDI, IPCA e dólar PTAX do Banco Central (SGS, via python-bcb). Cada projeto publica um resumo pequeno e o GitHub Actions junta tudo várias vezes por dia em horário de mercado e com menos frequência no restante do tempo, com um texto por regras fixas, sem IA, descrevendo o dia."
             },
             "setores": {
                 "title": "Setores",
