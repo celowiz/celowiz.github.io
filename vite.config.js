@@ -36,6 +36,7 @@ export default defineConfig({
         secondBrain: path.resolve(__dirname, 'second-brain/index.html'),
         lab: path.resolve(__dirname, 'lab/index.html'),
         mercadoHoje: path.resolve(__dirname, 'mercado-hoje/index.html'),
+        resultados: path.resolve(__dirname, 'resultados/index.html'),
       },
       output: {
         manualChunks(id) {
