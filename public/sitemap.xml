@@ -20,6 +20,11 @@
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://celowiz.github.io/resultados/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
   <!-- Subprojetos publicados no mesmo host (um repositório do GitHub Pages cada) -->
   <url>
     <loc>https://celowiz.github.io/quant-terminal/</loc>

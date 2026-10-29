@@ -76,6 +76,10 @@ export default defineConfig({
       },
     },
   },
+  // dev: /resultados lê dados e logos do Quant Terminal publicado no mesmo domínio
+  server: {
+    proxy: { '/quant-terminal': { target: 'https://celowiz.github.io', changeOrigin: true } },
+  },
   optimizeDeps: {
     include: ['react', 'react-dom'],
   },

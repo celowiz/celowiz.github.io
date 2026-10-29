@@ -17,12 +17,12 @@ import Navbar, { type NavSection } from "../components/Navbar";
 import Footer from "../components/Footer";
 
 /**
- * MOCK. No produto final a página lê o JSON publicado pelo Quant Terminal no momento do uso
- * (fonte única): https://celowiz.github.io/quant-terminal/data/calendar.json.
- * No mock, uma cópia local do calendar.json da branch feat/cal-v2.
+ * Fonte única: o JSON que o Quant Terminal publica no mesmo domínio (regerado toda noite pelo calendar.yml).
+ * Mesma origem (celowiz.github.io) → sem CORS e os logos entram no PNG exportado.
+ * A cópia local fica só como reserva se o fetch falhar.
  */
-const DATA_URL = "/data/resultados-3t26.json";
-const LOGO_DIR = "/images/resultados/logos";
+const DATA_URLS = ["/quant-terminal/data/calendar.json", "/data/resultados-3t26.json"];
+const LOGO_DIR = "/quant-terminal/logos";
 const QT_CAL_URL = "https://celowiz.github.io/quant-terminal/cal/";
 
 type Status = "expected" | "confirmed" | "released";
@@ -63,13 +63,21 @@ function useCalendar() {
   const [st, setSt] = useState<{ data: Calendar | null; error: boolean }>({ data: null, error: false });
   useEffect(() => {
     let alive = true;
-    fetch(DATA_URL)
-      .then((r) => {
-        if (!r.ok) throw new Error(String(r.status));
-        return r.json() as Promise<Calendar>;
-      })
-      .then((data) => alive && setSt({ data, error: false }))
-      .catch(() => alive && setSt({ data: null, error: true }));
+    (async () => {
+      for (const url of DATA_URLS) {
+        try {
+          const r = await fetch(url, { cache: "no-cache" });
+          if (!r.ok) throw new Error(String(r.status));
+          const data = (await r.json()) as Calendar;
+          if (!Array.isArray(data?.rows) || !data.rows.length) throw new Error("empty");
+          if (alive) setSt({ data, error: false });
+          return;
+        } catch {
+          /* tenta a próxima */
+        }
+      }
+      if (alive) setSt({ data: null, error: true });
+    })();
     return () => {
       alive = false;
     };
