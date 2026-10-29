@@ -187,6 +187,10 @@
             "second-brain": {
                 "title": "Second Brain",
                 "description": "Curadoria pública de cursos, bibliotecas Python, fontes de dados, papers e livros sobre finanças quantitativas e ciência de dados, no estilo awesome-list. Página própria com busca, filtros por categoria e status, trilha para iniciantes e estante de livros, atualizada diariamente a partir do repositório."
+            },
+            "resultados": {
+                "title": "Calendário de Resultados",
+                "description": "Agenda de divulgação dos resultados trimestrais (3T26) das empresas do Ibovespa, em visão de semana ou mês, com logo, setor e status de cada evento (prevista, confirmada ou divulgada). Tem filtro por setor, busca por ticker, detalhe com link para o comunicado oficial da empresa ou da CVM e exportação da semana como imagem. Os dados vêm do pipeline do Quant Terminal e são atualizados via GitHub Actions. Uso educacional."
             }
         }
     },
