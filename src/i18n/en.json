@@ -187,6 +187,10 @@
             "second-brain": {
                 "title": "Second Brain",
                 "description": "Public curation of courses, Python libraries, data sources, papers and books on quantitative finance and data science, awesome-list style. Its own page with search, category and status filters, a beginner path and a bookshelf, updated daily from the repository."
+            },
+            "resultados": {
+                "title": "Earnings Calendar",
+                "description": "Quarterly earnings release schedule (3Q26) for Ibovespa companies, in week or month view, with each event's logo, sector and status (expected, confirmed or released). Includes a sector filter, ticker search, a detail view linking to the company's or CVM's official notice, and export of the week as an image. Data comes from the Quant Terminal pipeline and is updated via GitHub Actions. For educational use."
             }
         }
     },

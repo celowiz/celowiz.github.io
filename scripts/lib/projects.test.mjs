@@ -16,7 +16,7 @@ describe('Projetos do portfólio', () => {
   it('ordem aprovada, com o Quant Terminal em primeiro', () => {
     assert.deepEqual(ids, [
       'quant-terminal', 'monitor-b3', 'hmm-regimes', 'pairs-trading', 'rrg',
-      'mercado-hoje', 'setores', 'lab', 'quant-notebooks', 'second-brain',
+      'resultados', 'mercado-hoje', 'setores', 'lab', 'quant-notebooks', 'second-brain',
     ]);
   });
 

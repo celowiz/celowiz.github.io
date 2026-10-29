@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { AnimatedSection } from '../components/AnimatedSection';
 import { useAnalytics } from '../hooks/useAnalytics';
-import { BrainCircuit, ChartColumnBig, CloudSun, FlaskConical, GitCompareArrows, Newspaper, NotebookPen, Orbit, Radar, Sigma, SquareTerminal, type LucideIcon } from 'lucide-react';
+import { BrainCircuit, CalendarDays, ChartColumnBig, CloudSun, FlaskConical, GitCompareArrows, Newspaper, NotebookPen, Orbit, Radar, Sigma, SquareTerminal, type LucideIcon } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 
 // A ordem do array é a ordem na página. Os textos ficam em projects.items.<id> (pt.json/en.json),
@@ -43,6 +43,13 @@ const projects: { id: string; icon: LucideIcon; techs: string[]; projectUrl: str
     codeUrl: 'https://github.com/celowiz/rrg',
   },
   {
+    id: 'resultados',
+    icon: CalendarDays,
+    techs: ['reactjs', 'vite', 'typescript', 'python', 'githubactions', 'githubpages'],
+    projectUrl: '/resultados/',
+    codeUrl: 'https://github.com/celowiz/celowiz.github.io/tree/main/src/resultados',
+  },
+  {
     id: 'mercado-hoje',
     icon: Newspaper,
     techs: ['javascript', 'python', 'githubactions', 'githubpages'],
@@ -81,6 +88,7 @@ const projects: { id: string; icon: LucideIcon; techs: string[]; projectUrl: str
 
 const techIcons: Record<string, string> = {
   react: '/icons/react/react-original.svg',
+  reactjs: '/icons/react/react-original.svg',
   vite: '/icons/vite/vite-original.svg',
   python: '/icons/python/python-original.svg',
   pandas: '/icons/pandas/pandas-original.svg',
@@ -101,6 +109,7 @@ const techLucide: Record<string, LucideIcon> = { statsmodels: Sigma };
 
 const techLabels: Record<string, string> = {
   react: 'React Flow',
+  reactjs: 'React',
   vite: 'Vite',
   python: 'Python',
   pandas: 'Pandas',
