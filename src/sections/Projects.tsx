@@ -45,7 +45,7 @@ const projects: { id: string; icon: LucideIcon; techs: string[]; projectUrl: str
   {
     id: 'resultados',
     icon: CalendarDays,
-    techs: ['react', 'vite', 'typescript', 'python', 'githubactions', 'githubpages'],
+    techs: ['reactjs', 'vite', 'typescript', 'python', 'githubactions', 'githubpages'],
     projectUrl: '/resultados/',
     codeUrl: 'https://github.com/celowiz/celowiz.github.io/tree/main/src/resultados',
   },
@@ -88,6 +88,7 @@ const projects: { id: string; icon: LucideIcon; techs: string[]; projectUrl: str
 
 const techIcons: Record<string, string> = {
   react: '/icons/react/react-original.svg',
+  reactjs: '/icons/react/react-original.svg',
   vite: '/icons/vite/vite-original.svg',
   python: '/icons/python/python-original.svg',
   pandas: '/icons/pandas/pandas-original.svg',
@@ -108,6 +109,7 @@ const techLucide: Record<string, LucideIcon> = { statsmodels: Sigma };
 
 const techLabels: Record<string, string> = {
   react: 'React Flow',
+  reactjs: 'React',
   vite: 'Vite',
   python: 'Python',
   pandas: 'Pandas',
