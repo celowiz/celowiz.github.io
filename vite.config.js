@@ -36,6 +36,7 @@ export default defineConfig({
         secondBrain: path.resolve(__dirname, 'second-brain/index.html'),
         lab: path.resolve(__dirname, 'lab/index.html'),
         mercadoHoje: path.resolve(__dirname, 'mercado-hoje/index.html'),
+        resultados: path.resolve(__dirname, 'resultados/index.html'),
       },
       output: {
         manualChunks(id) {
@@ -74,6 +75,10 @@ export default defineConfig({
         )
       },
     },
+  },
+  // dev: /resultados lê dados e logos do Quant Terminal publicado no mesmo domínio
+  server: {
+    proxy: { '/quant-terminal': { target: 'https://celowiz.github.io', changeOrigin: true } },
   },
   optimizeDeps: {
     include: ['react', 'react-dom'],
