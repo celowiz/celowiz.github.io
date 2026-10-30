@@ -429,7 +429,7 @@ export default function ResultadosPage() {
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-white/10 pb-3">
                   <h2 className="font-serif text-3xl tracking-tight text-paper sm:text-4xl">{t("resultados.week.of", { a: dm(days[0]), b: dm(days[4]) })}</h2>
                   <span className="font-mono text-[0.8rem] text-paper/55">
-                    {t("resultados.week.n", { count: days.reduce((a, d) => a + (byDate.get(d)?.length ?? 0), 0) })} · {quarter}
+                    {t("resultados.week.n", { count: days.reduce<number>((a, d) => a + (byDate.get(d)?.length ?? 0), 0) })} · {quarter}
                   </span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-5">
