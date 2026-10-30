@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import logoCrops from "./logo-crop.json";
 import { useTranslation } from "react-i18next";
 import {
   ArrowLeft,
@@ -88,29 +89,38 @@ function useCalendar() {
 const normSector = (s?: string | null) => (s ? s.replace(/\s+/g, " ").trim() : "");
 
 // ---------- peças ----------
+// Enquadramento por logo (gerado por scripts/resultados-logo-crop.py): cor de fundo do PNG,
+// zoom e centro da marca. O container usa a cor do fundo, então o zoom não deixa borda.
+type Crop = { bg: string; z: number; cx: number; cy: number };
+const CROPS = logoCrops as Record<string, Crop>;
+
 function Logo({ ticker, size }: { ticker: string; size: number }) {
   const [broken, setBroken] = useState(false);
   const box = { width: size, height: size };
+  const radius = size >= 48 ? "rounded-xl" : "rounded-md";
   if (broken)
     return (
       <span
         style={box}
-        className="flex shrink-0 items-center justify-center rounded-xl border border-teal/30 bg-teal/[0.06] font-mono text-[0.7rem] font-semibold tracking-wide text-teal"
+        className={`flex shrink-0 items-center justify-center ${radius} border border-teal/30 bg-teal/[0.06] font-mono text-[0.7rem] font-semibold tracking-wide text-teal`}
         aria-hidden="true"
       >
         {ticker.slice(0, 4)}
       </span>
     );
+  const c = CROPS[ticker] ?? { bg: "#ffffff", z: 1, cx: 0.5, cy: 0.5 };
+  const w = size * c.z;
   return (
-    <span style={box} className="flex shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1.5">
+    <span style={{ ...box, background: c.bg }} className={`relative block shrink-0 overflow-hidden ${radius}`}>
       <img
         src={`${LOGO_DIR}/${ticker}.png`}
         alt=""
-        width={size}
-        height={size}
+        width={w}
+        height={w}
         loading="lazy"
         onError={() => setBroken(true)}
-        className="h-full w-full object-contain"
+        style={{ position: "absolute", width: w, height: w, maxWidth: "none", left: size / 2 - c.cx * w, top: size / 2 - c.cy * w }}
+        className="object-cover"
       />
     </span>
   );
@@ -140,7 +150,7 @@ function EventCard({ r, onOpen, sectorLabel }: { r: Row; onOpen: (r: Row) => voi
     >
       <Logo ticker={r.ticker} size={56} />
       <span className="min-w-0 flex-1">
-        <span className="flex items-center justify-between gap-2">
+        <span className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
           <span className="font-mono text-[0.95rem] font-semibold tracking-wide text-paper group-hover:text-teal">{r.ticker}</span>
           <StatusPill s={r.status} />
         </span>
@@ -415,7 +425,7 @@ export default function ResultadosPage() {
             </div>
 
             {data && view === "week" ? (
-              <div ref={board} className="mt-8 bg-ink">
+              <div ref={board} className={`mt-8 bg-ink ${exporting ? "p-6" : ""}`}>
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-white/10 pb-3">
                   <h2 className="font-serif text-3xl tracking-tight text-paper sm:text-4xl">{t("resultados.week.of", { a: dm(days[0]), b: dm(days[4]) })}</h2>
                   <span className="font-mono text-[0.8rem] text-paper/55">
